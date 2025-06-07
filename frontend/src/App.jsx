@@ -7,6 +7,10 @@ import TemplateGallery from './components/TemplateGallery';
 import BiodataPreview from './components/BiodataFrom/BiodataPreview';
 import ContactDetailsForm from './components/BiodataFrom/ContactDetailsForm';
 import Footer from './components/Footer';
+import Template_1 from './components/Templates/Template_1';
+import Template_2 from './components/Templates/Template_2';
+import Template_3 from './components/Templates/Template_3';
+// import Demo from './components/demo';
 
 
 function App() {
@@ -23,9 +27,8 @@ function App() {
                 <Header />
                 <Hero />
                 <TemplateGallery />
-                
-                {/* <BiodataPreview /> */}
                 {/* <Demo /> */}
+                {/* <Template_1 />                 */}
                 <ContactDetailsForm />
                 <Footer />
               </div>
