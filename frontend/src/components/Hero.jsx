@@ -37,7 +37,7 @@ const Hero = () => {
               {/* <a href="#create" className="btn-primary text-white bg-red-500 flex items-center justify-center px-6 py-3 rounded-md hover:bg-primary-600 transition-all duration-300 shadow-md ">
                 Create My Biodata <ArrowRight size={18} className="ml-2" />
               </a> */}
-              <a href="#create" className="bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-2xl hover:shadow-pink-500/25 hover:scale-105">
+              <a href="#create" className="bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-2xl hover:shadow-pink-500/25 hover:scale-105 flex items-center justify-center">
                 Start Creating Now
               </a>
               <a href="#templates" className="btn-secondary border border-black flex items-center justify-center px-6 py-3 rounded-full text-lg hover:bg-pink-900 hover:text-white transition-all duration-300 shadow-md ">
