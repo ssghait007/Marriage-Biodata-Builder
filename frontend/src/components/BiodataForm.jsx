@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { Edit, PlusCircle, Trash2, Camera, RotateCcw } from 'lucide-react';
+import SelectedTemplate from './SelectedTemplate';
 
-const BiodataForm = () => {
+const BiodataForm = ({ template }) => {
   const [formData, setFormData] = useState({
     personalDetails: {
       name: '',
@@ -32,11 +33,11 @@ const BiodataForm = () => {
       additionalFields: []
     }
   });
-
   const [selectedLanguage, setSelectedLanguage] = useState('English');
   const fileInputRef = useRef(null);
   const [imageFile, setImageFile] = useState(null);
-  const [isDragOver, setIsDragOver] = useState(false);
+  console.log("imageFile", imageFile);
+  // const [isDragOver, setIsDragOver] = useState(false);
   const [preview, setPreview] = useState(null);
 
   const handleInputChange = (section, field, value) => {
@@ -144,6 +145,134 @@ const BiodataForm = () => {
     }
   };
 
+  const colors = {
+    amber: {
+      gradient: 'from-amber-50 to-stone-100',
+      border: 'border-amber-400',
+      ornament: 'text-amber-400',
+      heading: 'text-amber-600',
+      subheading: 'text-amber-700',
+      accent: 'bg-amber-400',
+      lightBg: 'bg-amber-50',
+      lightBorder: 'border-amber-200',
+      contactHeading: 'text-amber-800',
+      button: 'bg-amber-500 hover:bg-amber-600'
+    },
+    blue: {
+      gradient: 'from-blue-50 to-slate-100',
+      border: 'border-blue-400',
+      ornament: 'text-blue-400',
+      heading: 'text-blue-600',
+      subheading: 'text-blue-700',
+      accent: 'bg-blue-400',
+      lightBg: 'bg-blue-50',
+      lightBorder: 'border-blue-200',
+      contactHeading: 'text-blue-800',
+      button: 'bg-blue-500 hover:bg-blue-600'
+    },
+    green: {
+      gradient: 'from-green-50 to-emerald-100',
+      border: 'border-green-400',
+      ornament: 'text-green-400',
+      heading: 'text-green-600',
+      subheading: 'text-green-700',
+      accent: 'bg-green-400',
+      lightBg: 'bg-green-50',
+      lightBorder: 'border-green-200',
+      contactHeading: 'text-green-800',
+      button: 'bg-green-500 hover:bg-green-600'
+    },
+    purple: {
+      gradient: 'from-purple-50 to-violet-100',
+      border: 'border-purple-400',
+      ornament: 'text-purple-400',
+      heading: 'text-purple-600',
+      subheading: 'text-purple-700',
+      accent: 'bg-purple-400',
+      lightBg: 'bg-purple-50',
+      lightBorder: 'border-purple-200',
+      contactHeading: 'text-purple-800',
+      button: 'bg-purple-500 hover:bg-purple-600'
+    },
+    rose: {
+      gradient: 'from-rose-50 to-pink-100',
+      border: 'border-rose-400',
+      ornament: 'text-rose-400',
+      heading: 'text-rose-600',
+      subheading: 'text-rose-700',
+      accent: 'bg-rose-400',
+      lightBg: 'bg-rose-50',
+      lightBorder: 'border-rose-200',
+      contactHeading: 'text-rose-800',
+      button: 'bg-rose-500 hover:bg-rose-600'
+    },
+    teal: {
+      gradient: 'from-teal-50 to-cyan-100',
+      border: 'border-teal-400',
+      ornament: 'text-teal-400',
+      heading: 'text-teal-600',
+      subheading: 'text-teal-700',
+      accent: 'bg-teal-400',
+      lightBg: 'bg-teal-50',
+      lightBorder: 'border-teal-200',
+      contactHeading: 'text-teal-800',
+      button: 'bg-teal-500 hover:bg-teal-600'
+    },
+    orange: {
+      gradient: 'from-orange-50 to-red-100',
+      border: 'border-orange-400',
+      ornament: 'text-orange-400',
+      heading: 'text-orange-600',
+      subheading: 'text-orange-700',
+      accent: 'bg-orange-400',
+      lightBg: 'bg-orange-50',
+      lightBorder: 'border-orange-200',
+      contactHeading: 'text-orange-800',
+      button: 'bg-orange-500 hover:bg-orange-600'
+    },
+    indigo: {
+      gradient: 'from-indigo-50 to-blue-100',
+      border: 'border-indigo-400',
+      ornament: 'text-indigo-400',
+      heading: 'text-indigo-600',
+      subheading: 'text-indigo-700',
+      accent: 'bg-indigo-400',
+      lightBg: 'bg-indigo-50',
+      lightBorder: 'border-indigo-200',
+      contactHeading: 'text-indigo-800',
+      button: 'bg-indigo-500 hover:bg-indigo-600'
+    },
+    red: {
+      gradient: 'from-red-50 to-rose-100',
+      border: 'border-red-400',
+      ornament: 'text-red-400',
+      heading: 'text-red-600',
+      subheading: 'text-red-700',
+      accent: 'bg-red-400',
+      lightBg: 'bg-red-50',
+      lightBorder: 'border-red-200',
+      contactHeading: 'text-red-800',
+      button: 'bg-red-500 hover:bg-red-600'
+    },
+    emerald: {
+      gradient: 'from-emerald-50 to-teal-100',
+      border: 'border-emerald-400',
+      ornament: 'text-emerald-400',
+      heading: 'text-emerald-600',
+      subheading: 'text-emerald-700',
+      accent: 'bg-emerald-400',
+      lightBg: 'bg-emerald-50',
+      lightBorder: 'border-emerald-200',
+      contactHeading: 'text-emerald-800',
+      button: 'bg-emerald-500 hover:bg-emerald-600'
+    }
+  };
+
+  let theme;
+  if (template) {
+    theme = colors[template.colorScheme];
+  }
+
   return (
     <div id="create" className='py-10 md:py-15 bg-gradient-to-b from-white to-gray-50'>
       <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 p-4">
@@ -176,22 +305,29 @@ const BiodataForm = () => {
                 {/* Upload Image */}
                 <div className="mb-6 text-center">
                   <div className="w-30 h-30 mx-auto border-2 border-gray-300 border-dashed rounded-full flex items-center justify-center bg-gray-50 cursor-pointer hover:border-red-500 ">
-
                     {preview ? (
-                      <img className="w-30 h-30 cursor-pointer rounded-full" src={preview} alt="" />
+                      <img
+                        className="w-30 h-30 cursor-pointer rounded-full"
+                        src={preview}
+                        alt=""
+                        onClick={() => fileInputRef.current?.click()}
+                      />
                     ) : (
                       <Camera className="w-10 h-10" onClick={() => fileInputRef.current?.click()} />
                     )}
                     <input
                       type="file"
-
                       ref={fileInputRef}
                       onChange={(e) => handleFileChange(e)}
                       accept="image/*"
                       className="sr-only"
                     />
                   </div>
-                  <p className="text-sm text-gray-600 mt-2">Upload Image</p>
+                  {preview ? (
+                    <p className="text-sm text-gray-600 mt-2">Change Image</p>
+                  ) : (
+                    <p className="text-sm text-gray-600 mt-2">Upload Image</p>
+                  )}
                 </div>
 
                 <form onSubmit={handleSubmit}>
@@ -217,7 +353,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -240,7 +376,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -260,7 +396,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -280,7 +416,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -301,7 +437,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -322,7 +458,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointerp-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -343,7 +479,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -364,7 +500,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -385,7 +521,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -406,7 +542,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -427,7 +563,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -459,7 +595,7 @@ const BiodataForm = () => {
                           <button
                             type="button"
                             onClick={() => removeField('personalDetails', index)}
-                            className="p-2 text-gray-400 hover:text-red-500"
+                            className="cursor-pointer p-2 text-gray-400 hover:text-red-500"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -470,7 +606,7 @@ const BiodataForm = () => {
                     <button
                       type="button"
                       onClick={() => addNewField('personalDetails')}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:text-blue-800"
+                      className="cursor-pointer flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:text-blue-800"
                     >
                       <PlusCircle className="w-4 h-4" />
                       Add New Field
@@ -499,7 +635,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -520,7 +656,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -541,7 +677,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -562,7 +698,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -583,7 +719,7 @@ const BiodataForm = () => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="p-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -615,7 +751,7 @@ const BiodataForm = () => {
                           <button
                             type="button"
                             onClick={() => removeField('familyDetails', index)}
-                            className="p-2 text-gray-400 hover:text-red-500"
+                            className="cursor-pointer p-2 text-gray-400 hover:text-red-500"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -627,7 +763,7 @@ const BiodataForm = () => {
                       <button
                         type="button"
                         onClick={() => addNewField('familyDetails')}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:text-blue-800"
+                        className="cursor-pointer flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:text-blue-800"
                       >
                         <PlusCircle className="w-4 h-4" />
                         Add New Field
@@ -635,7 +771,7 @@ const BiodataForm = () => {
                       <button
                         type="button"
                         onClick={() => removeSection('familyDetails')}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:text-red-800"
+                        className="cursor-pointer flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:text-red-800"
                       >
                         <Trash2 className="w-4 h-4" />
                         Remove Section
@@ -666,7 +802,7 @@ const BiodataForm = () => {
                           ↕
                         </button>
                         <button type="button" className="p-2 text-gray-400 hover:text-red-500">
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="cursor-pointer w-4 h-4" />
                         </button>
                       </div>
                     </div>
@@ -687,7 +823,7 @@ const BiodataForm = () => {
                           ↕
                         </button>
                         <button type="button" className="p-2 text-gray-400 hover:text-red-500">
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="cursor-pointer w-4 h-4" />
                         </button>
                       </div>
                     </div>
@@ -708,7 +844,7 @@ const BiodataForm = () => {
                           ↕
                         </button>
                         <button type="button" className="p-2 text-gray-400 hover:text-red-500">
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="cursor-pointer w-4 h-4" />
                         </button>
                       </div>
                     </div>
@@ -741,7 +877,7 @@ const BiodataForm = () => {
                             onClick={() => removeField('contactDetails', index)}
                             className="p-2 text-gray-400 hover:text-red-500"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="cursor-pointer w-4 h-4" />
                           </button>
                         </div>
                       </div>
@@ -751,7 +887,7 @@ const BiodataForm = () => {
                       <button
                         type="button"
                         onClick={() => addNewField('contactDetails')}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:text-blue-800"
+                        className="cursor-pointer flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:text-blue-800"
                       >
                         <PlusCircle className="w-4 h-4" />
                         Add New Field
@@ -759,7 +895,7 @@ const BiodataForm = () => {
                       <button
                         type="button"
                         onClick={() => removeSection('contactDetails')}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:text-red-800"
+                        className="cursor-pointer flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:text-red-800"
                       >
                         <Trash2 className="w-4 h-4" />
                         Remove Section
@@ -772,7 +908,7 @@ const BiodataForm = () => {
                     <button
                       type="button"
                       onClick={() => addNewField('personalDetails')}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:text-blue-800 border border-blue-300 rounded-md"
+                      className="cursor-pointer flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:text-blue-800 border border-blue-300 rounded-md"
                     >
                       <PlusCircle className="w-4 h-4" />
                       Add Section
@@ -780,7 +916,7 @@ const BiodataForm = () => {
                     <button
                       type="button"
                       onClick={resetForm}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-md"
+                      className="cursor-pointer flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-md"
                     >
                       <RotateCcw className="w-4 h-4" />
                       Reset Form
@@ -788,135 +924,188 @@ const BiodataForm = () => {
                   </div>
 
                   {/* Terms and Conditions */}
-                  <div className="mb-6">
+                  {/* <div className="mb-6">
                     <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-md">
                       <input type="checkbox" id="terms" className="mt-1" />
                       <label htmlFor="terms" className="text-sm text-red-700">
                         Create my free account on our matrimony website <strong>www.Shadi.Today</strong> and Share Profile in Shadi.Today Whatsapp Matrimonial Groups
                       </label>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* Submit Button */}
-                  <button
-                    type="submit"
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-md transition duration-200 flex items-center justify-center gap-2"
-                  >
-                    Choose Template ✨
-                  </button>
+
+                  {
+                    template ? (
+                      <button
+                        type="submit"
+                        className="cursor-pointer w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-md transition duration-200 flex items-center justify-center gap-2"
+                      >
+                        Create Bio Data
+                      </button>
+                    ) : (
+                      <a
+                        href="#templates"
+                        className="cursor-pointer w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-md transition duration-200 flex items-center justify-center gap-2"
+                      >
+                        Choose Template ✨
+                      </a>
+                    )
+                  }
                 </form>
 
                 {/* Footer */}
-                <div className="mt-6 text-center text-sm text-gray-500">
+                {/* <div className="mt-6 text-center text-sm text-gray-500">
                   By proceeding, you agree to our{' '}
                   <a href="#" className="text-red-600 hover:underline">Refund Policy</a>,{' '}
                   <a href="#" className="text-red-600 hover:underline">Terms</a>, and{' '}
                   <a href="#" className="text-red-600 hover:underline">Privacy Policy</a>
-                </div>
+                </div> */}
               </div>
             </div>
 
             {/* Preview Section */}
-            <div className="lg:col-span-1">
-              <div className="bg-gradient-to-br from-red-800 to-red-900 rounded-lg p-6 text-white shadow-lg">
-                <div className="text-center mb-6">
-                  <h2 className="text-xl font-bold text-yellow-300 mb-2">Personal Details</h2>
-                  <div className="border-2 border-yellow-300 rounded-lg p-4 bg-green-800 bg-opacity-50">
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Name</span>
-                        <span>{formData.personalDetails.name || '...'}</span>
+            {template && (
+              <div className="lg:col-span-1 flex justify-center sticky top-24 h-fit">
+                <div className="w-full max-w-lg">
+                  <h3 className={`text-center font-semibold mb-3 ${theme.heading} text-sm sm:text-base`}>
+                    {template.title}
+                  </h3>
+                  <div className={`relative bg-gradient-to-br ${theme.gradient} p-3 sm:p-4 shadow-xl rounded-lg`}>
+                    {/* Main container */}
+                    <div className={`relative bg-white border-2 ${theme.border} rounded overflow-hidden`}>
+
+                      {/* Corner decorations */}
+                      {['top-0 left-0', 'top-0 right-0 rotate-90', 'bottom-0 right-0 rotate-180', 'bottom-0 left-0 -rotate-90'].map((position, i) => (
+                        <div key={i} className={`absolute ${position} w-6 h-6 sm:w-8 sm:h-8`}>
+                          <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
+                            <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                            <circle cx="25" cy="25" r="2" />
+                            <circle cx="15" cy="15" r="1.5" />
+                          </svg>
+                        </div>
+                      ))}
+
+                      {/* Top and bottom center decorations */}
+                      {['top-0', 'bottom-0 rotate-180'].map((position, i) => (
+                        <div key={i} className={`absolute ${position} left-1/2 transform -translate-x-1/2 w-16 h-6`}>
+                          <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
+                            <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
+                            <circle cx="64" cy="20" r="2" />
+                          </svg>
+                        </div>
+                      ))}
+
+                      {/* Content */}
+                      <div className="p-3 sm:p-4">
+                        {/* Header */}
+                        <div className="text-center mb-3">
+                          <h1 className={`text-xs sm:text-sm font-bold ${theme.heading} mb-1`}>
+                            || MARRIAGE BIODATA ||
+                          </h1>
+                          <div className={`w-12 h-0.5 ${theme.accent} mx-auto`}></div>
+                        </div>
+
+                        {/* Main Content */}
+                        <div className="flex flex-col sm:flex-row gap-3">
+                          {/* Photo Section */}
+                          <div className="w-full sm:w-1/3">
+                            <div className={`bg-gray-50 border ${theme.lightBorder} h-28 sm:h-32 flex items-center justify-center rounded`}>
+                              {preview ? (
+                                <img
+                                  src={preview}
+                                  alt="Profile"
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <div className="text-center">
+                                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                    <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                                    </svg>
+                                  </div>
+                                  <p className="text-xs text-gray-500">Photo</p>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Details Section */}
+                          <div className="w-full sm:w-2/3 space-y-2 text-xs">
+                            {[
+                              {
+                                title: 'PERSONAL',
+                                items: [
+                                  { label: 'Name', value: formData.personalDetails.name },
+                                  { label: 'DOB', value: formData.personalDetails.dateOfBirth },
+                                  { label: 'Height', value: formData.personalDetails.height },
+                                  { label: 'Complexion', value: formData.personalDetails.complexion },
+                                  { label: 'Gotra', value: formData.personalDetails.gotra }
+                                ]
+                              },
+                              {
+                                title: 'PROFESSIONAL',
+                                items: [
+                                  { label: 'Education', value: formData.personalDetails.education },
+                                  { label: 'Profession', value: formData.personalDetails.occupation },
+                                  { label: 'Income', value: formData.personalDetails.income }
+                                ]
+                              },
+                              {
+                                title: 'FAMILY',
+                                items: [
+                                  { label: 'Father', value: formData.familyDetails.fatherName },
+                                  { label: 'Mother', value: formData.familyDetails.motherName },
+                                  { label: 'Siblings', value: formData.familyDetails.siblings }
+                                ]
+                              },
+                              {
+                                title: 'CONTACT',
+                                items: [
+                                  { label: 'Mobile', value: formData.contactDetails.mobile },
+                                  { label: 'Email', value: formData.contactDetails.email },
+                                  { label: 'Address', value: formData.contactDetails.residentialAddress }
+                                ]
+                              }
+                            ].map((section, idx) => (
+                              <div key={idx} className="break-words">
+                                <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>
+                                  {section.title}
+                                </h3>
+                                <div className="space-y-1">
+                                  {section.items.map((item, i) => (
+                                    <div key={i} className="break-words">
+                                      <strong className="whitespace-nowrap">{item.label}:</strong> {item.value || '...'}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Date Of Birth</span>
-                        <span>{formData.personalDetails.dateOfBirth || '...'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Time Of Birth</span>
-                        <span>{formData.personalDetails.timeOfBirth || '...'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Place Of Birth</span>
-                        <span>{formData.personalDetails.placeOfBirth || '...'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Complexion</span>
-                        <span>{formData.personalDetails.complexion || '...'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Height</span>
-                        <span>{formData.personalDetails.height || '...'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Gotra</span>
-                        <span>{formData.personalDetails.gotra || '...'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Occupation</span>
-                        <span>{formData.personalDetails.occupation || '...'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Education</span>
-                        <span>{formData.personalDetails.education || '...'}</span>
-                      </div>
+
+                      {/* Decorative dots */}
+                      {['top-2 left-2', 'top-2 right-2', 'bottom-2 left-2', 'bottom-2 right-2'].map((position, i) => (
+                        <div
+                          key={i}
+                          className={`absolute ${position} w-1 h-1 ${theme.accent} rounded-full opacity-60`}
+                        ></div>
+                      ))}
                     </div>
                   </div>
                 </div>
-
-                <div className="mb-6 sticky top-24">
-                  <h3 className="text-lg font-bold text-yellow-300 mb-3">Family Details</h3>
-                  <div className="border border-yellow-300 rounded-lg p-3 bg-green-800 bg-opacity-30">
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Father's Name</span>
-                        <span>{formData.familyDetails.fatherName || '...'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Father's Occupation</span>
-                        <span>{formData.familyDetails.fatherOccupation || '...'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Mother's Name</span>
-                        <span>{formData.familyDetails.motherName || '...'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Mother's Occupation</span>
-                        <span>{formData.familyDetails.motherOccupation || '...'}</span>
-                      </div>
-                    </div>
-                    <div className="mt-3 text-xs text-gray-300">
-                      Use this preview to verify your details and create an impressive matrimonial profile that stands out.
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-bold text-yellow-300 mb-3">Contact Details</h3>
-                  <div className="border border-yellow-300 rounded-lg p-3 bg-green-800 bg-opacity-30">
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Contact Person</span>
-                        <span>{formData.contactDetails.contactPerson || '...'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Contact Number</span>
-                        <span>{formData.contactDetails.contactNumber || '...'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-yellow-300">Residential Address</span>
-                        <span className="text-right">{formData.contactDetails.residentialAddress || '...'}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Decorative corners */}
-                <div className="absolute top-2 left-2 w-8 h-8 border-l-2 border-t-2 border-yellow-300 rounded-tl-lg opacity-50"></div>
-                <div className="absolute top-2 right-2 w-8 h-8 border-r-2 border-t-2 border-yellow-300 rounded-tr-lg opacity-50"></div>
-                <div className="absolute bottom-2 left-2 w-8 h-8 border-l-2 border-b-2 border-yellow-300 rounded-bl-lg opacity-50"></div>
-                <div className="absolute bottom-2 right-2 w-8 h-8 border-r-2 border-b-2 border-yellow-300 rounded-br-lg opacity-50"></div>
               </div>
-            </div>
+            )}
+
+            {!template && (
+              <div className="lg:col-span-1 flex justify-center">
+                <div className="flex-shrink-0 w-full sm:w-80 md:w-72 lg:w-80 mx-2 group">
+                  <a href="#templates" onClick={() => window.scrollTo({ top: document.getElementById('templates').offsetTop, behavior: 'smooth' })}
+                    className={`flex items-center justify-center p-2 rounded border font-semibold border-gray-400 hover:bg-gray-100 transition-colors`}>Select Template</a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

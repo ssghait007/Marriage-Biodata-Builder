@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, User } from 'lucide-react';
+import BiodataForm from './BiodataForm';
+import SelectedTemplate from './SelectedTemplate';
 
 const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate }) => {
   const colors = {
@@ -127,29 +129,25 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
 
   const theme = colors[colorScheme];
 
-  // const handleSelectTemplate = () => {
-  //   alert(`Selected ${title} template!`);
-  // };
-
   return (
-    <div className="flex-shrink-0 w-80 mx-2 group">
-      <h3 className="text-center font-semibold mb-2 text-white">{title}</h3>
-      <div className={`relative w-full bg-gradient-to-br ${theme.gradient} p-4 shadow-xl rounded-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-105`}>
+    <div className="flex-shrink-0 w-full sm:w-80 md:w-72 lg:w-80 mx-2 group">
+      <h3 className="text-center font-semibold mb-2 text-white text-sm sm:text-base">{title}</h3>
+      <div className={`relative w-full bg-gradient-to-br ${theme.gradient} p-2 sm:p-4 shadow-xl rounded-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-105`}>
         {/* Select Template Button - Only visible on hover */}
-        <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 z-10">
+        <div className="absolute inset-2 bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 z-10">
           <button
-            onClick={handleSelectTemplate}
-            className={`${theme.button} cursor-pointer text-white px-6 py-3 rounded-lg font-semibold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:shadow-xl`}
+            onClick={() => handleSelectTemplate(theme)}
+            className={`${theme.button} cursor-pointer text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-semibold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:shadow-xl text-sm sm:text-base`}
           >
             Select Template
           </button>
         </div>
 
         {/* Main container with ornate border */}
-        <div className={`relative bg-white border-2 ${theme.border} h-96 overflow-hidden rounded transition-all duration-300 group-hover:border-opacity-80`}>
-          
+        <div className={`relative bg-white border-2 ${theme.border} h-80 sm:h-96 overflow-hidden rounded transition-all duration-300 group-hover:border-opacity-80`}>
+
           {/* Corner ornaments - Top Left */}
-          <div className="absolute top-0 left-0 w-8 h-8">
+          <div className="absolute top-0 left-0 w-6 h-6 sm:w-8 sm:h-8">
             <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
               <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
               <circle cx="25" cy="25" r="2" />
@@ -158,7 +156,7 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
           </div>
 
           {/* Corner ornaments - Top Right */}
-          <div className="absolute top-0 right-0 w-8 h-8 transform rotate-90">
+          <div className="absolute top-0 right-0 w-6 h-6 sm:w-8 sm:h-8 transform rotate-90">
             <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
               <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
               <circle cx="25" cy="25" r="2" />
@@ -167,7 +165,7 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
           </div>
 
           {/* Corner ornaments - Bottom Right */}
-          <div className="absolute bottom-0 right-0 w-8 h-8 transform rotate-180">
+          <div className="absolute bottom-0 right-0 w-6 h-6 sm:w-8 sm:h-8 transform rotate-180">
             <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
               <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
               <circle cx="25" cy="25" r="2" />
@@ -176,7 +174,7 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
           </div>
 
           {/* Corner ornaments - Bottom Left */}
-          <div className="absolute bottom-0 left-0 w-8 h-8 transform -rotate-90">
+          <div className="absolute bottom-0 left-0 w-6 h-6 sm:w-8 sm:h-8 transform -rotate-90">
             <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
               <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
               <circle cx="25" cy="25" r="2" />
@@ -185,7 +183,7 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
           </div>
 
           {/* Side ornaments - Top */}
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-6">
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-4 sm:w-16 sm:h-6">
             <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
               <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
               <circle cx="64" cy="20" r="2" />
@@ -193,7 +191,7 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
           </div>
 
           {/* Side ornaments - Bottom */}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 rotate-180 w-16 h-6">
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 rotate-180 w-12 h-4 sm:w-16 sm:h-6">
             <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
               <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
               <circle cx="64" cy="20" r="2" />
@@ -201,21 +199,21 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
           </div>
 
           {/* Inner content area */}
-          <div className="absolute inset-6 bg-white p-3">
+          <div className="absolute inset-4 sm:inset-6 bg-white p-2 sm:p-3">
             {/* Header */}
-            <div className="text-center mb-3">
-              <h1 className={`text-sm font-bold ${theme.heading} mb-1`}>|| MARRIAGE BIODATA ||</h1>
-              <div className={`w-12 h-0.5 ${theme.accent} mx-auto`}></div>
+            <div className="text-center mb-2 sm:mb-3">
+              <h1 className={`text-xs sm:text-sm font-bold ${theme.heading} mb-1`}>|| MARRIAGE BIODATA ||</h1>
+              <div className={`w-8 sm:w-12 h-0.5 ${theme.accent} mx-auto`}></div>
             </div>
 
             {/* Main Content */}
-            <div className="flex gap-3 h-full">
-              {/* Left Column - Photo */}
-              <div className="w-1/3">
-                <div className={`bg-gray-100 border ${theme.lightBorder} h-20 flex items-center justify-center mb-2`}>
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 h-full">
+              {/* Photo and Contact Section */}
+              <div className="w-full sm:w-1/3">
+                <div className={`bg-gray-100 border ${theme.lightBorder} h-16 sm:h-20 flex items-center justify-center mb-2`}>
                   <div className="text-center text-gray-500">
-                    <div className="w-8 h-8 bg-gray-300 rounded-full mx-auto mb-1 flex items-center justify-center">
-                      <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-300 rounded-full mx-auto mb-1 flex items-center justify-center">
+                      <svg className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                       </svg>
                     </div>
@@ -224,7 +222,7 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
                 </div>
 
                 {/* Contact Information */}
-                <div className={`${theme.lightBg} p-2 rounded border ${theme.lightBorder}`}>
+                <div className={`${theme.lightBg} p-1.5 sm:p-2 rounded border ${theme.lightBorder}`}>
                   <h3 className={`font-semibold ${theme.contactHeading} mb-1 text-xs`}>CONTACT</h3>
                   <div className="text-xs space-y-0.5">
                     <p><strong>Mobile:</strong> +91 98765</p>
@@ -234,11 +232,11 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
                 </div>
               </div>
 
-              {/* Right Column - Details */}
-              <div className="w-2/3 space-y-2 text-xs">
+              {/* Details Section */}
+              <div className="w-full sm:w-2/3 space-y-1.5 sm:space-y-2 text-xs">
                 {/* Personal Information */}
                 <div>
-                  <h2 className={`text-sm font-bold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>PERSONAL</h2>
+                  <h2 className={`text-xs sm:text-sm font-bold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>PERSONAL</h2>
                   <div className="grid grid-cols-1 gap-y-0.5">
                     <div><strong>Name:</strong> {Username}</div>
                     <div><strong>DOB:</strong> 15th March, 1995</div>
@@ -250,7 +248,7 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
 
                 {/* Educational & Professional */}
                 <div>
-                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>PROFESSIONAL</h3>
+                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5 text-xs`}>PROFESSIONAL</h3>
                   <div className="grid grid-cols-1 gap-y-0.5">
                     <div><strong>Education:</strong> MBA Finance</div>
                     <div><strong>Profession:</strong> Financial Analyst</div>
@@ -260,7 +258,7 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
 
                 {/* Family Information */}
                 <div>
-                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>FAMILY</h3>
+                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5 text-xs`}>FAMILY</h3>
                   <div className="grid grid-cols-1 gap-y-0.5">
                     <div><strong>Father:</strong> Mr. Rajesh Sharma</div>
                     <div><strong>Mother:</strong> Mrs. Sunita Sharma</div>
@@ -270,7 +268,7 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
 
                 {/* Other Details */}
                 <div>
-                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>OTHER</h3>
+                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5 text-xs`}>OTHER</h3>
                   <div className="grid grid-cols-1 gap-y-0.5">
                     <div><strong>Religion:</strong> Hindu</div>
                     <div><strong>Caste:</strong> Brahmin</div>
@@ -282,22 +280,22 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
           </div>
 
           {/* Decorative dots */}
-          <div className={`absolute top-3 left-3 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
-          <div className={`absolute top-3 right-3 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
-          <div className={`absolute bottom-3 left-3 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
-          <div className={`absolute bottom-3 right-3 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
+          <div className={`absolute top-2 sm:top-3 left-2 sm:left-3 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
+          <div className={`absolute top-2 sm:top-3 right-2 sm:right-3 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
+          <div className={`absolute bottom-2 sm:bottom-3 left-2 sm:left-3 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
+          <div className={`absolute bottom-2 sm:bottom-3 right-2 sm:right-3 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
         </div>
       </div>
     </div>
   );
 };
 
-const MarriageBiodataGallery = () => {
 
+const MarriageBiodataGallery = ({selectedTemplate }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [templateIndex, setTemplateIndex] = useState(null);
 
-   const templates = [
+
+  const templates = [
     { colorScheme: 'amber', title: 'Traditional Gold', image: '/api/placeholder/300/400', Username: 'Devanshu Patil' },
     { colorScheme: 'blue', title: 'Ocean Blue', image: '/api/placeholder/300/400', Username: 'Devanshu Patil' },
     { colorScheme: 'green', title: 'Forest Green', image: '/api/placeholder/300/400', Username: 'Devanshu Patil' },
@@ -307,9 +305,14 @@ const MarriageBiodataGallery = () => {
     { colorScheme: 'orange', title: 'Sunset Orange', image: '/api/placeholder/300/400', name: 'Devanshu Patil' },
     { colorScheme: 'indigo', title: 'Deep Indigo', image: '/api/placeholder/300/400' },
     { colorScheme: 'red', title: 'Classic Red', image: '/api/placeholder/300/400' },
-    { colorScheme: 'emerald', title: 'Emerald Green', image: '/api/placeholder/300/400' }
+    { colorScheme: 'emerald', title: 'Emerald Green', image: '/api/placeholder/300/400' },
   ];
 
+  const handleTemplateSelect = (template) => {
+    selectedTemplate(template);
+    window.scrollTo({ top: document.getElementById('create').offsetTop, behavior: 'smooth' });
+  };
+  
 
 
   const nextSlide = () => {
@@ -362,13 +365,11 @@ const MarriageBiodataGallery = () => {
 
                   <div key={index}>
                     <BiodataTemplate
-                      onClick={() => setTemplateIndex(index)}
                       key={index}
                       colorScheme={template.colorScheme}
                       title={template.title}
                       Username={template.Username}
-                      image={template.image}
-                      handleSelectTemplate={() => setTemplateIndex(index)}
+                      handleSelectTemplate={() => handleTemplateSelect(template)}
                     />
 
                   </div>
