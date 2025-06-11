@@ -350,7 +350,6 @@ const BiodataForm = ({ template }) => {
                     style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}
                   >
                     <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
-                      <h3 className={`text-center font-semibold mb-3 ${theme.heading} text-sm sm:text-base`}>{template.title}</h3>
                       <div className={`relative bg-gradient-to-br ${theme.gradient} p-3 sm:p-4 shadow-xl rounded-lg`}>
                         {/* Main container with ornate border */}
                         <div className={`relative bg-white border-2 ${theme.border} h-fit rounded overflow-hidden`}>
