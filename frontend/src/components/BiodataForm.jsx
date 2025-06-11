@@ -1172,14 +1172,14 @@ const BiodataForm = ({ template }) => {
             {isPhone ? (
               <div>
                 {template && (
-                  <div className="lg:col-span-1 flex justify-center sticky top-24 h-full">
+                  <div className="lg:col-span-1 flex justify-center sticky top-24">
                     <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
                       <h3 className={`text-center font-semibold mb-3 ${theme.heading} text-sm sm:text-base`}>{template.title}</h3>
                       <div className={`relative bg-gradient-to-br ${theme.gradient} p-3 sm:p-4 shadow-xl rounded-lg`}>
                         {/* Main container with ornate border */}
-                        <div className={`relative bg-white border-2 ${theme.border}  h-120 overflow-hidden`}>
+                        <div className={`relative bg-white border-2 ${theme.border} h-fit rounded overflow-hidden`}>
                           {/* Corner ornaments - Top Left */}
-                          <div className="absolute top-0 left-0 w-8 h-120">
+                          <div className="absolute top-0 left-0 w-8 h-8">
                             <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
                               <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
                               <circle cx="25" cy="25" r="2" />
@@ -1188,7 +1188,7 @@ const BiodataForm = ({ template }) => {
                           </div>
 
                           {/* Corner ornaments - Top Right */}
-                          <div className="absolute top-0 right-0 w-8 h-full transform rotate-90">
+                          <div className="absolute top-0 right-0 w-8 h-8 transform rotate-90">
                             <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
                               <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
                               <circle cx="25" cy="25" r="2" />
@@ -1231,7 +1231,7 @@ const BiodataForm = ({ template }) => {
                           </div>
 
                           {/* Inner content area */}
-                          <div className="absolute inset-6 bg-white p-3">
+                          <div className="bg-white p-3 m-6">
                             {/* Header */}
                             <div className="text-center mb-3">
                               <h1 className={`text-sm font-bold ${theme.heading} mb-1`}>|| MARRIAGE BIODATA ||</h1>
@@ -1268,7 +1268,7 @@ const BiodataForm = ({ template }) => {
                                 <div>
                                   <h2 className={`text-sm font-bold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>PERSONAL</h2>
                                   <div className="grid grid-cols-1 gap-y-0.5 break-words">     
-                                    <div><strong>Name:</strong> {formData.personalDetails.name}</div>                               
+                                    <div><strong>Name:</strong> {formData.personalDetails.name}</div>
                                     <div><strong>DOB:</strong> {formData.personalDetails.dateOfBirth}</div>
                                     <div><strong>Age:</strong> {formData.personalDetails.age}</div>
                                     <div><strong>Height:</strong> {formData.personalDetails.height}</div>
