@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Edit, PlusCircle, Trash2, Camera, RotateCcw } from 'lucide-react';
-import SelectedTemplate from './SelectedTemplate';
+import { Edit, PlusCircle, Trash2, Camera, RotateCcw, } from 'lucide-react';
+import { FiUpload, FiX, FiDownload, FiPrinter, FiArrowLeft } from 'react-icons/fi';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas-pro'
 
 const BiodataForm = ({ template }) => {
   const [formData, setFormData] = useState({
@@ -36,9 +38,8 @@ const BiodataForm = ({ template }) => {
   const [selectedLanguage, setSelectedLanguage] = useState('English');
   const fileInputRef = useRef(null);
   const [imageFile, setImageFile] = useState(null);
-  console.log("imageFile", imageFile);
-  // const [isDragOver, setIsDragOver] = useState(false);
   const [preview, setPreview] = useState(null);
+  const [showFullscreenPreview, setShowFullscreenPreview] = useState(false);
 
   const handleInputChange = (section, field, value) => {
     setFormData(prev => ({
@@ -50,6 +51,8 @@ const BiodataForm = ({ template }) => {
     }));
   };
 
+
+
   const addNewField = (section) => {
     setFormData(prev => ({
       ...prev,
@@ -58,6 +61,21 @@ const BiodataForm = ({ template }) => {
         additionalFields: [...prev[section].additionalFields, { key: '', value: '' }]
       }
     }));
+  };
+
+  const formRef = useRef(null);
+
+  const downloadPdf = async () => {
+    // 1️⃣  Turn the HTML into a canvas
+    const canvas = await html2canvas(formRef.current, { scale: 2 }); // scale=2 → sharper text
+    // 2️⃣  Convert canvas → image
+    const imgData = canvas.toDataURL('image/png');
+    // 3️⃣  Pump image into jsPDF
+    const pdf     = new jsPDF('p', 'mm', 'a4');
+    const width   = pdf.internal.pageSize.getWidth();
+    const height  = (canvas.height * width) / canvas.width;          // keep aspect ratio
+    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+    pdf.save('biodata.pdf');                                         // 🎉 done
   };
 
   const removeField = (section, index) => {
@@ -127,8 +145,8 @@ const BiodataForm = ({ template }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-    alert('Form submitted! Check console for data.');
+    setShowFullscreenPreview(true);
+    window.scrollTo(0, 0);
   };
 
   const handleFileChange = (e) => {
@@ -273,9 +291,176 @@ const BiodataForm = ({ template }) => {
     theme = colors[template.colorScheme];
   }
 
+
   return (
-    <div id="create" className='py-10 md:py-15 bg-gradient-to-b from-white to-gray-50'>
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 p-4">
+    <div id="create" className='py-10 md:py-15 bg-gradient-to-b from-gray-50 to-gray-100'>
+
+      {showFullscreenPreview && (
+        <div className="fixed z-50 inset-0 backdrop-blur-sm ">
+          <div className="min-h-screen flex flex-col ">
+            <div className=" p-4 flex justify-between items-center sticky z-10">
+              <button
+                onClick={() => setShowFullscreenPreview(false)}
+                className="cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2 rounded-full"
+                aria-label="Close preview"
+              >
+                <FiX className="w-6 h-6 text-black" />
+              </button>
+              <div className="flex space-x-4">
+                <button
+                  onClick={downloadPdf}
+                  className="cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2 rounded-full"
+                  aria-label="Download"
+                >
+                  <FiDownload className="w-6 h-6" />
+                </button>
+                <button
+                  className="cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2 rounded-full"
+                  aria-label="Print"
+                >
+                  <FiPrinter className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex-1 flex flex-col items-center overflow-y-auto py-4">
+              <div ref={formRef} className={`bg-white rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 scale-90`}>
+                {template && (
+                  <div
+                    id="biodata-preview"
+                    className="w-[130mm] min-h-[145mm] bg-white shadow-lg z-10"
+                    style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}
+                  >
+                    <div className={`w-full h-full p-4 bg-gradient-to-br ${theme.gradient}`}>
+                      <div className={`relative w-full min-h-[calc(145mm-2rem)] bg-white border-2 ${theme.border} rounded-lg`}>
+                        {/* Corner decorations */}
+                        {['top-0 left-0', 'top-0 right-0 rotate-90', 'bottom-0 right-0 rotate-180', 'bottom-0 left-0 -rotate-90'].map((position, i) => (
+                          <div key={i} className={`absolute ${position} w-6 h-6 sm:w-8 sm:h-8`}>
+                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                              <circle cx="25" cy="25" r="2" />
+                              <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                          </div>
+                        ))}
+
+                        {/* Top and bottom center decorations */}
+                        {['top-0', 'bottom-0 rotate-180'].map((position, i) => (
+                          <div key={i} className={`absolute ${position} left-1/2 transform -translate-x-1/2 w-16 h-6`}>
+                            <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
+                              <circle cx="64" cy="20" r="2" />
+                            </svg>
+                          </div>
+                        ))}
+
+                        {/* Content */}
+                        <div className="p-3 sm:p-4">
+                          {/* Header */}
+                          <div className="text-center mb-3">
+                            <h1 className={`text-xs sm:text-sm font-bold ${theme.heading} mb-1`}>
+                              || MARRIAGE BIODATA ||
+                            </h1>
+                            <div className={`w-12 h-0.5 ${theme.accent} mx-auto`}></div>
+                          </div>
+
+                          {/* Main Content */}
+                          <div className="flex flex-col sm:flex-row gap-3">
+                            {/* Photo Section */}
+                            <div className="w-full sm:w-1/3">
+                              <div className={`bg-gray-50 border ${theme.lightBorder} h-28 sm:h-32 flex items-center justify-center rounded`}>
+                                {preview ? (
+                                  <img
+                                    src={preview}
+                                    alt="Profile"
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <div className="text-center">
+                                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                      <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                                      </svg>
+                                    </div>
+                                    <p className="text-xs text-gray-500">Photo</p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Details Section */}
+                            <div className="w-full sm:w-2/3 space-y-2 text-xs">
+                              {[
+                                {
+                                  title: 'PERSONAL',
+                                  items: [
+                                    { label: 'Name', value: formData.personalDetails.name },
+                                    { label: 'DOB', value: formData.personalDetails.dateOfBirth },
+                                    { label: 'Height', value: formData.personalDetails.height },
+                                    { label: 'Complexion', value: formData.personalDetails.complexion },
+                                    { label: 'Gotra', value: formData.personalDetails.gotra }
+                                  ]
+                                },
+                                {
+                                  title: 'PROFESSIONAL',
+                                  items: [
+                                    { label: 'Education', value: formData.personalDetails.education },
+                                    { label: 'Profession', value: formData.personalDetails.occupation },
+                                    { label: 'Income', value: formData.personalDetails.income }
+                                  ]
+                                },
+                                {
+                                  title: 'FAMILY',
+                                  items: [
+                                    { label: 'Father', value: formData.familyDetails.fatherName },
+                                    { label: 'Mother', value: formData.familyDetails.motherName },
+                                    { label: 'Siblings', value: formData.familyDetails.siblings }
+                                  ]
+                                },
+                                {
+                                  title: 'CONTACT',
+                                  items: [
+                                    { label: 'Mobile', value: formData.contactDetails.contactNumber },
+                                    { label: 'Email', value: '' },
+                                    { label: 'Address', value: formData.contactDetails.residentialAddress }
+                                  ]
+                                }
+                              ].map((section, idx) => (
+                                <div key={idx} className="break-words">
+                                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>
+                                    {section.title}
+                                  </h3>
+                                  <div className="space-y-1">
+                                    {section.items.map((item, i) => (
+                                      <div key={i} className="break-words">
+                                        <strong className="whitespace-nowrap">{item.label}:</strong> {item.value || '...'}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Decorative dots */}
+                        {['top-2 left-2', 'top-2 right-2', 'bottom-2 left-2', 'bottom-2 right-2'].map((position, i) => (
+                          <div
+                            key={i}
+                            className={`absolute ${position} w-1 h-1 ${theme.accent} rounded-full opacity-60`}
+                          ></div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto px-4 py-12 items-center justify-center flex flex-co">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-rose-900 leading-tight mb-4 text-center">Create Your Bio data Now</h1>
         </div>
@@ -458,7 +643,7 @@ const BiodataForm = ({ template }) => {
                         <button type="button" className="p-2 text-gray-400 hover:text-gray-600">
                           ↕
                         </button>
-                        <button type="button" className="cursor-pointerp-2 text-gray-400 hover:text-red-500">
+                        <button type="button" className="cursor-pointer p-2 text-gray-400 hover:text-red-500">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -1062,8 +1247,8 @@ const BiodataForm = ({ template }) => {
                               {
                                 title: 'CONTACT',
                                 items: [
-                                  { label: 'Mobile', value: formData.contactDetails.mobile },
-                                  { label: 'Email', value: formData.contactDetails.email },
+                                  { label: 'Mobile', value: formData.contactDetails.contactNumber },
+                                  { label: 'Email', value: '' },
                                   { label: 'Address', value: formData.contactDetails.residentialAddress }
                                 ]
                               }
