@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Edit, PlusCircle, Trash2, Camera, RotateCcw, } from 'lucide-react';
 import { FiUpload, FiX, FiDownload, FiPrinter, FiArrowLeft } from 'react-icons/fi';
 import jsPDF from 'jspdf';
@@ -71,9 +71,9 @@ const BiodataForm = ({ template }) => {
     // 2️⃣  Convert canvas → image
     const imgData = canvas.toDataURL('image/png');
     // 3️⃣  Pump image into jsPDF
-    const pdf     = new jsPDF('p', 'mm', 'a4');
-    const width   = pdf.internal.pageSize.getWidth();
-    const height  = (canvas.height * width) / canvas.width;          // keep aspect ratio
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const width = pdf.internal.pageSize.getWidth();
+    const height = (canvas.height * width) / canvas.width;          // keep aspect ratio
     pdf.addImage(imgData, 'PNG', 0, 0, width, height);
     pdf.save('biodata.pdf');                                         // 🎉 done
   };
@@ -292,6 +292,23 @@ const BiodataForm = ({ template }) => {
   }
 
 
+  const [isPhone, setIsPhone] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPhone(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup listener on unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
+
   return (
     <div id="create" className='py-10 md:py-15 bg-gradient-to-b from-gray-50 to-gray-100'>
 
@@ -324,9 +341,10 @@ const BiodataForm = ({ template }) => {
             </div>
 
             <div className="flex-1 flex flex-col items-center overflow-y-auto py-4">
-              <div ref={formRef} className={`bg-white rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 scale-90`}>
+              <div className={`bg-white rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 scale-90`}>
                 {template && (
                   <div
+                    ref={formRef}
                     id="biodata-preview"
                     className="w-[130mm] min-h-[145mm] bg-white shadow-lg z-10"
                     style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}
@@ -1150,136 +1168,294 @@ const BiodataForm = ({ template }) => {
             </div>
 
             {/* Preview Section */}
-            {template && (
-              <div className="lg:col-span-1 flex justify-center sticky top-24 h-fit">
-                <div className="w-full max-w-lg">
-                  <h3 className={`text-center font-semibold mb-3 ${theme.heading} text-sm sm:text-base`}>
-                    {template.title}
-                  </h3>
-                  <div className={`relative bg-gradient-to-br ${theme.gradient} p-3 sm:p-4 shadow-xl rounded-lg`}>
-                    {/* Main container */}
-                    <div className={`relative bg-white border-2 ${theme.border} rounded overflow-hidden`}>
 
-                      {/* Corner decorations */}
-                      {['top-0 left-0', 'top-0 right-0 rotate-90', 'bottom-0 right-0 rotate-180', 'bottom-0 left-0 -rotate-90'].map((position, i) => (
-                        <div key={i} className={`absolute ${position} w-6 h-6 sm:w-8 sm:h-8`}>
-                          <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                            <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                            <circle cx="25" cy="25" r="2" />
-                            <circle cx="15" cy="15" r="1.5" />
-                          </svg>
-                        </div>
-                      ))}
+            {isPhone ? (
+              <div>
+                {template && (
+                  <div className="lg:col-span-1 flex justify-center sticky top-24 h-full">
+                    <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
+                      <h3 className={`text-center font-semibold mb-3 ${theme.heading} text-sm sm:text-base`}>{template.title}</h3>
+                      <div className={`relative bg-gradient-to-br ${theme.gradient} p-3 sm:p-4 shadow-xl rounded-lg`}>
+                        {/* Main container with ornate border */}
+                        <div className={`relative bg-white border-2 ${theme.border}  h-120 overflow-hidden`}>
+                          {/* Corner ornaments - Top Left */}
+                          <div className="absolute top-0 left-0 w-8 h-120">
+                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                              <circle cx="25" cy="25" r="2" />
+                              <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                          </div>
 
-                      {/* Top and bottom center decorations */}
-                      {['top-0', 'bottom-0 rotate-180'].map((position, i) => (
-                        <div key={i} className={`absolute ${position} left-1/2 transform -translate-x-1/2 w-16 h-6`}>
-                          <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
-                            <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
-                            <circle cx="64" cy="20" r="2" />
-                          </svg>
-                        </div>
-                      ))}
+                          {/* Corner ornaments - Top Right */}
+                          <div className="absolute top-0 right-0 w-8 h-full transform rotate-90">
+                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                              <circle cx="25" cy="25" r="2" />
+                              <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                          </div>
 
-                      {/* Content */}
-                      <div className="p-3 sm:p-4">
-                        {/* Header */}
-                        <div className="text-center mb-3">
-                          <h1 className={`text-xs sm:text-sm font-bold ${theme.heading} mb-1`}>
-                            || MARRIAGE BIODATA ||
-                          </h1>
-                          <div className={`w-12 h-0.5 ${theme.accent} mx-auto`}></div>
-                        </div>
+                          {/* Corner ornaments - Bottom Right */}
+                          <div className="absolute bottom-0 right-0 w-8 h-8 transform rotate-180">
+                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                              <circle cx="25" cy="25" r="2" />
+                              <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                          </div>
 
-                        {/* Main Content */}
-                        <div className="flex flex-col sm:flex-row gap-3">
-                          {/* Photo Section */}
-                          <div className="w-full sm:w-1/3">
-                            <div className={`bg-gray-50 border ${theme.lightBorder} h-28 sm:h-32 flex items-center justify-center rounded`}>
-                              {preview ? (
-                                <img
-                                  src={preview}
-                                  alt="Profile"
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : (
-                                <div className="text-center">
-                                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-full mx-auto mb-2 flex items-center justify-center">
-                                    <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                      <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                                    </svg>
-                                  </div>
-                                  <p className="text-xs text-gray-500">Photo</p>
+                          {/* Corner ornaments - Bottom Left */}
+                          <div className="absolute bottom-0 left-0 w-8 h-8 transform -rotate-90">
+                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                              <circle cx="25" cy="25" r="2" />
+                              <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                          </div>
+
+                          {/* Side ornaments - Top */}
+                          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-6">
+                            <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
+                              <circle cx="64" cy="20" r="2" />
+                            </svg>
+                          </div>
+
+                          {/* Side ornaments - Bottom */}
+                          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 rotate-180 w-16 h-6">
+                            <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
+                              <circle cx="64" cy="20" r="2" />
+                            </svg>
+                          </div>
+
+                          {/* Inner content area */}
+                          <div className="absolute inset-6 bg-white p-3">
+                            {/* Header */}
+                            <div className="text-center mb-3">
+                              <h1 className={`text-sm font-bold ${theme.heading} mb-1`}>|| MARRIAGE BIODATA ||</h1>
+                              <div className={`w-12 h-0.5 ${theme.accent} mx-auto`}></div>
+                            </div>
+
+                            {/* Main Content */}
+                            <div className="flex gap-3 h-full">
+                              {/* Left Column - Photo */}
+                              <div className="w-1/2 sm:w-1/2 md:w-1/2">
+                                <div className={`bg-gray-50 border ${theme.lightBorder} h-40 sm:h-40 flex items-center justify-center rounded`}>
+                                  {preview ? (
+                                    <img
+                                      src={preview}
+                                      alt="Profile"
+                                      className="w-full h-full object-cover"
+                                    />
+                                  ) : (
+                                    <div className="text-center">
+                                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                        <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                                        </svg>
+                                      </div>
+                                      <p className="text-xs text-gray-500">Photo</p>
+                                    </div>
+                                  )}
                                 </div>
-                              )}
+                              </div>
+
+                              {/* Right Column - Details */}
+                              <div className="w-2/3 space-y-2 text-xs">
+                                {/* Personal Information */}
+                                <div>
+                                  <h2 className={`text-sm font-bold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>PERSONAL</h2>
+                                  <div className="grid grid-cols-1 gap-y-0.5 break-words">     
+                                    <div><strong>Name:</strong> {formData.personalDetails.name}</div>                               
+                                    <div><strong>DOB:</strong> {formData.personalDetails.dateOfBirth}</div>
+                                    <div><strong>Age:</strong> {formData.personalDetails.age}</div>
+                                    <div><strong>Height:</strong> {formData.personalDetails.height}</div>
+                                    <div><strong>Complexion:</strong> {formData.personalDetails.complexion}</div>
+                                    <div><strong>Gotra:</strong> {formData.personalDetails.gotra}</div>
+                                  </div>
+                                </div>
+
+                                {/* Educational & Professional */}
+                                <div>
+                                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>PROFESSIONAL</h3>
+                                  <div className="grid grid-cols-1 gap-y-0.5 break-words">                                    
+                                    <div><strong>Education:</strong> {formData.personalDetails.education}</div>
+                                    <div><strong>Profession:</strong> {formData.personalDetails.occupation}</div>
+                                    <div><strong>Income:</strong> {formData.personalDetails.income}</div>
+                                  </div>
+                                </div>
+
+                                {/* Family Information */}
+                                <div>
+                                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>FAMILY</h3>
+                                  <div className="grid grid-cols-1 gap-y-0.5 break-words">                                  
+                                    <div><strong>Father:</strong> {formData.familyDetails.fatherName}</div>
+                                    <div><strong>Mother:</strong> {formData.familyDetails.motherName}</div>
+                                    <div><strong>Siblings:</strong> {formData.familyDetails.siblings}</div>
+                                  </div>
+                                </div>
+
+                                {/* Contact Information */}
+                                <div>
+                                  <h3 className={`font-semibold ${theme.subheading} mb-1`}>CONTACT</h3>
+                                  <div className={`border-b ${theme.lightBorder} pb-0.5 break-words`}></div>
+                                  <div className="grid grid-cols-1 gap-y-0.5 break-words">
+                                    <div><strong>Mobile:</strong> {formData.contactDetails.mobile}</div>
+                                    <div><strong>Address:</strong> {formData.contactDetails.residentialAddress}</div>
+                                  </div>
+                                </div>
+
+                              </div>
                             </div>
                           </div>
 
-                          {/* Details Section */}
-                          <div className="w-full sm:w-2/3 space-y-2 text-xs">
-                            {[
-                              {
-                                title: 'PERSONAL',
-                                items: [
-                                  { label: 'Name', value: formData.personalDetails.name },
-                                  { label: 'DOB', value: formData.personalDetails.dateOfBirth },
-                                  { label: 'Height', value: formData.personalDetails.height },
-                                  { label: 'Complexion', value: formData.personalDetails.complexion },
-                                  { label: 'Gotra', value: formData.personalDetails.gotra }
-                                ]
-                              },
-                              {
-                                title: 'PROFESSIONAL',
-                                items: [
-                                  { label: 'Education', value: formData.personalDetails.education },
-                                  { label: 'Profession', value: formData.personalDetails.occupation },
-                                  { label: 'Income', value: formData.personalDetails.income }
-                                ]
-                              },
-                              {
-                                title: 'FAMILY',
-                                items: [
-                                  { label: 'Father', value: formData.familyDetails.fatherName },
-                                  { label: 'Mother', value: formData.familyDetails.motherName },
-                                  { label: 'Siblings', value: formData.familyDetails.siblings }
-                                ]
-                              },
-                              {
-                                title: 'CONTACT',
-                                items: [
-                                  { label: 'Mobile', value: formData.contactDetails.contactNumber },
-                                  { label: 'Email', value: '' },
-                                  { label: 'Address', value: formData.contactDetails.residentialAddress }
-                                ]
-                              }
-                            ].map((section, idx) => (
-                              <div key={idx} className="break-words">
-                                <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>
-                                  {section.title}
-                                </h3>
-                                <div className="space-y-1">
-                                  {section.items.map((item, i) => (
-                                    <div key={i} className="break-words">
-                                      <strong className="whitespace-nowrap">{item.label}:</strong> {item.value || '...'}
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
+                          {/* Decorative dots */}
+                          <div className={`absolute top-2 left-2 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
+                          <div className={`absolute top-2 right-2 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
+                          <div className={`absolute bottom-2 left-2 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
+                          <div className={`absolute bottom-2 right-2 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
                         </div>
                       </div>
-
-                      {/* Decorative dots */}
-                      {['top-2 left-2', 'top-2 right-2', 'bottom-2 left-2', 'bottom-2 right-2'].map((position, i) => (
-                        <div
-                          key={i}
-                          className={`absolute ${position} w-1 h-1 ${theme.accent} rounded-full opacity-60`}
-                        ></div>
-                      ))}
                     </div>
                   </div>
-                </div>
+                )}
+              </div>
+            ) : (
+              <div>
+                {template && (
+                  <div className="lg:col-span-1 flex justify-center sticky top-24 h-fit">
+                    <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
+                      <h3 className={`text-center font-semibold mb-3 ${theme.heading} text-sm sm:text-base`}>
+                        {template.title}
+                      </h3>
+                      <div className={`relative bg-gradient-to-br ${theme.gradient} p-3 sm:p-4 shadow-xl rounded-lg`}>
+                        {/* Main container */}
+                        <div className={`relative bg-white border-2 ${theme.border} rounded overflow-hidden`}>
+
+                          {/* Corner decorations */}
+                          {['top-0 left-0', 'top-0 right-0 rotate-90', 'bottom-0 right-0 rotate-180', 'bottom-0 left-0 -rotate-90'].map((position, i) => (
+                            <div key={i} className={`absolute ${position} w-6 h-6 sm:w-8 sm:h-8`}>
+                              <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
+                                <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                                <circle cx="25" cy="25" r="2" />
+                                <circle cx="15" cy="15" r="1.5" />
+                              </svg>
+                            </div>
+                          ))}
+
+                          {/* Top and bottom center decorations */}
+                          {['top-0', 'bottom-0 rotate-180'].map((position, i) => (
+                            <div key={i} className={`absolute ${position} left-1/2 transform -translate-x-1/2 w-16 h-6`}>
+                              <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
+                                <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
+                                <circle cx="64" cy="20" r="2" />
+                              </svg>
+                            </div>
+                          ))}
+
+                          {/* Content */}
+                          <div className="p-3 sm:p-4">
+                            {/* Header */}
+                            <div className="text-center mb-3">
+                              <h1 className={`text-xs sm:text-sm font-bold ${theme.heading} mb-1`}>
+                                || MARRIAGE BIODATA ||
+                              </h1>
+                              <div className={`w-12 h-0.5 ${theme.accent} mx-auto`}></div>
+                            </div>
+
+                            {/* Main Content */}
+                            <div className="flex flex-col sm:flex-row gap-3">
+                              {/* Photo Section */}
+                              <div className="w-full sm:w-1/3">
+                                <div className={`bg-gray-50 border ${theme.lightBorder} h-28 sm:h-32 flex items-center justify-center rounded`}>
+                                  {preview ? (
+                                    <img
+                                      src={preview}
+                                      alt="Profile"
+                                      className="w-full h-full object-cover"
+                                    />
+                                  ) : (
+                                    <div className="text-center">
+                                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                        <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                                        </svg>
+                                      </div>
+                                      <p className="text-xs text-gray-500">Photo</p>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Details Section */}
+                              <div className="w-full sm:w-2/3 space-y-2 text-xs">
+                                {[
+                                  {
+                                    title: 'PERSONAL',
+                                    items: [
+                                      { label: 'Name', value: formData.personalDetails.name },
+                                      { label: 'DOB', value: formData.personalDetails.dateOfBirth },
+                                      { label: 'Height', value: formData.personalDetails.height },
+                                      { label: 'Complexion', value: formData.personalDetails.complexion },
+                                      { label: 'Gotra', value: formData.personalDetails.gotra }
+                                    ]
+                                  },
+                                  {
+                                    title: 'PROFESSIONAL',
+                                    items: [
+                                      { label: 'Education', value: formData.personalDetails.education },
+                                      { label: 'Profession', value: formData.personalDetails.occupation },
+                                      { label: 'Income', value: formData.personalDetails.income }
+                                    ]
+                                  },
+                                  {
+                                    title: 'FAMILY',
+                                    items: [
+                                      { label: 'Father', value: formData.familyDetails.fatherName },
+                                      { label: 'Mother', value: formData.familyDetails.motherName },
+                                      { label: 'Siblings', value: formData.familyDetails.siblings }
+                                    ]
+                                  },
+                                  {
+                                    title: 'CONTACT',
+                                    items: [
+                                      { label: 'Mobile', value: formData.contactDetails.contactNumber },
+                                      { label: 'Email', value: '' },
+                                      { label: 'Address', value: formData.contactDetails.residentialAddress }
+                                    ]
+                                  }
+                                ].map((section, idx) => (
+                                  <div key={idx} className="break-words">
+                                    <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>
+                                      {section.title}
+                                    </h3>
+                                    <div className="space-y-1">
+                                      {section.items.map((item, i) => (
+                                        <div key={i} className="break-words">
+                                          <strong className="whitespace-nowrap">{item.label}:</strong> {item.value || '...'}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Decorative dots */}
+                          {['top-2 left-2', 'top-2 right-2', 'bottom-2 left-2', 'bottom-2 right-2'].map((position, i) => (
+                            <div
+                              key={i}
+                              className={`absolute ${position} w-1 h-1 ${theme.accent} rounded-full opacity-60`}
+                            ></div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
