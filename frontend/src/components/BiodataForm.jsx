@@ -66,16 +66,133 @@ const BiodataForm = ({ template }) => {
   const formRef = useRef(null);
 
   const downloadPdf = async () => {
-    // 1️⃣  Turn the HTML into a canvas
-    const canvas = await html2canvas(formRef.current, { scale: 2 }); // scale=2 → sharper text
-    // 2️⃣  Convert canvas → image
-    const imgData = canvas.toDataURL('image/png');
-    // 3️⃣  Pump image into jsPDF
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const width = pdf.internal.pageSize.getWidth();
-    const height = (canvas.height * width) / canvas.width;          // keep aspect ratio
-    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-    pdf.save('biodata.pdf');                                         // 🎉 done
+    try {
+      // Target the biodata preview element specifically
+      const element = document.getElementById('biodata-preview');
+      if (!element) {
+        alert('Please open the preview first before downloading.');
+        return;
+      }
+
+      // Show loading indicator
+      const originalText = document.querySelector('.download-btn-text');
+      if (originalText) {
+        originalText.textContent = 'Generating PDF...';
+      }
+
+      // Wait a moment for any animations to complete
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // Ensure element is visible and has content
+      console.log('Element found:', element);
+      console.log('Element dimensions:', {
+        width: element.offsetWidth,
+        height: element.offsetHeight,
+        scrollWidth: element.scrollWidth,
+        scrollHeight: element.scrollHeight
+      });
+
+      // More conservative canvas options for better compatibility
+     const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+
+      console.log('Canvas created:', {
+        width: canvas.width,
+        height: canvas.height
+      });
+
+      // Check if canvas has content
+      if (canvas.width === 0 || canvas.height === 0) {
+        throw new Error('Canvas has no content. Element might not be visible.');
+      }
+
+      // Convert canvas to image
+      const imgData = canvas.toDataURL('image/png', 0.95);
+      
+      // Check if image data is valid
+      if (imgData === 'data:,' || imgData.length < 100) {
+        throw new Error('Generated image is empty or invalid.');
+      }
+
+      console.log('Image data generated, length:', imgData.length);
+
+      // Create PDF with simpler settings
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      // Simpler dimension calculation
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      
+      // Calculate dimensions to fit A4 with margins
+      const margin = 15; // 15mm margin
+      const maxWidth = pageWidth - (2 * margin);
+      const maxHeight = pageHeight - (2 * margin);
+      
+      // Calculate aspect ratio
+      const imgAspectRatio = canvas.width / canvas.height;
+      const pageAspectRatio = maxWidth / maxHeight;
+      
+      let finalWidth, finalHeight;
+      
+      if (imgAspectRatio > pageAspectRatio) {
+        // Image is wider, fit to width
+        finalWidth = maxWidth;
+        finalHeight = maxWidth / imgAspectRatio;
+      } else {
+        // Image is taller, fit to height
+        finalHeight = maxHeight;
+        finalWidth = maxHeight * imgAspectRatio;
+      }
+      
+      // Center the image
+      const xOffset = (pageWidth - finalWidth) / 2;
+      const yOffset = (pageHeight - finalHeight) / 2;
+
+
+      // Add image to PDF
+      pdf.addImage(
+        imgData,
+        'PNG',
+        xOffset,
+        yOffset,
+        finalWidth,
+        finalHeight
+      );
+
+      // Add metadata
+      pdf.setProperties({
+        title: 'Marriage Biodata',
+        subject: 'Personal Biodata',
+        author: 'Biodata Builder'
+      });
+
+      // Generate filename
+      const now = new Date();
+      const timestamp = now.toISOString().slice(0, 19).replace(/:/g, '-');
+      const filename = `biodata-${formData.personalDetails.name || 'template'}-${timestamp}.pdf`;
+
+      // Save the PDF
+      pdf.save(filename);
+
+
+      // Reset button text
+      if (originalText) {
+        originalText.textContent = 'Download PDF';
+      }
+
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert(`Error generating PDF: ${error.message}. Please try again.`);
+      
+      // Reset button text
+      const originalText = document.querySelector('.download-btn-text');
+      if (originalText) {
+        originalText.textContent = 'Download PDF';
+      }
+    }
   };
 
   const removeField = (section, index) => {
@@ -315,31 +432,36 @@ const BiodataForm = ({ template }) => {
       {showFullscreenPreview && (
         <div>
           {isPhone ? (
-            <div className="fixed z-50 inset-0 backdrop-blur-sm ">
+            <div className="fixed z-50 inset-0 bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-sm">
               {template && (
-                <div className="min-h-screen flex flex-col ">
-                  <div className="p-0 flex justify-between items-center sticky">
-                    <button
-                      onClick={() => setShowFullscreenPreview(false)}
-                      className="cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2 rounded-full"
-                      aria-label="Close preview"
-                    >
-                      <FiX className="w-6 h-6 text-black" />
-                    </button>
-                    <div className="flex space-x-4">
+                <div className="min-h-screen flex flex-col">
+                  {/* Enhanced Header with Beautiful Buttons */}
+                  <div className="p-4 flex justify-between items-center bg-white/10 backdrop-blur-md border-b border-white/20">
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => setShowFullscreenPreview(false)}
+                        className={`group flex items-center gap-2 px-4 py-2 border-2 border-red-500 text-red-600 hover:bg-red-50 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 transform bg-white`}
+                      >
+                        <FiArrowLeft className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1" />
+                        <span className="hidden sm:inline">Back</span>
+                      </button>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
                       <button
                         onClick={downloadPdf}
-                        className="cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2 rounded-full"
-                        aria-label="Download"
+                        className={`group flex items-center gap-2 px-4 py-2 ${theme.button} text-white rounded-xl font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 transform`}
                       >
-                        <FiDownload className="w-6 h-6" />
+                        <FiDownload className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-1" />
+                        <span className="hidden sm:inline">Download</span>
                       </button>
-                      <button
-                        className="cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2 rounded-full"
-                        aria-label="Print"
+                      {/* <button
+                        onClick={() => window.print()}
+                        className={`group flex items-center gap-2 px-4 py-2 border-2 ${theme.buttonSecondary} rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 transform bg-white`}
                       >
-                        <FiPrinter className="w-6 h-6" />
-                      </button>
+                        <FiPrinter className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
+                        <span className="hidden sm:inline">Print</span>
+                      </button> */}
                     </div>
                   </div>
 
@@ -502,30 +624,35 @@ const BiodataForm = ({ template }) => {
 
           ) : (
 
-            <div className="fixed z-50 inset-0 backdrop-blur-sm ">
-              <div className="min-h-screen flex flex-col ">
-                <div className=" p-4 flex justify-between items-center sticky z-10">
-                  <button
-                    onClick={() => setShowFullscreenPreview(false)}
-                    className="cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2 rounded-full"
-                    aria-label="Close preview"
-                  >
-                    <FiX className="w-6 h-6 text-black" />
-                  </button>
-                  <div className="flex space-x-4">
+            <div className="fixed z-50 inset-0 bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-sm">
+              <div className="min-h-screen flex flex-col">
+                {/* Enhanced Header with Beautiful Buttons */}
+                <div className="p-4 flex justify-between items-center bg-white/10 backdrop-blur-md border-b border-white/20">
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setShowFullscreenPreview(false)}
+                      className={`cursor-pointer group flex items-center gap-2 px-6 py-3 border-2 border-red-500 text-red-600 hover:bg-red-50 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 transform bg-white`}
+                    >
+                      <FiArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
+                      <span>Back to Form</span>
+                    </button>
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
                     <button
                       onClick={downloadPdf}
-                      className="cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2 rounded-full"
-                      aria-label="Download"
+                      className={`cursor-pointer group flex items-center gap-2 px-6 py-3 ${theme.button} text-white rounded-xl font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 transform`}
                     >
-                      <FiDownload className="w-6 h-6" />
+                      <FiDownload className="w-5 h-5" />
+                      <span className="download-btn-text">Download PDF</span>
                     </button>
-                    <button
-                      className="cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors p-2 rounded-full"
-                      aria-label="Print"
+                    {/* <button
+                      onClick={() => window.print()}
+                      className={`group flex items-center gap-2 px-6 py-3 border-2 ${theme.buttonSecondary} rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 transform bg-white`}
                     >
-                      <FiPrinter className="w-6 h-6" />
-                    </button>
+                      <FiPrinter className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                      <span>Print Biodata</span>
+                    </button> */}
                   </div>
                 </div>
 

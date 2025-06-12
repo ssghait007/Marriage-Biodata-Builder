@@ -5,124 +5,124 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
 
   const colors = {
     amber: {
-      gradient: 'from-amber-50 to-stone-100',
-      border: 'border-amber-400',
-      ornament: 'text-amber-400',
-      heading: 'text-amber-600',
-      subheading: 'text-amber-700',
-      accent: 'bg-amber-400',
-      lightBg: 'bg-amber-50',
-      lightBorder: 'border-amber-200',
-      contactHeading: 'text-amber-800',
-      button: 'bg-amber-500 hover:bg-amber-600'
+      gradient: 'from-amber-50 via-yellow-50 to-orange-100',
+      border: 'border-amber-400 shadow-amber-200',
+      ornament: 'text-amber-500',
+      heading: 'text-amber-700',
+      subheading: 'text-amber-800',
+      accent: 'bg-gradient-to-r from-amber-400 to-yellow-500',
+      lightBg: 'bg-gradient-to-br from-amber-50 to-yellow-50',
+      lightBorder: 'border-amber-300',
+      contactHeading: 'text-amber-900',
+      button: 'bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 shadow-lg'
     },
     blue: {
-      gradient: 'from-blue-50 to-slate-100',
-      border: 'border-blue-400',
-      ornament: 'text-blue-400',
-      heading: 'text-blue-600',
-      subheading: 'text-blue-700',
-      accent: 'bg-blue-400',
-      lightBg: 'bg-blue-50',
-      lightBorder: 'border-blue-200',
-      contactHeading: 'text-blue-800',
-      button: 'bg-blue-500 hover:bg-blue-600'
+      gradient: 'from-blue-50 via-sky-50 to-indigo-100',
+      border: 'border-blue-400 shadow-blue-200',
+      ornament: 'text-blue-500',
+      heading: 'text-blue-700',
+      subheading: 'text-blue-800',
+      accent: 'bg-gradient-to-r from-blue-400 to-sky-500',
+      lightBg: 'bg-gradient-to-br from-blue-50 to-sky-50',
+      lightBorder: 'border-blue-300',
+      contactHeading: 'text-blue-900',
+      button: 'bg-gradient-to-r from-blue-500 to-sky-600 hover:from-blue-600 hover:to-sky-700 shadow-lg'
     },
     green: {
-      gradient: 'from-green-50 to-emerald-100',
-      border: 'border-green-400',
-      ornament: 'text-green-400',
-      heading: 'text-green-600',
-      subheading: 'text-green-700',
-      accent: 'bg-green-400',
-      lightBg: 'bg-green-50',
-      lightBorder: 'border-green-200',
-      contactHeading: 'text-green-800',
-      button: 'bg-green-500 hover:bg-green-600'
+      gradient: 'from-green-50 via-emerald-50 to-teal-100',
+      border: 'border-green-400 shadow-green-200',
+      ornament: 'text-green-500',
+      heading: 'text-green-700',
+      subheading: 'text-green-800',
+      accent: 'bg-gradient-to-r from-green-400 to-emerald-500',
+      lightBg: 'bg-gradient-to-br from-green-50 to-emerald-50',
+      lightBorder: 'border-green-300',
+      contactHeading: 'text-green-900',
+      button: 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 shadow-lg'
     },
     purple: {
-      gradient: 'from-purple-50 to-violet-100',
-      border: 'border-purple-400',
-      ornament: 'text-purple-400',
-      heading: 'text-purple-600',
-      subheading: 'text-purple-700',
-      accent: 'bg-purple-400',
-      lightBg: 'bg-purple-50',
-      lightBorder: 'border-purple-200',
-      contactHeading: 'text-purple-800',
-      button: 'bg-purple-500 hover:bg-purple-600'
+      gradient: 'from-purple-50 via-violet-50 to-indigo-100',
+      border: 'border-purple-400 shadow-purple-200',
+      ornament: 'text-purple-500',
+      heading: 'text-purple-700',
+      subheading: 'text-purple-800',
+      accent: 'bg-gradient-to-r from-purple-400 to-violet-500',
+      lightBg: 'bg-gradient-to-br from-purple-50 to-violet-50',
+      lightBorder: 'border-purple-300',
+      contactHeading: 'text-purple-900',
+      button: 'bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 shadow-lg'
     },
     rose: {
-      gradient: 'from-rose-50 to-pink-100',
-      border: 'border-rose-400',
-      ornament: 'text-rose-400',
-      heading: 'text-rose-600',
-      subheading: 'text-rose-700',
-      accent: 'bg-rose-400',
-      lightBg: 'bg-rose-50',
-      lightBorder: 'border-rose-200',
-      contactHeading: 'text-rose-800',
-      button: 'bg-rose-500 hover:bg-rose-600'
+      gradient: 'from-rose-50 via-pink-50 to-red-100',
+      border: 'border-rose-400 shadow-rose-200',
+      ornament: 'text-rose-500',
+      heading: 'text-rose-700',
+      subheading: 'text-rose-800',
+      accent: 'bg-gradient-to-r from-rose-400 to-pink-500',
+      lightBg: 'bg-gradient-to-br from-rose-50 to-pink-50',
+      lightBorder: 'border-rose-300',
+      contactHeading: 'text-rose-900',
+      button: 'bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg'
     },
     teal: {
-      gradient: 'from-teal-50 to-cyan-100',
-      border: 'border-teal-400',
-      ornament: 'text-teal-400',
-      heading: 'text-teal-600',
-      subheading: 'text-teal-700',
-      accent: 'bg-teal-400',
-      lightBg: 'bg-teal-50',
-      lightBorder: 'border-teal-200',
-      contactHeading: 'text-teal-800',
-      button: 'bg-teal-500 hover:bg-teal-600'
+      gradient: 'from-teal-50 via-cyan-50 to-blue-100',
+      border: 'border-teal-400 shadow-teal-200',
+      ornament: 'text-teal-500',
+      heading: 'text-teal-700',
+      subheading: 'text-teal-800',
+      accent: 'bg-gradient-to-r from-teal-400 to-cyan-500',
+      lightBg: 'bg-gradient-to-br from-teal-50 to-cyan-50',
+      lightBorder: 'border-teal-300',
+      contactHeading: 'text-teal-900',
+      button: 'bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 shadow-lg'
     },
     orange: {
-      gradient: 'from-orange-50 to-red-100',
-      border: 'border-orange-400',
-      ornament: 'text-orange-400',
-      heading: 'text-orange-600',
-      subheading: 'text-orange-700',
-      accent: 'bg-orange-400',
-      lightBg: 'bg-orange-50',
-      lightBorder: 'border-orange-200',
-      contactHeading: 'text-orange-800',
-      button: 'bg-orange-500 hover:bg-orange-600'
+      gradient: 'from-orange-50 via-amber-50 to-red-100',
+      border: 'border-orange-400 shadow-orange-200',
+      ornament: 'text-orange-500',
+      heading: 'text-orange-700',
+      subheading: 'text-orange-800',
+      accent: 'bg-gradient-to-r from-orange-400 to-red-500',
+      lightBg: 'bg-gradient-to-br from-orange-50 to-amber-50',
+      lightBorder: 'border-orange-300',
+      contactHeading: 'text-orange-900',
+      button: 'bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 shadow-lg'
     },
     indigo: {
-      gradient: 'from-indigo-50 to-blue-100',
-      border: 'border-indigo-400',
-      ornament: 'text-indigo-400',
-      heading: 'text-indigo-600',
-      subheading: 'text-indigo-700',
-      accent: 'bg-indigo-400',
-      lightBg: 'bg-indigo-50',
-      lightBorder: 'border-indigo-200',
-      contactHeading: 'text-indigo-800',
-      button: 'bg-indigo-500 hover:bg-indigo-600'
+      gradient: 'from-indigo-50 via-purple-50 to-blue-100',
+      border: 'border-indigo-400 shadow-indigo-200',
+      ornament: 'text-indigo-500',
+      heading: 'text-indigo-700',
+      subheading: 'text-indigo-800',
+      accent: 'bg-gradient-to-r from-indigo-400 to-purple-500',
+      lightBg: 'bg-gradient-to-br from-indigo-50 to-purple-50',
+      lightBorder: 'border-indigo-300',
+      contactHeading: 'text-indigo-900',
+      button: 'bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 shadow-lg'
     },
     red: {
-      gradient: 'from-red-50 to-rose-100',
-      border: 'border-red-400',
-      ornament: 'text-red-400',
-      heading: 'text-red-600',
-      subheading: 'text-red-700',
-      accent: 'bg-red-400',
-      lightBg: 'bg-red-50',
-      lightBorder: 'border-red-200',
-      contactHeading: 'text-red-800',
-      button: 'bg-red-500 hover:bg-red-600'
+      gradient: 'from-red-50 via-rose-50 to-pink-100',
+      border: 'border-red-400 shadow-red-200',
+      ornament: 'text-red-500',
+      heading: 'text-red-700',
+      subheading: 'text-red-800',
+      accent: 'bg-gradient-to-r from-red-400 to-rose-500',
+      lightBg: 'bg-gradient-to-br from-red-50 to-rose-50',
+      lightBorder: 'border-red-300',
+      contactHeading: 'text-red-900',
+      button: 'bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 shadow-lg'
     },
     emerald: {
-      gradient: 'from-emerald-50 to-teal-100',
-      border: 'border-emerald-400',
-      ornament: 'text-emerald-400',
-      heading: 'text-emerald-600',
-      subheading: 'text-emerald-700',
-      accent: 'bg-emerald-400',
-      lightBg: 'bg-emerald-50',
-      lightBorder: 'border-emerald-200',
-      contactHeading: 'text-emerald-800',
-      button: 'bg-emerald-500 hover:bg-emerald-600'
+      gradient: 'from-emerald-50 via-green-50 to-teal-100',
+      border: 'border-emerald-400 shadow-emerald-200',
+      ornament: 'text-emerald-500',
+      heading: 'text-emerald-700',
+      subheading: 'text-emerald-800',
+      accent: 'bg-gradient-to-r from-emerald-400 to-teal-500',
+      lightBg: 'bg-gradient-to-br from-emerald-50 to-green-50',
+      lightBorder: 'border-emerald-300',
+      contactHeading: 'text-emerald-900',
+      button: 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 shadow-lg'
     }
   };
 
@@ -145,7 +145,7 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
 
 
   return (
-    <div className="flex-shrink-0 w-full sm:w-80 md:w-72 lg:w-80 mx-2 group">
+    <div className="flex-shrink-0 w-full sm:w-96 md:w-80 lg:w-96 mx-2 group">
 
       {isPhone ? (
         <div
@@ -154,57 +154,113 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
           <h3 className="text-center font-semibold mb-2 text-white">{title}</h3>
           <div className={`relative w-full bg-gradient-to-br ${theme.gradient} p-4 shadow-xl rounded-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-105`}>
             {/* Main container with ornate border */}
-            <div className={`relative bg-white border-2 ${theme.border} h-96 overflow-hidden rounded transition-all duration-300 group-hover:border-opacity-80`}>
+            <div className={`relative bg-white border-2 ${theme.border} min-h-[500px] rounded transition-all duration-300 group-hover:border-opacity-80`}>
 
               {/* Corner ornaments - Top Left */}
               <div className="absolute top-0 left-0 w-8 h-8">
-                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                  <circle cx="25" cy="25" r="2" />
-                  <circle cx="15" cy="15" r="1.5" />
+                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current drop-shadow-sm`}>
+                  <defs>
+                    <linearGradient id="ornamentGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{stopColor: 'currentColor', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: 'currentColor', stopOpacity: 0.7}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" fill="url(#ornamentGradient1)" />
+                  <path d="M10 10 Q20 5 30 10 Q20 15 10 10 Z" fill="currentColor" opacity="0.6" />
+                  <circle cx="25" cy="25" r="2" fill="currentColor" />
+                  <circle cx="15" cy="15" r="1.5" fill="currentColor" opacity="0.8" />
+                  <circle cx="20" cy="20" r="1" fill="currentColor" opacity="0.5" />
                 </svg>
               </div>
 
               {/* Corner ornaments - Top Right */}
               <div className="absolute top-0 right-0 w-8 h-8 transform rotate-90">
-                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                  <circle cx="25" cy="25" r="2" />
-                  <circle cx="15" cy="15" r="1.5" />
+                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current drop-shadow-sm`}>
+                  <defs>
+                    <linearGradient id="ornamentGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{stopColor: 'currentColor', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: 'currentColor', stopOpacity: 0.7}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" fill="url(#ornamentGradient2)" />
+                  <path d="M10 10 Q20 5 30 10 Q20 15 10 10 Z" fill="currentColor" opacity="0.6" />
+                  <circle cx="25" cy="25" r="2" fill="currentColor" />
+                  <circle cx="15" cy="15" r="1.5" fill="currentColor" opacity="0.8" />
+                  <circle cx="20" cy="20" r="1" fill="currentColor" opacity="0.5" />
                 </svg>
               </div>
 
               {/* Corner ornaments - Bottom Right */}
               <div className="absolute bottom-0 right-0 w-8 h-8 transform rotate-180">
-                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                  <circle cx="25" cy="25" r="2" />
-                  <circle cx="15" cy="15" r="1.5" />
+                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current drop-shadow-sm`}>
+                  <defs>
+                    <linearGradient id="ornamentGradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{stopColor: 'currentColor', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: 'currentColor', stopOpacity: 0.7}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" fill="url(#ornamentGradient3)" />
+                  <path d="M10 10 Q20 5 30 10 Q20 15 10 10 Z" fill="currentColor" opacity="0.6" />
+                  <circle cx="25" cy="25" r="2" fill="currentColor" />
+                  <circle cx="15" cy="15" r="1.5" fill="currentColor" opacity="0.8" />
+                  <circle cx="20" cy="20" r="1" fill="currentColor" opacity="0.5" />
                 </svg>
               </div>
 
               {/* Corner ornaments - Bottom Left */}
               <div className="absolute bottom-0 left-0 w-8 h-8 transform -rotate-90">
-                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                  <circle cx="25" cy="25" r="2" />
-                  <circle cx="15" cy="15" r="1.5" />
+                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current drop-shadow-sm`}>
+                  <defs>
+                    <linearGradient id="ornamentGradient4" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{stopColor: 'currentColor', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: 'currentColor', stopOpacity: 0.7}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" fill="url(#ornamentGradient4)" />
+                  <path d="M10 10 Q20 5 30 10 Q20 15 10 10 Z" fill="currentColor" opacity="0.6" />
+                  <circle cx="25" cy="25" r="2" fill="currentColor" />
+                  <circle cx="15" cy="15" r="1.5" fill="currentColor" opacity="0.8" />
+                  <circle cx="20" cy="20" r="1" fill="currentColor" opacity="0.5" />
                 </svg>
               </div>
 
               {/* Side ornaments - Top */}
               <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-6">
-                <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
-                  <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
-                  <circle cx="64" cy="20" r="2" />
+                <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current drop-shadow-sm`}>
+                  <defs>
+                    <linearGradient id="sideGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" style={{stopColor: 'currentColor', stopOpacity: 0.3}} />
+                      <stop offset="50%" style={{stopColor: 'currentColor', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: 'currentColor', stopOpacity: 0.3}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" fill="url(#sideGradient1)" />
+                  <path d="M30 24 Q50 16 64 24 Q78 16 98 24 Q78 32 64 24 Q50 32 30 24 Z" fill="currentColor" opacity="0.4" />
+                  <circle cx="64" cy="20" r="2" fill="currentColor" />
+                  <circle cx="44" cy="24" r="1.5" fill="currentColor" opacity="0.6" />
+                  <circle cx="84" cy="24" r="1.5" fill="currentColor" opacity="0.6" />
+                  <circle cx="54" cy="18" r="1" fill="currentColor" opacity="0.4" />
+                  <circle cx="74" cy="18" r="1" fill="currentColor" opacity="0.4" />
                 </svg>
               </div>
 
               {/* Side ornaments - Bottom */}
               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 rotate-180 w-16 h-6">
-                <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
-                  <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
-                  <circle cx="64" cy="20" r="2" />
+                <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current drop-shadow-sm`}>
+                  <defs>
+                    <linearGradient id="sideGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" style={{stopColor: 'currentColor', stopOpacity: 0.3}} />
+                      <stop offset="50%" style={{stopColor: 'currentColor', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: 'currentColor', stopOpacity: 0.3}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" fill="url(#sideGradient2)" />
+                  <path d="M30 24 Q50 16 64 24 Q78 16 98 24 Q78 32 64 24 Q50 32 30 24 Z" fill="currentColor" opacity="0.4" />
+                  <circle cx="64" cy="20" r="2" fill="currentColor" />
+                  <circle cx="44" cy="24" r="1.5" fill="currentColor" opacity="0.6" />
+                  <circle cx="84" cy="24" r="1.5" fill="currentColor" opacity="0.6" />
+                  <circle cx="54" cy="18" r="1" fill="currentColor" opacity="0.4" />
+                  <circle cx="74" cy="18" r="1" fill="currentColor" opacity="0.4" />
                 </svg>
               </div>
 
@@ -217,27 +273,30 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
                 </div>
 
                 {/* Main Content */}
-                <div className="flex gap-3 h-full">
+                <div className="flex gap-3">
                   {/* Left Column - Photo */}
                   <div className="w-1/3">
-                    <div className={`bg-gray-100 border ${theme.lightBorder} h-20 flex items-center justify-center mb-2`}>
-                      <div className="text-center text-gray-500">
-                        <div className="w-8 h-8 bg-gray-300 rounded-full mx-auto mb-1 flex items-center justify-center">
-                          <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <div className={`bg-gradient-to-br from-gray-50 to-gray-100 border ${theme.lightBorder} h-32 flex items-center justify-center mb-2 rounded-lg shadow-inner relative overflow-hidden`}>
+                      {/* Decorative pattern background */}
+                      <div className="absolute inset-0 opacity-5">
+                        <svg width="100%" height="100%" viewBox="0 0 40 40" className={theme.ornament}>
+                          <defs>
+                            <pattern id="photoPatternMobile" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                              <circle cx="10" cy="10" r="1" fill="currentColor" opacity="0.3"/>
+                              <circle cx="5" cy="5" r="0.5" fill="currentColor" opacity="0.2"/>
+                              <circle cx="15" cy="15" r="0.5" fill="currentColor" opacity="0.2"/>
+                            </pattern>
+                          </defs>
+                          <rect width="100%" height="100%" fill="url(#photoPatternMobile)"/>
+                        </svg>
+                      </div>
+                      <div className="text-center text-gray-500 relative z-10">
+                        <div className="w-8 h-8 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full mx-auto mb-1 flex items-center justify-center shadow-sm border border-gray-300">
+                          <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                           </svg>
                         </div>
-                        <p className="text-xs">Photo</p>
-                      </div>
-                    </div>
-
-                    {/* Contact Information */}
-                    <div className={`${theme.lightBg} p-2 rounded border ${theme.lightBorder}`}>
-                      <h3 className={`font-semibold ${theme.contactHeading} mb-1 text-xs`}>CONTACT</h3>
-                      <div className="text-xs space-y-0.5">
-                        <p><strong>Mobile:</strong> +91 98765</p>
-                        {/* <p><strong>Email:</strong> priya@email.com</p> */}
-                        <p><strong>Address:</strong> Delhi</p>
+                        <p className="text-xs font-medium">Photo</p>
                       </div>
                     </div>
                   </div>
@@ -276,15 +335,24 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
                       </div>
                     </div>
 
-                    {/* Other Details */}
+                    {/* Contact Information */}
                     <div>
+                      <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>CONTACT</h3>
+                      <div className="grid grid-cols-1 gap-y-0.5">
+                        <div><strong>Mobile:</strong> +91 98765</div>
+                        <div><strong>Address:</strong> Delhi</div>
+                      </div>
+                    </div>
+
+                    {/* Other Details */}
+                    {/* <div>
                       <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>OTHER</h3>
                       <div className="grid grid-cols-1 gap-y-0.5">
                         <div><strong>Religion:</strong> Hindu</div>
                         <div><strong>Caste:</strong> Brahmin</div>
                         <div><strong>Mother Tongue:</strong> Hindi</div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -312,57 +380,113 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
             </div>
 
             {/* Main container with ornate border */}
-            <div className={`relative bg-white border-2 ${theme.border} h-80 sm:h-96 overflow-hidden rounded transition-all duration-300 group-hover:border-opacity-80`}>
+            <div className={`relative bg-white border-2 ${theme.border} min-h-80 sm:min-h-[500px] rounded transition-all duration-300 group-hover:border-opacity-80`}>
 
               {/* Corner ornaments - Top Left */}
               <div className="absolute top-0 left-0 w-6 h-6 sm:w-8 sm:h-8">
-                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                  <circle cx="25" cy="25" r="2" />
-                  <circle cx="15" cy="15" r="1.5" />
+                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current drop-shadow-sm`}>
+                  <defs>
+                    <linearGradient id="ornamentGradient5" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{stopColor: 'currentColor', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: 'currentColor', stopOpacity: 0.7}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" fill="url(#ornamentGradient5)" />
+                  <path d="M10 10 Q20 5 30 10 Q20 15 10 10 Z" fill="currentColor" opacity="0.6" />
+                  <circle cx="25" cy="25" r="2" fill="currentColor" />
+                  <circle cx="15" cy="15" r="1.5" fill="currentColor" opacity="0.8" />
+                  <circle cx="20" cy="20" r="1" fill="currentColor" opacity="0.5" />
                 </svg>
               </div>
 
               {/* Corner ornaments - Top Right */}
               <div className="absolute top-0 right-0 w-6 h-6 sm:w-8 sm:h-8 transform rotate-90">
-                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                  <circle cx="25" cy="25" r="2" />
-                  <circle cx="15" cy="15" r="1.5" />
+                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current drop-shadow-sm`}>
+                  <defs>
+                    <linearGradient id="ornamentGradient6" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{stopColor: 'currentColor', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: 'currentColor', stopOpacity: 0.7}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" fill="url(#ornamentGradient6)" />
+                  <path d="M10 10 Q20 5 30 10 Q20 15 10 10 Z" fill="currentColor" opacity="0.6" />
+                  <circle cx="25" cy="25" r="2" fill="currentColor" />
+                  <circle cx="15" cy="15" r="1.5" fill="currentColor" opacity="0.8" />
+                  <circle cx="20" cy="20" r="1" fill="currentColor" opacity="0.5" />
                 </svg>
               </div>
 
               {/* Corner ornaments - Bottom Right */}
               <div className="absolute bottom-0 right-0 w-6 h-6 sm:w-8 sm:h-8 transform rotate-180">
-                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                  <circle cx="25" cy="25" r="2" />
-                  <circle cx="15" cy="15" r="1.5" />
+                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current drop-shadow-sm`}>
+                  <defs>
+                    <linearGradient id="ornamentGradient7" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{stopColor: 'currentColor', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: 'currentColor', stopOpacity: 0.7}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" fill="url(#ornamentGradient7)" />
+                  <path d="M10 10 Q20 5 30 10 Q20 15 10 10 Z" fill="currentColor" opacity="0.6" />
+                  <circle cx="25" cy="25" r="2" fill="currentColor" />
+                  <circle cx="15" cy="15" r="1.5" fill="currentColor" opacity="0.8" />
+                  <circle cx="20" cy="20" r="1" fill="currentColor" opacity="0.5" />
                 </svg>
               </div>
 
               {/* Corner ornaments - Bottom Left */}
               <div className="absolute bottom-0 left-0 w-6 h-6 sm:w-8 sm:h-8 transform -rotate-90">
-                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                  <circle cx="25" cy="25" r="2" />
-                  <circle cx="15" cy="15" r="1.5" />
+                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current drop-shadow-sm`}>
+                  <defs>
+                    <linearGradient id="ornamentGradient8" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{stopColor: 'currentColor', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: 'currentColor', stopOpacity: 0.7}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" fill="url(#ornamentGradient8)" />
+                  <path d="M10 10 Q20 5 30 10 Q20 15 10 10 Z" fill="currentColor" opacity="0.6" />
+                  <circle cx="25" cy="25" r="2" fill="currentColor" />
+                  <circle cx="15" cy="15" r="1.5" fill="currentColor" opacity="0.8" />
+                  <circle cx="20" cy="20" r="1" fill="currentColor" opacity="0.5" />
                 </svg>
               </div>
 
               {/* Side ornaments - Top */}
               <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-4 sm:w-16 sm:h-6">
-                <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
-                  <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
-                  <circle cx="64" cy="20" r="2" />
+                <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current drop-shadow-sm`}>
+                  <defs>
+                    <linearGradient id="sideGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" style={{stopColor: 'currentColor', stopOpacity: 0.3}} />
+                      <stop offset="50%" style={{stopColor: 'currentColor', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: 'currentColor', stopOpacity: 0.3}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" fill="url(#sideGradient3)" />
+                  <path d="M30 24 Q50 16 64 24 Q78 16 98 24 Q78 32 64 24 Q50 32 30 24 Z" fill="currentColor" opacity="0.4" />
+                  <circle cx="64" cy="20" r="2" fill="currentColor" />
+                  <circle cx="44" cy="24" r="1.5" fill="currentColor" opacity="0.6" />
+                  <circle cx="84" cy="24" r="1.5" fill="currentColor" opacity="0.6" />
+                  <circle cx="54" cy="18" r="1" fill="currentColor" opacity="0.4" />
+                  <circle cx="74" cy="18" r="1" fill="currentColor" opacity="0.4" />
                 </svg>
               </div>
 
               {/* Side ornaments - Bottom */}
               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 rotate-180 w-12 h-4 sm:w-16 sm:h-6">
-                <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
-                  <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
-                  <circle cx="64" cy="20" r="2" />
+                <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current drop-shadow-sm`}>
+                  <defs>
+                    <linearGradient id="sideGradient4" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" style={{stopColor: 'currentColor', stopOpacity: 0.3}} />
+                      <stop offset="50%" style={{stopColor: 'currentColor', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: 'currentColor', stopOpacity: 0.3}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" fill="url(#sideGradient4)" />
+                  <path d="M30 24 Q50 16 64 24 Q78 16 98 24 Q78 32 64 24 Q50 32 30 24 Z" fill="currentColor" opacity="0.4" />
+                  <circle cx="64" cy="20" r="2" fill="currentColor" />
+                  <circle cx="44" cy="24" r="1.5" fill="currentColor" opacity="0.6" />
+                  <circle cx="84" cy="24" r="1.5" fill="currentColor" opacity="0.6" />
+                  <circle cx="54" cy="18" r="1" fill="currentColor" opacity="0.4" />
+                  <circle cx="74" cy="18" r="1" fill="currentColor" opacity="0.4" />
                 </svg>
               </div>
 
@@ -375,27 +499,30 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
                 </div>
 
                 {/* Main Content */}
-                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 h-full">
-                  {/* Photo and Contact Section */}
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                  {/* Photo Section */}
                   <div className="w-full sm:w-1/3">
-                    <div className={`bg-gray-100 border ${theme.lightBorder} h-16 sm:h-20 flex items-center justify-center mb-2`}>
-                      <div className="text-center text-gray-500">
-                        <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-300 rounded-full mx-auto mb-1 flex items-center justify-center">
-                          <svg className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <div className={`bg-gradient-to-br from-gray-50 to-gray-100 border ${theme.lightBorder} h-24 sm:h-32 flex items-center justify-center mb-2 rounded-lg shadow-inner relative overflow-hidden`}>
+                      {/* Decorative pattern background */}
+                      <div className="absolute inset-0 opacity-5">
+                        <svg width="100%" height="100%" viewBox="0 0 40 40" className={theme.ornament}>
+                          <defs>
+                            <pattern id="photoPatternDesktop" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                              <circle cx="10" cy="10" r="1" fill="currentColor" opacity="0.3"/>
+                              <circle cx="5" cy="5" r="0.5" fill="currentColor" opacity="0.2"/>
+                              <circle cx="15" cy="15" r="0.5" fill="currentColor" opacity="0.2"/>
+                            </pattern>
+                          </defs>
+                          <rect width="100%" height="100%" fill="url(#photoPatternDesktop)"/>
+                        </svg>
+                      </div>
+                      <div className="text-center text-gray-500 relative z-10">
+                        <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full mx-auto mb-1 flex items-center justify-center shadow-sm border border-gray-300">
+                          <svg className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                           </svg>
                         </div>
-                        <p className="text-xs">Photo</p>
-                      </div>
-                    </div>
-
-                    {/* Contact Information */}
-                    <div className={`${theme.lightBg} p-1.5 sm:p-2 rounded border ${theme.lightBorder}`}>
-                      <h3 className={`font-semibold ${theme.contactHeading} mb-1 text-xs`}>CONTACT</h3>
-                      <div className="text-xs space-y-0.5">
-                        <p><strong>Mobile:</strong> +91 98765</p>
-                        {/* <p><strong>Email:</strong> priya@email.com</p> */}
-                        <p><strong>Address:</strong> Delhi</p>
+                        <p className="text-xs font-medium">Photo</p>
                       </div>
                     </div>
                   </div>
@@ -434,15 +561,24 @@ const BiodataTemplate = ({ colorScheme, title, Username, handleSelectTemplate })
                       </div>
                     </div>
 
-                    {/* Other Details */}
+                    {/* Contact Information */}
                     <div>
+                      <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5 text-xs`}>CONTACT</h3>
+                      <div className="grid grid-cols-1 gap-y-0.5">
+                        <div><strong>Mobile:</strong> 9876543210</div>
+                        <div><strong>Address:</strong> 123, Main Street, City</div>
+                      </div>
+                    </div>
+
+                    {/* Other Details */}
+                    {/* <div>
                       <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5 text-xs`}>OTHER</h3>
                       <div className="grid grid-cols-1 gap-y-0.5">
                         <div><strong>Religion:</strong> Hindu</div>
                         <div><strong>Caste:</strong> Brahmin</div>
                         <div><strong>Mother Tongue:</strong> Hindi</div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

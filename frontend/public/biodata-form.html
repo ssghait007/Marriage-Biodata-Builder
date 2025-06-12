@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marriage Biodata Builder - HTML Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* Custom styles for icons and animations */
+        .icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .camera-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            cursor: pointer;
+        }
+        
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        
+        .hover-shadow:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .backdrop-blur {
+            backdrop-filter: blur(8px);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(31, 41, 55, 0.95));
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .fixed {
+            position: fixed;
+        }
+        
+        .inset-0 {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+        
+        .z-50 {
+            z-index: 50;
+        }
+        
+        .min-h-screen {
+            min-height: 100vh;
+        }
+        
+        .flex-col {
+            flex-direction: column;
+        }
+        
+        .justify-between {
+            justify-content: space-between;
+        }
+        
+        .items-center {
+            align-items: center;
+        }
+        
+        .gap-3 {
+            gap: 0.75rem;
+        }
+        
+        .px-6 {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        
+        .py-3 {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+        
+        .rounded-xl {
+            border-radius: 0.75rem;
+        }
+        
+        .font-semibold {
+            font-weight: 600;
+        }
+        
+        .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .transform {
+            transform: translateZ(0);
+        }
+        
+        .scale-90 {
+            transform: scale(0.9);
+        }
+        
+        .overflow-y-auto {
+            overflow-y: auto;
+        }
+        
+        .shadow-2xl {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .overflow-hidden {
+            overflow: hidden;
+        }
+        
+        .break-words {
+            word-wrap: break-word;
+        }
+        
+        .whitespace-nowrap {
+            white-space: nowrap;
+        }
+        
+        .space-y-1 > * + * {
+            margin-top: 0.25rem;
+        }
+        
+        .space-y-2 > * + * {
+            margin-top: 0.5rem;
+        }
+        
+        .space-y-3 > * + * {
+            margin-top: 0.75rem;
+        }
+        
+        .gap-y-0\.5 > * + * {
+            margin-top: 0.125rem;
+        }
+        
+        .object-cover {
+            object-fit: cover;
+        }
+        
+        /* Theme colors */
+        .theme-amber {
+            --gradient: linear-gradient(to bottom right, #fef3c7, #fbbf24);
+            --border: #f59e0b;
+            --ornament: #f59e0b;
+            --heading: #d97706;
+            --subheading: #92400e;
+            --accent: #f59e0b;
+            --light-bg: #fef3c7;
+            --light-border: #fde68a;
+            --button: #f59e0b;
+        }
+        
+        .theme-blue {
+            --gradient: linear-gradient(to bottom right, #dbeafe, #3b82f6);
+            --border: #3b82f6;
+            --ornament: #3b82f6;
+            --heading: #1d4ed8;
+            --subheading: #1e40af;
+            --accent: #3b82f6;
+            --light-bg: #dbeafe;
+            --light-border: #bfdbfe;
+            --button: #3b82f6;
+        }
+        
+        .theme-green {
+            --gradient: linear-gradient(to bottom right, #dcfce7, #10b981);
+            --border: #10b981;
+            --ornament: #10b981;
+            --heading: #059669;
+            --subheading: #047857;
+            --accent: #10b981;
+            --light-bg: #dcfce7;
+            --light-border: #bbf7d0;
+            --button: #10b981;
+        }
+        
+        .theme-purple {
+            --gradient: linear-gradient(to bottom right, #f3e8ff, #8b5cf6);
+            --border: #8b5cf6;
+            --ornament: #8b5cf6;
+            --heading: #7c3aed;
+            --subheading: #6d28d9;
+            --accent: #8b5cf6;
+            --light-bg: #f3e8ff;
+            --light-border: #e9d5ff;
+            --button: #8b5cf6;
+        }
+        
+        .theme-rose {
+            --gradient: linear-gradient(to bottom right, #fdf2f8, #f43f5e);
+            --border: #f43f5e;
+            --ornament: #f43f5e;
+            --heading: #e11d48;
+            --subheading: #be185d;
+            --accent: #f43f5e;
+            --light-bg: #fdf2f8;
+            --light-border: #fce7f3;
+            --button: #f43f5e;
+        }
+        
+        .theme-teal {
+            --gradient: linear-gradient(to bottom right, #f0fdfa, #14b8a6);
+            --border: #14b8a6;
+            --ornament: #14b8a6;
+            --heading: #0f766e;
+            --subheading: #0d9488;
+            --accent: #14b8a6;
+            --light-bg: #f0fdfa;
+            --light-border: #ccfbf1;
+            --button: #14b8a6;
+        }
+        
+        .theme-orange {
+            --gradient: linear-gradient(to bottom right, #fff7ed, #ea580c);
+            --border: #ea580c;
+            --ornament: #ea580c;
+            --heading: #c2410c;
+            --subheading: #9a3412;
+            --accent: #ea580c;
+            --light-bg: #fff7ed;
+            --light-border: #fed7aa;
+            --button: #ea580c;
+        }
+        
+        .theme-indigo {
+            --gradient: linear-gradient(to bottom right, #eef2ff, #6366f1);
+            --border: #6366f1;
+            --ornament: #6366f1;
+            --heading: #4f46e5;
+            --subheading: #4338ca;
+            --accent: #6366f1;
+            --light-bg: #eef2ff;
+            --light-border: #c7d2fe;
+            --button: #6366f1;
+        }
+        
+        .theme-red {
+            --gradient: linear-gradient(to bottom right, #fef2f2, #ef4444);
+            --border: #ef4444;
+            --ornament: #ef4444;
+            --heading: #dc2626;
+            --subheading: #b91c1c;
+            --accent: #ef4444;
+            --light-bg: #fef2f2;
+            --light-border: #fecaca;
+            --button: #ef4444;
+        }
+        
+        .theme-emerald {
+            --gradient: linear-gradient(to bottom right, #ecfdf5, #10b981);
+            --border: #10b981;
+            --ornament: #10b981;
+            --heading: #059669;
+            --subheading: #047857;
+            --accent: #10b981;
+            --light-bg: #ecfdf5;
+            --light-border: #a7f3d0;
+            --button: #10b981;
+        }
+        
+        .template-container {
+            background: var(--gradient);
+            border-color: var(--border);
+        }
+        
+        .template-ornament {
+            color: var(--ornament);
+        }
+        
+        .template-heading {
+            color: var(--heading);
+        }
+        
+        .template-subheading {
+            color: var(--subheading);
+        }
+        
+        .template-accent {
+            background-color: var(--accent);
+        }
+        
+        .template-light-bg {
+            background-color: var(--light-bg);
+        }
+        
+        .template-light-border {
+            border-color: var(--light-border);
+        }
+        
+        .template-button {
+            background-color: var(--button);
+        }
+        
+        .template-button:hover {
+            filter: brightness(0.9);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-gray-50 to-gray-100">
+    <!-- Main Container -->
+    <div id="create" class="py-10 md:py-15 bg-gradient-to-b from-gray-50 to-gray-100">
+        
+        <!-- Fullscreen Preview Modal -->
+        <div id="fullscreenPreview" class="hidden fixed inset-0 z-50 gradient-bg backdrop-blur">
+            <!-- Mobile Preview -->
+            <div id="mobilePreview" class="hidden min-h-screen flex flex-col">
+                <!-- Header with buttons -->
+                <div class="p-4 flex justify-between items-center bg-white bg-opacity-10 backdrop-blur border-b border-white border-opacity-20">
+                    <div class="flex items-center gap-3">
+                        <button onclick="closePreview()" class="group flex items-center gap-2 px-4 py-2 border-2 border-red-500 text-red-600 hover:bg-red-50 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover-scale transform bg-white">
+                            <span>←</span>
+                            <span class="hidden sm:inline">Back</span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <button onclick="downloadPdf()" class="group flex items-center gap-2 px-4 py-2 template-button text-white rounded-xl font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover-scale transform">
+                            <span>↓</span>
+                            <span class="hidden sm:inline download-btn-text">Download</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Template Preview -->
+                <div id="biodata-preview-mobile" class="lg:col-span-1 flex justify-center sticky">
+                    <!-- Mobile template content will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Desktop Preview -->
+            <div id="desktopPreview" class="hidden min-h-screen flex flex-col">
+                <!-- Header with buttons -->
+                <div class="p-4 flex justify-between items-center bg-white bg-opacity-10 backdrop-blur border-b border-white border-opacity-20">
+                    <div class="flex items-center gap-3">
+                        <button onclick="closePreview()" class="group flex items-center gap-2 px-6 py-3 border-2 border-red-500 text-red-600 hover:bg-red-50 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover-scale transform bg-white">
+                            <span>←</span>
+                            <span>Back to Form</span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        <button onclick="downloadPdf()" class="group flex items-center gap-2 px-6 py-3 template-button text-white rounded-xl font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover-scale transform">
+                            <span>↓</span>
+                            <span class="download-btn-text">Download PDF</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Desktop Template Preview -->
+                <div class="flex-1 flex flex-col items-center overflow-y-auto py-4">
+                    <div class="bg-white rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 scale-90">
+                        <div id="biodata-preview" class="w-[130mm] min-h-[145mm] bg-white shadow-lg z-10" style="-webkit-print-color-adjust: exact; print-color-adjust: exact;">
+                            <!-- Desktop template content will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+            <div class="container mx-auto px-4 py-12 items-center justify-center flex flex-col">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-rose-900 leading-tight mb-4 text-center">Create Your Bio data Now</h1>
+            </div>
+            
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Form Section -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-lg shadow-lg p-6">
+                            <!-- Language Selector -->
+                            <div class="mb-6">
+                                <div class="flex items-center gap-2 p-2 border rounded-lg bg-gray-50 w-fit">
+                                    <span class="text-sm font-medium">Change Biodata Language</span>
+                                    <select id="languageSelect" class="bg-transparent border-none outline-none text-sm">
+                                        <option value="English">English</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Marathi">Marathi</option>
+                                    </select>
+                                    <span class="text-blue-600">🌐</span>
+                                </div>
+                            </div>
+
+                            <!-- Upload Image -->
+                            <div class="mb-6 text-center">
+                                <div class="w-30 h-30 mx-auto border-2 border-gray-300 border-dashed rounded-full flex items-center justify-center bg-gray-50 cursor-pointer hover:border-red-500" onclick="document.getElementById('imageInput').click()">
+                                    <div id="imagePreview" class="hidden w-30 h-30 rounded-full overflow-hidden">
+                                        <img id="previewImg" class="w-full h-full object-cover cursor-pointer" alt="Profile" onclick="document.getElementById('imageInput').click()">
+                                    </div>
+                                    <div id="imagePlaceholder" class="camera-icon">
+                                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <input type="file" id="imageInput" accept="image/*" class="sr-only" onchange="handleImageUpload(event)">
+                                </div>
+                                <p id="imageText" class="text-sm text-gray-600 mt-2">Upload Image</p>
+                            </div>
+
+                            <!-- Form -->
+                            <form id="biodataForm" onsubmit="handleSubmit(event)">
+                                <!-- Personal Details -->
+                                <div class="mb-8">
+                                    <div class="flex items-center gap-2 mb-4 text-lg font-semibold">
+                                        <span class="icon">✏️</span>
+                                        <span>Personal Details</span>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                                            <input type="text" id="name" placeholder="Enter Name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                                            <select id="gender" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                                <option value="">Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Date Of Birth</label>
+                                            <input type="date" id="dateOfBirth" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Height</label>
+                                            <input type="text" id="height" placeholder="Enter Height" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Complexion</label>
+                                            <input type="text" id="complexion" placeholder="Enter Complexion" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Gotra/Caste</label>
+                                            <input type="text" id="gotra" placeholder="Enter Gotra/Caste" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Occupation</label>
+                                            <input type="text" id="occupation" placeholder="Enter Occupation" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Income</label>
+                                            <input type="text" id="income" placeholder="Enter Income" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Education</label>
+                                            <input type="text" id="education" placeholder="Enter Education" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Family Details -->
+                                <div class="mb-8">
+                                    <div class="flex items-center gap-2 mb-4 text-lg font-semibold">
+                                        <span class="icon">👨‍👩‍👧‍👦</span>
+                                        <span>Family Details</span>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Father's Name</label>
+                                            <input type="text" id="fatherName" placeholder="Enter Father's Name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Mother's Name</label>
+                                            <input type="text" id="motherName" placeholder="Enter Mother's Name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Brother / Sister</label>
+                                            <input type="text" id="siblings" placeholder="Enter Brother / Sister" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Contact Details -->
+                                <div class="mb-8">
+                                    <div class="flex items-center gap-2 mb-4 text-lg font-semibold">
+                                        <span class="icon">📞</span>
+                                        <span>Contact Details</span>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                                            <input type="tel" id="contactNumber" placeholder="Enter Contact Number" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Residential Address</label>
+                                            <textarea id="residentialAddress" placeholder="Enter Residential Address" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="button" class="p-2 text-gray-400 hover:text-gray-600">↕</button>
+                                            <button type="button" class="p-2 text-gray-400 hover:text-red-500">🗑️</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="mb-6">
+                                    <button type="submit" id="submitBtn" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-md transition duration-200 flex items-center justify-center gap-2">
+                                        <span id="submitText">Create Bio Data</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Preview Section -->
+                    <div class="lg:col-span-1">
+                        <div id="templatePreview" class="hidden">
+                            <!-- Template preview will be inserted here -->
+                        </div>
+                        
+                        <div id="noTemplate" class="flex justify-center">
+                            <div class="flex-shrink-0 w-full sm:w-80 md:w-72 lg:w-80 mx-2 group">
+                                <a href="#templates" class="flex items-center justify-center p-2 rounded border font-semibold border-gray-400 hover:bg-gray-100 transition-colors">
+                                    Select Template
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentTemplate = null;
+        let uploadedImage = null;
+        let isPhone = window.innerWidth < 768;
+
+        // Theme configurations
+        const themes = {
+            amber: { colorScheme: 'amber', title: 'Traditional Gold' },
+            blue: { colorScheme: 'blue', title: 'Ocean Blue' },
+            green: { colorScheme: 'green', title: 'Forest Green' },
+            purple: { colorScheme: 'purple', title: 'Royal Purple' },
+            rose: { colorScheme: 'rose', title: 'Rose Pink' },
+            teal: { colorScheme: 'teal', title: 'Teal Elegance' },
+            orange: { colorScheme: 'orange', title: 'Sunset Orange' },
+            indigo: { colorScheme: 'indigo', title: 'Deep Indigo' },
+            red: { colorScheme: 'red', title: 'Classic Red' },
+            emerald: { colorScheme: 'emerald', title: 'Emerald Green' }
+        };
+
+        // Initialize
+        window.addEventListener('load', function() {
+            updateResponsive();
+            // Set default template
+            setTemplate('blue');
+        });
+
+        window.addEventListener('resize', function() {
+            updateResponsive();
+        });
+
+        function updateResponsive() {
+            isPhone = window.innerWidth < 768;
+        }
+
+        // Set template
+        function setTemplate(colorScheme) {
+            currentTemplate = themes[colorScheme];
+            document.body.className = `bg-gradient-to-b from-gray-50 to-gray-100 theme-${colorScheme}`;
+            updatePreview();
+            document.getElementById('noTemplate').classList.add('hidden');
+            document.getElementById('templatePreview').classList.remove('hidden');
+        }
+
+        // Handle image upload
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImage = e.target.result;
+                    document.getElementById('previewImg').src = uploadedImage;
+                    document.getElementById('imagePreview').classList.remove('hidden');
+                    document.getElementById('imagePlaceholder').classList.add('hidden');
+                    document.getElementById('imageText').textContent = 'Change Image';
+                    updatePreview();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Get form data
+        function getFormData() {
+            return {
+                name: document.getElementById('name').value || '',
+                gender: document.getElementById('gender').value || '',
+                dateOfBirth: document.getElementById('dateOfBirth').value || '',
+                height: document.getElementById('height').value || '',
+                complexion: document.getElementById('complexion').value || '',
+                gotra: document.getElementById('gotra').value || '',
+                occupation: document.getElementById('occupation').value || '',
+                income: document.getElementById('income').value || '',
+                education: document.getElementById('education').value || '',
+                fatherName: document.getElementById('fatherName').value || '',
+                motherName: document.getElementById('motherName').value || '',
+                siblings: document.getElementById('siblings').value || '',
+                contactNumber: document.getElementById('contactNumber').value || '',
+                residentialAddress: document.getElementById('residentialAddress').value || ''
+            };
+        }
+
+        // Generate template HTML
+        function generateTemplateHTML(data, isMobile = false) {
+            const photoSection = uploadedImage ? 
+                `<img src="${uploadedImage}" alt="Profile" class="w-full h-full object-cover">` :
+                `<div class="text-center">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-full mx-auto mb-2 flex items-center justify-center">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <p class="text-xs text-gray-500">Photo</p>
+                </div>`;
+
+            return `
+                <div class="w-full h-full p-4 template-container">
+                    <div class="relative w-full min-h-[calc(145mm-2rem)] bg-white border-2 border-current rounded-lg">
+                        <!-- Corner decorations -->
+                        <div class="absolute top-0 left-0 w-6 h-6 sm:w-8 sm:h-8">
+                            <svg viewBox="0 0 80 80" class="w-full h-full template-ornament fill-current">
+                                <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                                <circle cx="25" cy="25" r="2" />
+                                <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                        </div>
+                        <div class="absolute top-0 right-0 w-6 h-6 sm:w-8 sm:h-8 transform rotate-90">
+                            <svg viewBox="0 0 80 80" class="w-full h-full template-ornament fill-current">
+                                <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                                <circle cx="25" cy="25" r="2" />
+                                <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                        </div>
+                        <div class="absolute bottom-0 right-0 w-6 h-6 sm:w-8 sm:h-8 transform rotate-180">
+                            <svg viewBox="0 0 80 80" class="w-full h-full template-ornament fill-current">
+                                <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                                <circle cx="25" cy="25" r="2" />
+                                <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                        </div>
+                        <div class="absolute bottom-0 left-0 w-6 h-6 sm:w-8 sm:h-8 transform -rotate-90">
+                            <svg viewBox="0 0 80 80" class="w-full h-full template-ornament fill-current">
+                                <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                                <circle cx="25" cy="25" r="2" />
+                                <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                        </div>
+
+                        <!-- Top and bottom center decorations -->
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-6">
+                            <svg viewBox="0 0 128 48" class="w-full h-full template-ornament fill-current">
+                                <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
+                                <circle cx="64" cy="20" r="2" />
+                            </svg>
+                        </div>
+                        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 rotate-180 w-16 h-6">
+                            <svg viewBox="0 0 128 48" class="w-full h-full template-ornament fill-current">
+                                <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
+                                <circle cx="64" cy="20" r="2" />
+                            </svg>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-3 sm:p-4">
+                            <!-- Header -->
+                            <div class="text-center mb-3">
+                                <h1 class="text-xs sm:text-sm font-bold template-heading mb-1">|| MARRIAGE BIODATA ||</h1>
+                                <div class="w-12 h-0.5 template-accent mx-auto"></div>
+                            </div>
+
+                            <!-- Main Content -->
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <!-- Photo Section -->
+                                <div class="w-full sm:w-1/3">
+                                    <div class="bg-gray-50 border template-light-border h-28 sm:h-32 flex items-center justify-center rounded">
+                                        ${photoSection}
+                                    </div>
+                                </div>
+
+                                <!-- Details Section -->
+                                <div class="w-full sm:w-2/3 space-y-2 text-xs">
+                                    <div class="break-words">
+                                        <h3 class="font-semibold template-subheading mb-1 border-b template-light-border pb-0.5">PERSONAL</h3>
+                                        <div class="space-y-1">
+                                            <div class="break-words"><strong class="whitespace-nowrap">Name:</strong> ${data.name || '...'}</div>
+                                            <div class="break-words"><strong class="whitespace-nowrap">DOB:</strong> ${data.dateOfBirth || '...'}</div>
+                                            <div class="break-words"><strong class="whitespace-nowrap">Height:</strong> ${data.height || '...'}</div>
+                                            <div class="break-words"><strong class="whitespace-nowrap">Complexion:</strong> ${data.complexion || '...'}</div>
+                                            <div class="break-words"><strong class="whitespace-nowrap">Gotra:</strong> ${data.gotra || '...'}</div>
+                                        </div>
+                                    </div>
+                                    <div class="break-words">
+                                        <h3 class="font-semibold template-subheading mb-1 border-b template-light-border pb-0.5">PROFESSIONAL</h3>
+                                        <div class="space-y-1">
+                                            <div class="break-words"><strong class="whitespace-nowrap">Education:</strong> ${data.education || '...'}</div>
+                                            <div class="break-words"><strong class="whitespace-nowrap">Profession:</strong> ${data.occupation || '...'}</div>
+                                            <div class="break-words"><strong class="whitespace-nowrap">Income:</strong> ${data.income || '...'}</div>
+                                        </div>
+                                    </div>
+                                    <div class="break-words">
+                                        <h3 class="font-semibold template-subheading mb-1 border-b template-light-border pb-0.5">FAMILY</h3>
+                                        <div class="space-y-1">
+                                            <div class="break-words"><strong class="whitespace-nowrap">Father:</strong> ${data.fatherName || '...'}</div>
+                                            <div class="break-words"><strong class="whitespace-nowrap">Mother:</strong> ${data.motherName || '...'}</div>
+                                            <div class="break-words"><strong class="whitespace-nowrap">Siblings:</strong> ${data.siblings || '...'}</div>
+                                        </div>
+                                    </div>
+                                    <div class="break-words">
+                                        <h3 class="font-semibold template-subheading mb-1 border-b template-light-border pb-0.5">CONTACT</h3>
+                                        <div class="space-y-1">
+                                            <div class="break-words"><strong class="whitespace-nowrap">Mobile:</strong> ${data.contactNumber || '...'}</div>
+                                            <div class="break-words"><strong class="whitespace-nowrap">Address:</strong> ${data.residentialAddress || '...'}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Decorative dots -->
+                        <div class="absolute top-2 left-2 w-1 h-1 template-accent rounded-full opacity-60"></div>
+                        <div class="absolute top-2 right-2 w-1 h-1 template-accent rounded-full opacity-60"></div>
+                        <div class="absolute bottom-2 left-2 w-1 h-1 template-accent rounded-full opacity-60"></div>
+                        <div class="absolute bottom-2 right-2 w-1 h-1 template-accent rounded-full opacity-60"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update preview
+        function updatePreview() {
+            if (!currentTemplate) return;
+            
+            const data = getFormData();
+            const templateHTML = generateTemplateHTML(data);
+            
+            document.getElementById('templatePreview').innerHTML = `
+                <div class="flex justify-center sticky top-24 h-fit">
+                    <div class="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
+                        <h3 class="text-center font-semibold mb-3 template-heading text-sm sm:text-base">
+                            ${currentTemplate.title}
+                        </h3>
+                        <div class="relative template-container p-3 sm:p-4 shadow-xl rounded-lg">
+                            <div class="relative bg-white border-2 border-current rounded overflow-hidden">
+                                ${templateHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Handle form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            if (!currentTemplate) {
+                alert('Please select a template first!');
+                return;
+            }
+            showFullscreenPreview();
+        }
+
+        // Show fullscreen preview
+        function showFullscreenPreview() {
+            const data = getFormData();
+            const templateHTML = generateTemplateHTML(data);
+            
+            if (isPhone) {
+                document.getElementById('biodata-preview-mobile').innerHTML = templateHTML;
+                document.getElementById('mobilePreview').classList.remove('hidden');
+                document.getElementById('desktopPreview').classList.add('hidden');
+            } else {
+                document.getElementById('biodata-preview').innerHTML = templateHTML;
+                document.getElementById('desktopPreview').classList.remove('hidden');
+                document.getElementById('mobilePreview').classList.add('hidden');
+            }
+            
+            document.getElementById('fullscreenPreview').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        // Close preview
+        function closePreview() {
+            document.getElementById('fullscreenPreview').classList.add('hidden');
+        }
+
+        // Download PDF - Simplified approach without html2canvas cloning issues
+        async function downloadPdf() {
+            try {
+                // Show loading
+                const btnText = document.querySelector('.download-btn-text');
+                if (btnText) btnText.textContent = 'Generating PDF...';
+
+                // Get form data
+                const data = getFormData();
+                
+                // Create a simple, clean HTML structure for PDF generation
+                const pdfContainer = document.createElement('div');
+                pdfContainer.style.position = 'fixed';
+                pdfContainer.style.top = '0';
+                pdfContainer.style.left = '0';
+                pdfContainer.style.width = '794px'; // A4 width in pixels at 96 DPI
+                pdfContainer.style.height = '1123px'; // A4 height in pixels at 96 DPI
+                pdfContainer.style.backgroundColor = '#ffffff';
+                pdfContainer.style.zIndex = '-1000';
+                pdfContainer.style.overflow = 'hidden';
+                
+                // Get current theme
+                const themeClass = document.body.className.match(/theme-(\w+)/);
+                const currentTheme = themeClass ? themeClass[1] : 'blue';
+                
+                // Create the biodata content directly
+                pdfContainer.innerHTML = `
+                    <div style="width: 100%; height: 100%; padding: 40px; background: linear-gradient(to bottom right, var(--gradient)); font-family: system-ui, -apple-system, sans-serif;" class="theme-${currentTheme}">
+                        <div style="position: relative; width: 100%; height: calc(100% - 80px); background: white; border: 3px solid var(--border); border-radius: 8px; padding: 30px;">
+                            
+                            <!-- Header -->
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <h1 style="font-size: 18px; font-weight: bold; color: var(--heading); margin: 0 0 8px 0;">|| MARRIAGE BIODATA ||</h1>
+                                <div style="width: 60px; height: 3px; background: var(--accent); margin: 0 auto;"></div>
+                            </div>
+
+                            <!-- Main Content -->
+                            <div style="display: flex; gap: 20px; height: calc(100% - 80px);">
+                                <!-- Photo Section -->
+                                <div style="width: 200px; flex-shrink: 0;">
+                                    <div style="background: #f9fafb; border: 2px solid var(--light-border); height: 250px; display: flex; align-items: center; justify-content: center; border-radius: 4px; margin-bottom: 15px;">
+                                        ${uploadedImage ? 
+                                            `<img src="${uploadedImage}" style="width: 100%; height: 100%; object-fit: cover;" alt="Profile">` :
+                                            `<div style="text-align: center; color: #9ca3af;">
+                                                <div style="width: 60px; height: 60px; background: #d1d5db; border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center;">
+                                                    <span style="font-size: 24px;">👤</span>
+                                                </div>
+                                                <p style="font-size: 12px; margin: 0;">Photo</p>
+                                            </div>`
+                                        }
+                                    </div>
+                                </div>
+
+                                <!-- Details Section -->
+                                <div style="flex: 1; font-size: 13px; line-height: 1.4;">
+                                    <!-- Personal Information -->
+                                    <div style="margin-bottom: 15px;">
+                                        <h3 style="font-weight: 600; color: var(--subheading); margin: 0 0 8px 0; border-bottom: 1px solid var(--light-border); padding-bottom: 4px; font-size: 14px;">PERSONAL</h3>
+                                        <div style="display: grid; gap: 4px;">
+                                            <div><strong>Name:</strong> ${data.name || '...'}</div>
+                                            <div><strong>DOB:</strong> ${data.dateOfBirth || '...'}</div>
+                                            <div><strong>Height:</strong> ${data.height || '...'}</div>
+                                            <div><strong>Complexion:</strong> ${data.complexion || '...'}</div>
+                                            <div><strong>Gotra:</strong> ${data.gotra || '...'}</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Professional Information -->
+                                    <div style="margin-bottom: 15px;">
+                                        <h3 style="font-weight: 600; color: var(--subheading); margin: 0 0 8px 0; border-bottom: 1px solid var(--light-border); padding-bottom: 4px; font-size: 14px;">PROFESSIONAL</h3>
+                                        <div style="display: grid; gap: 4px;">
+                                            <div><strong>Education:</strong> ${data.education || '...'}</div>
+                                            <div><strong>Profession:</strong> ${data.occupation || '...'}</div>
+                                            <div><strong>Income:</strong> ${data.income || '...'}</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Family Information -->
+                                    <div style="margin-bottom: 15px;">
+                                        <h3 style="font-weight: 600; color: var(--subheading); margin: 0 0 8px 0; border-bottom: 1px solid var(--light-border); padding-bottom: 4px; font-size: 14px;">FAMILY</h3>
+                                        <div style="display: grid; gap: 4px;">
+                                            <div><strong>Father:</strong> ${data.fatherName || '...'}</div>
+                                            <div><strong>Mother:</strong> ${data.motherName || '...'}</div>
+                                            <div><strong>Siblings:</strong> ${data.siblings || '...'}</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Contact Information -->
+                                    <div>
+                                        <h3 style="font-weight: 600; color: var(--subheading); margin: 0 0 8px 0; border-bottom: 1px solid var(--light-border); padding-bottom: 4px; font-size: 14px;">CONTACT</h3>
+                                        <div style="display: grid; gap: 4px;">
+                                            <div><strong>Mobile:</strong> ${data.contactNumber || '...'}</div>
+                                            <div><strong>Address:</strong> ${data.residentialAddress || '...'}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Add to document
+                document.body.appendChild(pdfContainer);
+
+                // Wait for rendering
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                console.log('PDF container created and added to DOM');
+
+                // Use html2canvas with simpler options
+                const canvas = await html2canvas(pdfContainer, {
+                    scale: 1.5,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    width: 794,
+                    height: 1123
+                });
+
+                // Remove the temporary container
+                document.body.removeChild(pdfContainer);
+
+                console.log('Canvas created successfully:', {
+                    width: canvas.width,
+                    height: canvas.height
+                });
+
+                if (canvas.width === 0 || canvas.height === 0) {
+                    throw new Error('Canvas generation failed - no content rendered');
+                }
+
+                // Convert to image
+                const imgData = canvas.toDataURL('image/png', 1.0);
+                
+                if (imgData === 'data:,' || imgData.length < 100) {
+                    throw new Error('Image generation failed - empty or invalid data');
+                }
+
+                console.log('Image data generated successfully');
+
+                // Create PDF
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                // Add image to PDF (full page)
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                
+                pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
+                
+                // Generate filename and save
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+                const filename = `biodata-${data.name || 'template'}-${timestamp}.pdf`;
+                
+                pdf.save(filename);
+
+                console.log('PDF saved successfully:', filename);
+
+                // Reset button text
+                if (btnText) btnText.textContent = 'Download PDF';
+
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                alert(`PDF generation failed: ${error.message}\n\nPlease try again or contact support if the issue persists.`);
+                
+                // Reset button text
+                const btnText = document.querySelector('.download-btn-text');
+                if (btnText) btnText.textContent = 'Download PDF';
+            }
+        }
+
+        // Add event listeners for form inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = ['name', 'gender', 'dateOfBirth', 'height', 'complexion', 'gotra', 'occupation', 'income', 'education', 'fatherName', 'motherName', 'siblings', 'contactNumber', 'residentialAddress'];
+            
+            inputs.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', updatePreview);
+                    element.addEventListener('change', updatePreview);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

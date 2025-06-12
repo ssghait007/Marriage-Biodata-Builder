@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marriage Biodata Template Gallery - HTML Version</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better visual effects */
+        .group:hover .group-hover\:scale-105 {
+            transform: scale(1.05);
+        }
+        .group:hover .group-hover\:shadow-2xl {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .group:hover .group-hover\:opacity-100 {
+            opacity: 1;
+        }
+        .group:hover .group-hover\:translate-y-0 {
+            transform: translateY(0);
+        }
+        .group:hover .group-hover\:border-opacity-80 {
+            border-opacity: 0.8;
+        }
+        .group:hover .group-hover\:bg-opacity-20 {
+            background-opacity: 0.2;
+        }
+        .template-slider {
+            transition: transform 0.5s ease-in-out;
+        }
+        .bg-white\/20 {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .bg-white\/30 {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Enhanced animations and effects */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .template-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .template-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .template-card:hover::before {
+            opacity: 1;
+        }
+        
+        /* Floating animation for decorative elements */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .template-card svg {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Gradient text effect */
+        .gradient-text {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 5s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        /* Enhanced button effects */
+        .template-select-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .template-select-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: left 0.5s;
+        }
+        
+        .template-select-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Pulse effect for dots */
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .template-card .rounded-full {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        /* Enhanced shadow effects */
+        .enhanced-shadow {
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.1));
+        }
+        
+        /* Smooth transitions for all interactive elements */
+        * {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Include the HTML template classes -->
+    <script src="../src/components/BiodataTemplateHTML.js"></script>
+    <script src="../src/components/TemplateGalleryHTML.js"></script>
+
+    <!-- Main container for the gallery -->
+    <div id="template-gallery-container"></div>
+
+    <script>
+        // Initialize the HTML template gallery
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create the gallery with template selection callback
+            const gallery = new TemplateGalleryHTML('template-gallery-container', {
+                onTemplateSelect: function(template) {
+                    console.log('Selected template:', template);
+                    alert(`You selected: ${template.title} (${template.colorScheme})`);
+                    
+                    // Here you can integrate with your form or other components
+                    // For example, you might want to:
+                    // - Update a form with the selected template
+                    // - Navigate to a biodata creation page
+                    // - Store the selection in localStorage
+                    
+                    localStorage.setItem('selectedTemplate', JSON.stringify(template));
+                }
+            });
+        });
+    </script>
+</body>
+</html>
