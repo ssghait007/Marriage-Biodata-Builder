@@ -83,22 +83,12 @@ const BiodataForm = ({ template }) => {
       // Wait a moment for any animations to complete
       await new Promise(resolve => setTimeout(resolve, 500));
 
-      // Ensure element is visible and has content
-      console.log('Element found:', element);
-      console.log('Element dimensions:', {
-        width: element.offsetWidth,
-        height: element.offsetHeight,
-        scrollWidth: element.scrollWidth,
-        scrollHeight: element.scrollHeight
-      });
+     
 
       // More conservative canvas options for better compatibility
      const canvas = await html2canvas(element, { scale: 2, useCORS: true });
 
-      console.log('Canvas created:', {
-        width: canvas.width,
-        height: canvas.height
-      });
+     
 
       // Check if canvas has content
       if (canvas.width === 0 || canvas.height === 0) {
@@ -112,8 +102,6 @@ const BiodataForm = ({ template }) => {
       if (imgData === 'data:,' || imgData.length < 100) {
         throw new Error('Generated image is empty or invalid.');
       }
-
-      console.log('Image data generated, length:', imgData.length);
 
       // Create PDF with simpler settings
       const pdf = new jsPDF({
