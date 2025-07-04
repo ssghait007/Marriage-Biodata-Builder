@@ -4,40 +4,6 @@ import { FiUpload, FiX, FiDownload, FiPrinter, FiArrowLeft } from 'react-icons/f
 import jsPDF from 'jspdf';
 
 const BiodataForm = ({ template }) => {
-
-  const stripWrapperTags = (html) => {
-    // Remove html, head, body tags
-    let cleanedHtml = html.replace(/<\/?(html|head|body)[^>]*>/gi, '');
-    
-    // Remove or modify CSS that affects body, background, and page-level styling
-    cleanedHtml = cleanedHtml.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, (match) => {
-      // Remove body styles, background styles, and page-level CSS
-      let cleanedCSS = match
-        .replace(/body\s*{[^}]*}/gi, '') // Remove body styles
-        .replace(/html\s*{[^}]*}/gi, '') // Remove html styles
-        // .replace(/\*\s*{[^}]*}/gi, '') // Remove universal selector styles
-        // .replace(/@page[^}]*{[^}]*}/gi, '') // Remove @page styles
-        // .replace(/background\s*:[^;]*;/gi, '') // Remove background properties
-        // .replace(/background-color\s*:[^;]*;/gi, '') // Remove background-color
-        // .replace(/background-image\s*:[^;]*;/gi, '') // Remove background-image
-        // .replace(/min-height\s*:\s*100vh[^;]*;/gi, '') // Remove full viewport height
-        // .replace(/height\s*:\s*100vh[^;]*;/gi, '') // Remove viewport height
-        .replace(/margin\s*:\s*0[^;]*;/gi, '') // Remove margin resets
-        .replace(/padding\s*:\s*0[^;]*;/gi, ''); // Remove padding resets
-      
-      return cleanedCSS;
-    });
-    
-    // Remove inline styles that might affect background
-    cleanedHtml = cleanedHtml.replace(/style\s*=\s*"[^"]*background[^"]*"/gi, '');
-    cleanedHtml = cleanedHtml.replace(/style\s*=\s*"[^"]*min-height[^"]*"/gi, '');
-    
-    return cleanedHtml;
-  };
-
-  const templateImports = import.meta.glob('../Templates/*.html', { query: '?raw', import: 'default', eager: true });
-  const htmlFiles = Object.values(templateImports);
-
   const [formData, setFormData] = useState({
     personalDetails: {
       name: '',
@@ -99,89 +65,89 @@ const BiodataForm = ({ template }) => {
   const formRef = useRef(null);
 
   const downloadPdf = async () => {
-    try {
-      const downloadBtn = document.querySelector('.download-btn-text');
-      if (downloadBtn) {
-        downloadBtn.textContent = 'Generating PDF...';
-      }
+  try {
+    const downloadBtn = document.querySelector('.download-btn-text');
+    if (downloadBtn) {
+      downloadBtn.textContent = 'Generating PDF...';
+    }
 
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4',
-        compress: true
-      });
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
+      compress: true
+    });
 
-      const colorMap = {
-        amber: [245, 158, 11],
-        blue: [59, 130, 246],
-        green: [16, 185, 129],
-        purple: [139, 92, 246],
-        rose: [244, 63, 94],
-        teal: [20, 184, 166],
-        orange: [249, 115, 22],
-        indigo: [99, 102, 241],
-        red: [239, 68, 68],
-        emerald: [16, 185, 129]
-      };
+    const colorMap = {
+      amber: [245, 158, 11],
+      blue: [59, 130, 246],
+      green: [16, 185, 129],
+      purple: [139, 92, 246],
+      rose: [244, 63, 94],
+      teal: [20, 184, 166],
+      orange: [249, 115, 22],
+      indigo: [99, 102, 241],
+      red: [239, 68, 68],
+      emerald: [16, 185, 129]
+    };
+    
+    const primaryColor = colorMap[template?.colorScheme] || colorMap.blue;
 
-      const primaryColor = colorMap[template?.colorScheme] || colorMap.blue;
+    pdf.setFillColor(248, 250, 252);
+    pdf.rect(0, 0, 210, 297, 'F');
 
-      pdf.setFillColor(248, 250, 252);
-      pdf.rect(0, 0, 210, 297, 'F');
+    pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    pdf.setLineWidth(2);
+    pdf.rect(15, 15, 180, 250);
 
-      pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.setLineWidth(2);
-      pdf.rect(15, 15, 180, 250);
+    pdf.setLineWidth(0.5);
+    pdf.rect(20, 20, 170, 240);
 
-      pdf.setLineWidth(0.5);
-      pdf.rect(20, 20, 170, 240);
+    pdf.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    
+    pdf.ellipse(105, 25, 15, 3, 'F');
+    pdf.ellipse(105, 25, 12, 2, 'F');
+    
+    pdf.ellipse(105, 255, 15, 3, 'F');
+    pdf.ellipse(105, 255, 12, 2, 'F');
 
-      pdf.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    const cornerSize = 8;
+    pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    pdf.setLineWidth(1);
+    pdf.line(25, 25, 25 + cornerSize, 25);
+    pdf.line(25, 25, 25, 25 + cornerSize);
+    pdf.circle(25 + 2, 25 + 2, 1, 'F');
+    
+    pdf.line(185, 25, 185 - cornerSize, 25);
+    pdf.line(185, 25, 185, 25 + cornerSize);
+    pdf.circle(185 - 2, 25 + 2, 1, 'F');
+    
+    pdf.line(25, 255, 25 + cornerSize, 255);
+    pdf.line(25, 255, 25, 255 - cornerSize);
+    pdf.circle(25 + 2, 255 - 2, 1, 'F');
+    
+    pdf.line(185, 255, 185 - cornerSize, 255);
+    pdf.line(185, 255, 185, 255 - cornerSize);
+    pdf.circle(185 - 2, 255 - 2, 1, 'F');
 
-      pdf.ellipse(105, 25, 15, 3, 'F');
-      pdf.ellipse(105, 25, 12, 2, 'F');
-
-      pdf.ellipse(105, 255, 15, 3, 'F');
-      pdf.ellipse(105, 255, 12, 2, 'F');
-
-      const cornerSize = 8;
-      pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.setLineWidth(1);
-      pdf.line(25, 25, 25 + cornerSize, 25);
-      pdf.line(25, 25, 25, 25 + cornerSize);
-      pdf.circle(25 + 2, 25 + 2, 1, 'F');
-
-      pdf.line(185, 25, 185 - cornerSize, 25);
-      pdf.line(185, 25, 185, 25 + cornerSize);
-      pdf.circle(185 - 2, 25 + 2, 1, 'F');
-
-      pdf.line(25, 255, 25 + cornerSize, 255);
-      pdf.line(25, 255, 25, 255 - cornerSize);
-      pdf.circle(25 + 2, 255 - 2, 1, 'F');
-
-      pdf.line(185, 255, 185 - cornerSize, 255);
-      pdf.line(185, 255, 185, 255 - cornerSize);
-      pdf.circle(185 - 2, 255 - 2, 1, 'F');
-
-      pdf.setFontSize(16);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      const title = '|| MARRIAGE BIODATA ||';
-      const titleWidth = pdf.getTextWidth(title);
-      pdf.text(title, (210 - titleWidth) / 2, 45);
-
-      pdf.setLineWidth(1);
-      pdf.line(80, 50, 130, 50);
+    pdf.setFontSize(16);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    const title = '|| MARRIAGE BIODATA ||';
+    const titleWidth = pdf.getTextWidth(title);
+    pdf.text(title, (210 - titleWidth) / 2, 45);
+    
+    pdf.setLineWidth(1);
+    pdf.line(80, 50, 130, 50);
 
       let yPos = 65;
-
+      
       // Photo section with border (left side)
       pdf.setDrawColor(200, 200, 200);
       pdf.setFillColor(245, 245, 245);
       pdf.setLineWidth(1);
       pdf.rect(30, yPos, 45, 55, 'FD');
-
+      
       // Add image if available
       if (preview) {
         try {
@@ -201,174 +167,146 @@ const BiodataForm = ({ template }) => {
         pdf.text('Photo', 48, yPos + 30);
       }
 
-      let detailsYPos = yPos;
-      const detailsXPos = 85;
+    let detailsYPos = yPos;
+    const detailsXPos = 85;
 
-      pdf.setFontSize(12);
+    pdf.setFontSize(12);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    pdf.text('PERSONAL', detailsXPos, detailsYPos);
+    
+    pdf.setLineWidth(0.5);
+    pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+    
+    pdf.setFontSize(9);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setTextColor(0, 0, 0);
+    
+    const personalItems = [
+      { label: 'Name:', value: formData.personalDetails.name || '' },
+      { label: 'DOB:', value: formData.personalDetails.dateOfBirth || '' },
+      { label: 'Age:', value: formData.personalDetails.age || '' },
+      { label: 'Height:', value: formData.personalDetails.height || '' },
+      { label: 'Complexion:', value: formData.personalDetails.complexion || '' }
+    ];
+    
+    personalItems.forEach((item, index) => {
       pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.text('PERSONAL', detailsXPos, detailsYPos);
+      pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
+    });
 
-      pdf.setLineWidth(0.5);
-      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+    detailsYPos += 40;
 
-      pdf.setFontSize(9);
+    pdf.setFontSize(12);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    pdf.text('PROFESSIONAL', detailsXPos, detailsYPos);
+    
+    pdf.setLineWidth(0.5);
+    pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+    
+    const professionalItems = [
+      { label: 'Education:', value: formData.personalDetails.education || '' },
+      { label: 'Profession:', value: formData.personalDetails.occupation || '' },
+      { label: 'Income:', value: formData.personalDetails.income || '' }
+    ];
+    
+    pdf.setFontSize(9);
+    professionalItems.forEach((item, index) => {
+      pdf.setFont('helvetica', 'bold');
+      pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
       pdf.setFont('helvetica', 'normal');
       pdf.setTextColor(0, 0, 0);
+      pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
+    });
 
-      const personalItems = [
-        { label: 'Name:', value: formData.personalDetails.name || '' },
-        { label: 'DOB:', value: formData.personalDetails.dateOfBirth || '' },
-        { label: 'Age:', value: formData.personalDetails.age || '' },
-        { label: 'Height:', value: formData.personalDetails.height || '' },
-        { label: 'Complexion:', value: formData.personalDetails.complexion || '' }
-      ];
+    detailsYPos += 30;
 
-      personalItems.forEach((item, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-      });
-
-      formData.personalDetails.additionalFields.forEach((field, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + personalItems.length) * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + personalItems.length) * 6));
-      });
-
-      detailsYPos += 40;
-
-      pdf.setFontSize(12);
+    pdf.setFontSize(12);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    pdf.text('FAMILY', detailsXPos, detailsYPos);
+    
+    pdf.setLineWidth(0.5);
+    pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+    
+    const familyItems = [
+      { label: 'Father:', value: formData.familyDetails.fatherName || '' },
+      { label: 'Mother:', value: formData.familyDetails.motherName || '' },
+      { label: 'Siblings:', value: formData.familyDetails.siblings || '' }
+    ];
+    
+    pdf.setFontSize(9);
+    familyItems.forEach((item, index) => {
       pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.text('PROFESSIONAL', detailsXPos, detailsYPos);
+      pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(0, 0, 0);
+      pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
+    });
 
-      pdf.setLineWidth(0.5);
-      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+    detailsYPos += 30;
 
-      const professionalItems = [
-        { label: 'Education:', value: formData.personalDetails.education || '' },
-        { label: 'Profession:', value: formData.personalDetails.occupation || '' },
-        { label: 'Income:', value: formData.personalDetails.income || '' }
-      ];
-
-      pdf.setFontSize(9);
-      professionalItems.forEach((item, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.setTextColor(0, 0, 0);
-        pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-      });
-
-      formData.personalDetails.additionalFields.forEach((field, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + professionalItems.length) * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + professionalItems.length) * 6));
-      });
-
-      detailsYPos += 30;
-
-      pdf.setFontSize(12);
+    pdf.setFontSize(12);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    pdf.text('CONTACT', detailsXPos, detailsYPos);
+    
+    pdf.setLineWidth(0.5);
+    pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+    
+    const contactItems = [
+      { label: 'Mobile:', value: formData.contactDetails.contactNumber || '' },
+      { label: 'Address:', value: formData.contactDetails.residentialAddress || '' }
+    ];
+    
+    pdf.setFontSize(9);
+    contactItems.forEach((item, index) => {
       pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.text('FAMILY', detailsXPos, detailsYPos);
-
-      pdf.setLineWidth(0.5);
-      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
-
-      const familyItems = [
-        { label: 'Father:', value: formData.familyDetails.fatherName || '' },
-        { label: 'Mother:', value: formData.familyDetails.motherName || '' },
-        { label: 'Siblings:', value: formData.familyDetails.siblings || '' }
-      ];
-
-      pdf.setFontSize(9);
-      familyItems.forEach((item, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.setTextColor(0, 0, 0);
+      pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(0, 0, 0);
+      
+      if (item.label === 'Address:' && item.value.length > 35) {
+        const lines = pdf.splitTextToSize(item.value, 90);
+        lines.forEach((line, lineIndex) => {
+          pdf.text(line, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6) + (lineIndex * 4));
+        });
+      } else {
         pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-      });
-
-      formData.familyDetails.additionalFields.forEach((field, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + familyItems.length) * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + familyItems.length) * 6));
-      });
-
-      detailsYPos += 30;
-
-      pdf.setFontSize(12);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.text('CONTACT', detailsXPos, detailsYPos);
-
-      pdf.setLineWidth(0.5);
-      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
-
-      const contactItems = [
-        { label: 'Mobile:', value: formData.contactDetails.contactNumber || '' },
-        { label: 'Address:', value: formData.contactDetails.residentialAddress || '' }
-      ];
-
-      pdf.setFontSize(9);
-      contactItems.forEach((item, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.setTextColor(0, 0, 0);
-
-        if (item.label === 'Address:' && item.value.length > 35) {
-          const lines = pdf.splitTextToSize(item.value, 90);
-          lines.forEach((line, lineIndex) => {
-            pdf.text(line, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6) + (lineIndex * 4));
-          });
-        } else {
-          pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-        }
-      });
-
-      formData.contactDetails.additionalFields.forEach((field, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + contactItems.length) * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + contactItems.length) * 6));
-      });
-
-      pdf.setProperties({
-        title: 'Marriage Biodata',
-        subject: `Biodata for ${formData.personalDetails.name || 'Individual'}`,
-        author: 'Biodata Builder',
-        creator: 'Marriage Biodata Builder'
-      });
-
-      const now = new Date();
-      const timestamp = now.toISOString().slice(0, 10);
-      const userName = formData.personalDetails.name || 'biodata';
-      const filename = `${userName.replace(/\s+/g, '_')}_biodata_${timestamp}.pdf`;
-
-      pdf.save(filename);
-
-      if (downloadBtn) {
-        downloadBtn.textContent = 'Download PDF';
       }
+    });
 
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-      alert('Error generating PDF. Please try again.');
+    pdf.setProperties({
+      title: 'Marriage Biodata',
+      subject: `Biodata for ${formData.personalDetails.name || 'Individual'}`,
+      author: 'Biodata Builder',
+      creator: 'Marriage Biodata Builder'
+    });
 
-      const downloadBtn = document.querySelector('.download-btn-text');
-      if (downloadBtn) {
-        downloadBtn.textContent = 'Download PDF';
-      }
+    const now = new Date();
+    const timestamp = now.toISOString().slice(0, 10);
+    const userName = formData.personalDetails.name || 'biodata';
+    const filename = `${userName.replace(/\s+/g, '_')}_biodata_${timestamp}.pdf`;
+
+    pdf.save(filename);
+
+    if (downloadBtn) {
+      downloadBtn.textContent = 'Download PDF';
     }
-  };
+
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    alert('Error generating PDF. Please try again.');
+    
+    const downloadBtn = document.querySelector('.download-btn-text');
+    if (downloadBtn) {
+      downloadBtn.textContent = 'Download PDF';
+    }
+  }
+};
 
   const removeField = (section, index) => {
     setFormData(prev => ({
@@ -455,34 +393,7 @@ const BiodataForm = ({ template }) => {
     }
   };
 
-  // Function to inject form data into template HTML for real-time editing
-  const injectFormDataIntoTemplate = (html) => {
-    let updatedHtml = html;
-    
-    // Replace placeholders with actual form data
-    updatedHtml = updatedHtml.replace(/\{\{name\}\}/g, formData.personalDetails.name || 'Your Name');
-    updatedHtml = updatedHtml.replace(/\{\{dateOfBirth\}\}/g, formData.personalDetails.dateOfBirth || 'DD/MM/YYYY');
-    updatedHtml = updatedHtml.replace(/\{\{height\}\}/g, formData.personalDetails.height || 'Height');
-    updatedHtml = updatedHtml.replace(/\{\{complexion\}\}/g, formData.personalDetails.complexion || 'Complexion');
-    updatedHtml = updatedHtml.replace(/\{\{education\}\}/g, formData.personalDetails.education || 'Education');
-    updatedHtml = updatedHtml.replace(/\{\{occupation\}\}/g, formData.personalDetails.occupation || 'Occupation');
-    updatedHtml = updatedHtml.replace(/\{\{income\}\}/g, formData.personalDetails.income || 'Income');
-    updatedHtml = updatedHtml.replace(/\{\{fatherName\}\}/g, formData.familyDetails.fatherName || 'Father Name');
-    updatedHtml = updatedHtml.replace(/\{\{motherName\}\}/g, formData.familyDetails.motherName || 'Mother Name');
-    updatedHtml = updatedHtml.replace(/\{\{siblings\}\}/g, formData.familyDetails.siblings || 'Siblings');
-    updatedHtml = updatedHtml.replace(/\{\{contactNumber\}\}/g, formData.contactDetails.contactNumber || 'Contact Number');
-    updatedHtml = updatedHtml.replace(/\{\{address\}\}/g, formData.contactDetails.residentialAddress || 'Address');
-    
-    // Add photo if available
-    if (preview) {
-      updatedHtml = updatedHtml.replace(/<img[^>]*class="[^"]*photo[^"]*"[^>]*>/gi, 
-        `<img src="${preview}" alt="Profile Photo" class="photo" style="width: 100%; height: 100%; object-fit: cover;">`);
-    }
-    
-    return updatedHtml;
-  };
-
-  const themeColors = {
+  const colors = {
     amber: {
       gradient: 'from-amber-50 to-stone-100',
       border: 'border-amber-400',
@@ -607,7 +518,7 @@ const BiodataForm = ({ template }) => {
 
   let theme;
   if (template) {
-    theme = themeColors[template.colorScheme];
+    theme = colors[template.colorScheme];
   }
 
 
@@ -648,7 +559,7 @@ const BiodataForm = ({ template }) => {
                         <span className="hidden sm:inline">Back</span>
                       </button>
                     </div>
-
+                    
                     <div className="flex items-center gap-2">
                       <button
                         onClick={downloadPdf}
@@ -773,11 +684,6 @@ const BiodataForm = ({ template }) => {
                                     <div><strong>Height:</strong> {formData.personalDetails.height}</div>
                                     <div><strong>Complexion:</strong> {formData.personalDetails.complexion}</div>
                                     <div><strong>Gotra:</strong> {formData.personalDetails.gotra}</div>
-                                    {formData.personalDetails.additionalFields.map((field, idx) => (
-                                      field.key && (
-                                        <div key={`pers-add-${idx}`}><strong>{field.key}:</strong> {field.value}</div>
-                                      )
-                                    ))}
                                   </div>
                                 </div>
 
@@ -798,11 +704,6 @@ const BiodataForm = ({ template }) => {
                                     <div><strong>Father:</strong> {formData.familyDetails.fatherName}</div>
                                     <div><strong>Mother:</strong> {formData.familyDetails.motherName}</div>
                                     <div><strong>Siblings:</strong> {formData.familyDetails.siblings}</div>
-                                    {formData.familyDetails.additionalFields.map((field, idx) => (
-                                      field.key && (
-                                        <div key={`fam-add-${idx}`}><strong>{field.key}:</strong> {field.value}</div>
-                                      )
-                                    ))}
                                   </div>
                                 </div>
 
@@ -811,13 +712,8 @@ const BiodataForm = ({ template }) => {
                                   <h3 className={`font-semibold ${theme.subheading} mb-1`}>CONTACT</h3>
                                   <div className={`border-b ${theme.lightBorder} pb-0.5 break-words`}></div>
                                   <div className="grid grid-cols-1 gap-y-0.5 break-words">
-                                    <div><strong>Mobile:</strong> {formData.contactDetails.contactNumber}</div>
+                                    <div><strong>Mobile:</strong> {formData.contactDetails.mobile}</div>
                                     <div><strong>Address:</strong> {formData.contactDetails.residentialAddress}</div>
-                                    {formData.contactDetails.additionalFields.map((field, idx) => (
-                                      field.key && (
-                                        <div key={`con-add-${idx}`}><strong>{field.key}:</strong> {field.value}</div>
-                                      )
-                                    ))}
                                   </div>
                                 </div>
 
@@ -854,7 +750,7 @@ const BiodataForm = ({ template }) => {
                       <span>Back to Form</span>
                     </button>
                   </div>
-
+                  
                   <div className="flex items-center gap-3">
                     <button
                       onClick={downloadPdf}
@@ -949,8 +845,7 @@ const BiodataForm = ({ template }) => {
                                         { label: 'DOB', value: formData.personalDetails.dateOfBirth },
                                         { label: 'Height', value: formData.personalDetails.height },
                                         { label: 'Complexion', value: formData.personalDetails.complexion },
-                                        { label: 'Gotra', value: formData.personalDetails.gotra },
-                                        ...formData.personalDetails.additionalFields.filter(f => f.key).map(f => ({ label: f.key, value: f.value })),
+                                        { label: 'Gotra', value: formData.personalDetails.gotra }
                                       ]
                                     },
                                     {
@@ -966,8 +861,7 @@ const BiodataForm = ({ template }) => {
                                       items: [
                                         { label: 'Father', value: formData.familyDetails.fatherName },
                                         { label: 'Mother', value: formData.familyDetails.motherName },
-                                        { label: 'Siblings', value: formData.familyDetails.siblings },
-                                        ...formData.familyDetails.additionalFields.filter(f => f.key).map(f => ({ label: f.key, value: f.value })),
+                                        { label: 'Siblings', value: formData.familyDetails.siblings }
                                       ]
                                     },
                                     {
@@ -975,8 +869,7 @@ const BiodataForm = ({ template }) => {
                                       items: [
                                         { label: 'Mobile', value: formData.contactDetails.contactNumber },
                                         { label: 'Email', value: '' },
-                                        { label: 'Address', value: formData.contactDetails.residentialAddress },
-                                        ...formData.contactDetails.additionalFields.filter(f => f.key).map(f => ({ label: f.key, value: f.value })),
+                                        { label: 'Address', value: formData.contactDetails.residentialAddress }
                                       ]
                                     }
                                   ].map((section, idx) => (
@@ -1014,16 +907,14 @@ const BiodataForm = ({ template }) => {
             </div>
           )}
         </div>
-
-      )
-      }
+      )}
 
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto px-4 py-12 items-center justify-center flex flex-co">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-rose-900 leading-tight mb-4 text-center">Create Your Bio data Now</h1>
         </div>
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sticky">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
             {/* Form Section */}
             <div className="lg:col-span-2">
@@ -1711,19 +1602,289 @@ const BiodataForm = ({ template }) => {
 
             {isPhone ? (
               <div>
+                {template && (
+                  <div className="lg:col-span-1 flex justify-center sticky top-24">
+                    <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
+                      <h3 className={`text-center font-semibold mb-3 ${theme.heading} text-sm sm:text-base`}>{template.title}</h3>
+                      <div className={`relative bg-gradient-to-br ${theme.gradient} p-3 sm:p-4 shadow-xl rounded-lg`}>
+                        {/* Main container with ornate border */}
+                        <div className={`relative bg-white border-2 ${theme.border} h-fit rounded overflow-hidden`}>
+                          {/* Corner ornaments - Top Left */}
+                          <div className="absolute top-0 left-0 w-8 h-8">
+                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                              <circle cx="25" cy="25" r="2" />
+                              <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                          </div>
 
+                          {/* Corner ornaments - Top Right */}
+                          <div className="absolute top-0 right-0 w-8 h-8 transform rotate-90">
+                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                              <circle cx="25" cy="25" r="2" />
+                              <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                          </div>
+
+                          {/* Corner ornaments - Bottom Right */}
+                          <div className="absolute bottom-0 right-0 w-8 h-8 transform rotate-180">
+                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                              <circle cx="25" cy="25" r="2" />
+                              <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                          </div>
+
+                          {/* Corner ornaments - Bottom Left */}
+                          <div className="absolute bottom-0 left-0 w-8 h-8 transform -rotate-90">
+                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                              <circle cx="25" cy="25" r="2" />
+                              <circle cx="15" cy="15" r="1.5" />
+                            </svg>
+                          </div>
+
+                          {/* Side ornaments - Top */}
+                          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-6">
+                            <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
+                              <circle cx="64" cy="20" r="2" />
+                            </svg>
+                          </div>
+
+                          {/* Side ornaments - Bottom */}
+                          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 rotate-180 w-16 h-6">
+                            <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
+                              <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
+                              <circle cx="64" cy="20" r="2" />
+                            </svg>
+                          </div>
+
+                          {/* Inner content area */}
+                          <div className="bg-white p-3 m-6">
+                            {/* Header */}
+                            <div className="text-center mb-3">
+                              <h1 className={`text-sm font-bold ${theme.heading} mb-1`}>|| MARRIAGE BIODATA ||</h1>
+                              <div className={`w-12 h-0.5 ${theme.accent} mx-auto`}></div>
+                            </div>
+
+                            {/* Main Content */}
+                            <div className="flex gap-3 h-full">
+                              {/* Left Column - Photo */}
+                              <div className="w-1/2 sm:w-1/2 md:w-1/2">
+                                <div className={`bg-gray-50 border ${theme.lightBorder} h-40 sm:h-40 flex items-center justify-center rounded`}>
+                                  {preview ? (
+                                    <img
+                                      src={preview}
+                                      alt="Profile"
+                                      className="w-full h-full object-cover"
+                                    />
+                                  ) : (
+                                    <div className="text-center">
+                                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                        <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                                        </svg>
+                                      </div>
+                                      <p className="text-xs text-gray-500">Photo</p>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Right Column - Details */}
+                              <div className="w-2/3 space-y-2 text-xs">
+                                {/* Personal Information */}
+                                <div>
+                                  <h2 className={`text-sm font-bold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>PERSONAL</h2>
+                                  <div className="grid grid-cols-1 gap-y-0.5 break-words">
+                                    <div><strong>Name:</strong> {formData.personalDetails.name}</div>
+                                    <div><strong>DOB:</strong> {formData.personalDetails.dateOfBirth}</div>
+                                    <div><strong>Age:</strong> {formData.personalDetails.age}</div>
+                                    <div><strong>Height:</strong> {formData.personalDetails.height}</div>
+                                    <div><strong>Complexion:</strong> {formData.personalDetails.complexion}</div>
+                                    <div><strong>Gotra:</strong> {formData.personalDetails.gotra}</div>
+                                  </div>
+                                </div>
+
+                                {/* Educational & Professional */}
+                                <div>
+                                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>PROFESSIONAL</h3>
+                                  <div className="grid grid-cols-1 gap-y-0.5 break-words">
+                                    <div><strong>Education:</strong> {formData.personalDetails.education}</div>
+                                    <div><strong>Profession:</strong> {formData.personalDetails.occupation}</div>
+                                    <div><strong>Income:</strong> {formData.personalDetails.income}</div>
+                                  </div>
+                                </div>
+
+                                {/* Family Information */}
+                                <div>
+                                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>FAMILY</h3>
+                                  <div className="grid grid-cols-1 gap-y-0.5 break-words">
+                                    <div><strong>Father:</strong> {formData.familyDetails.fatherName}</div>
+                                    <div><strong>Mother:</strong> {formData.familyDetails.motherName}</div>
+                                    <div><strong>Siblings:</strong> {formData.familyDetails.siblings}</div>
+                                  </div>
+                                </div>
+
+                                {/* Contact Information */}
+                                <div>
+                                  <h3 className={`font-semibold ${theme.subheading} mb-1`}>CONTACT</h3>
+                                  <div className={`border-b ${theme.lightBorder} pb-0.5 break-words`}></div>
+                                  <div className="grid grid-cols-1 gap-y-0.5 break-words">
+                                    <div><strong>Mobile:</strong> {formData.contactDetails.mobile}</div>
+                                    <div><strong>Address:</strong> {formData.contactDetails.residentialAddress}</div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Decorative dots */}
+                          <div className={`absolute top-2 left-2 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
+                          <div className={`absolute top-2 right-2 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
+                          <div className={`absolute bottom-2 left-2 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
+                          <div className={`absolute bottom-2 right-2 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
-              <div className="lg:col-span-1 flex justify-center sticky top-24 h-fit">
-                {htmlFiles[template - 1] && (
-                  <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
-                    <div>
-                      <div
-                        className="scale-[0.45] origin-top-left w-[820px] h-auto pointer-events-none"
-                        dangerouslySetInnerHTML={{
-                          __html: stripWrapperTags(injectFormDataIntoTemplate(htmlFiles[template - 1])),
-                        }}
-                      />
+              <div>
+                {template && (
+                  <div className="lg:col-span-1 flex justify-center sticky top-24 h-fit">
+                    <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
+                      <h3 className={`text-center font-semibold mb-3 ${theme.heading} text-sm sm:text-base`}>
+                        {template.title}
+                      </h3>
+                      <div className={`relative bg-gradient-to-br ${theme.gradient} p-3 sm:p-4 shadow-xl rounded-lg`}>
+                        {/* Main container */}
+                        <div className={`relative bg-white border-2 ${theme.border} rounded overflow-hidden`}>
+
+                          {/* Corner decorations */}
+                          {['top-0 left-0', 'top-0 right-0 rotate-90', 'bottom-0 right-0 rotate-180', 'bottom-0 left-0 -rotate-90'].map((position, i) => (
+                            <div key={i} className={`absolute ${position} w-6 h-6 sm:w-8 sm:h-8`}>
+                              <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
+                                <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
+                                <circle cx="25" cy="25" r="2" />
+                                <circle cx="15" cy="15" r="1.5" />
+                              </svg>
+                            </div>
+                          ))}
+
+                          {/* Top and bottom center decorations */}
+                          {['top-0', 'bottom-0 rotate-180'].map((position, i) => (
+                            <div key={i} className={`absolute ${position} left-1/2 transform -translate-x-1/2 w-16 h-6`}>
+                              <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
+                                <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
+                                <circle cx="64" cy="20" r="2" />
+                              </svg>
+                            </div>
+                          ))}
+
+                          {/* Content */}
+                          <div className="p-3 sm:p-4">
+                            {/* Header */}
+                            <div className="text-center mb-3">
+                              <h1 className={`text-xs sm:text-sm font-bold ${theme.heading} mb-1`}>
+                                || MARRIAGE BIODATA ||
+                              </h1>
+                              <div className={`w-12 h-0.5 ${theme.accent} mx-auto`}></div>
+                            </div>
+
+                            {/* Main Content */}
+                            <div className="flex flex-col sm:flex-row gap-3">
+                              {/* Photo Section */}
+                              <div className="w-full sm:w-1/3">
+                                <div className={`bg-gray-50 border ${theme.lightBorder} h-28 sm:h-32 flex items-center justify-center rounded`}>
+                                  {preview ? (
+                                    <img
+                                      src={preview}
+                                      alt="Profile"
+                                      className="w-full h-full object-cover"
+                                    />
+                                  ) : (
+                                    <div className="text-center">
+                                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                        <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                                        </svg>
+                                      </div>
+                                      <p className="text-xs text-gray-500">Photo</p>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Details Section */}
+                              <div className="w-full sm:w-2/3 space-y-2 text-xs">
+                                {[
+                                  {
+                                    title: 'PERSONAL',
+                                    items: [
+                                      { label: 'Name', value: formData.personalDetails.name },
+                                      { label: 'DOB', value: formData.personalDetails.dateOfBirth },
+                                      { label: 'Height', value: formData.personalDetails.height },
+                                      { label: 'Complexion', value: formData.personalDetails.complexion },
+                                      { label: 'Gotra', value: formData.personalDetails.gotra },
+                                      
+                                    ]
+                                  },
+                                  {
+                                    title: 'PROFESSIONAL',
+                                    items: [
+                                      { label: 'Education', value: formData.personalDetails.education },
+                                      { label: 'Profession', value: formData.personalDetails.occupation },
+                                      { label: 'Income', value: formData.personalDetails.income }
+                                    ]
+                                  },
+                                  {
+                                    title: 'FAMILY',
+                                    items: [
+                                      { label: 'Father', value: formData.familyDetails.fatherName },
+                                      { label: 'Mother', value: formData.familyDetails.motherName },
+                                      { label: 'Siblings', value: formData.familyDetails.siblings }
+                                    ]
+                                  },
+                                  {
+                                    title: 'CONTACT',
+                                    items: [
+                                      { label: 'Mobile', value: formData.contactDetails.contactNumber },
+                                      { label: 'Email', value: '' },
+                                      { label: 'Address', value: formData.contactDetails.residentialAddress }
+                                    ]
+                                  }
+                                ].map((section, idx) => (
+                                  <div key={idx} className="break-words">
+                                    <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>
+                                      {section.title}
+                                    </h3>
+                                    <div className="space-y-1">
+                                      {section.items.map((item, i) => (
+                                        <div key={i} className="break-words">
+                                          <strong className="whitespace-nowrap">{item.label}:</strong> {item.value || '...'}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Decorative dots */}
+                          {['top-2 left-2', 'top-2 right-2', 'bottom-2 left-2', 'bottom-2 right-2'].map((position, i) => (
+                            <div
+                              key={i}
+                              className={`absolute ${position} w-1 h-1 ${theme.accent} rounded-full opacity-60`}
+                            ></div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -1741,7 +1902,7 @@ const BiodataForm = ({ template }) => {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

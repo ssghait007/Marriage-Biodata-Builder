@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegant Purple - Matrimonial Biodata</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Lato:wght@300;400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(135deg, #8360c3 0%, #2ebf91 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .biodata-container {
+            max-width: 850px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 0;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .decorative-border {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px solid #8360c3;
+            pointer-events: none;
+        }
+        
+        .decorative-border::before,
+        .decorative-border::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #8360c3;
+        }
+        
+        .decorative-border::before {
+            top: -2px;
+            left: -2px;
+            border-right: none;
+            border-bottom: none;
+        }
+        
+        .decorative-border::after {
+            bottom: -2px;
+            right: -2px;
+            border-left: none;
+            border-top: none;
+        }
+        
+        .content-wrapper {
+            padding: 50px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            color: #8360c3;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 18px;
+            font-weight: 300;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+        
+        .details {
+            color: #333;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            color: #8360c3;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, #8360c3, #2ebf91);
+        }
+        
+        .info-table {
+            width: 100%;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 12px;
+            align-items: baseline;
+        }
+        
+        .label {
+            font-weight: 600;
+            min-width: 160px;
+            color: #555;
+            font-size: 15px;
+        }
+        
+        .separator {
+            margin: 0 15px;
+            color: #8360c3;
+            font-weight: bold;
+        }
+        
+        .value {
+            color: #333;
+            font-weight: 300;
+            flex: 1;
+        }
+        
+        .photo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .photo {
+            width: 220px;
+            height: 280px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 15px 35px rgba(131, 96, 195, 0.3);
+            margin-bottom: 25px;
+        }
+        
+        .contact-info {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .contact-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            color: #8360c3;
+            margin-bottom: 15px;
+        }
+        
+        .contact-item {
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .ornament {
+            text-align: center;
+            margin: 30px 0;
+            color: #8360c3;
+            font-size: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 30px;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .name {
+                font-size: 36px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .photo {
+                width: 180px;
+                height: 230px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="biodata-container">
+        <div class="decorative-border"></div>
+        
+        <div class="content-wrapper">
+            <div class="header">
+                <h1 class="name">Ananya Patel</h1>
+                <p class="subtitle">Chartered Accountant | Ahmedabad</p>
+            </div>
+            
+            <div class="main-content">
+                <div class="details">
+                    <div class="section">
+                        <h2 class="section-title">Personal Details</h2>
+                        <div class="info-table">
+                            <div class="info-row">
+                                <span class="label">Date of Birth</span>
+                                <span class="separator">:</span>
+                                <span class="value">12th March 1996</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Age</span>
+                                <span class="separator">:</span>
+                                <span class="value">28 Years</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Height</span>
+                                <span class="separator">:</span>
+                                <span class="value">5 feet 5 inches</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Complexion</span>
+                                <span class="separator">:</span>
+                                <span class="value">Fair</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Religion</span>
+                                <span class="separator">:</span>
+                                <span class="value">Hindu</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Caste</span>
+                                <span class="separator">:</span>
+                                <span class="value">Patel</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Mother Tongue</span>
+                                <span class="separator">:</span>
+                                <span class="value">Gujarati</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <h2 class="section-title">Professional Details</h2>
+                        <div class="info-table">
+                            <div class="info-row">
+                                <span class="label">Education</span>
+                                <span class="separator">:</span>
+                                <span class="value">CA, B.Com</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Profession</span>
+                                <span class="separator">:</span>
+                                <span class="value">Chartered Accountant</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Company</span>
+                                <span class="separator">:</span>
+                                <span class="value">ABC & Associates</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Annual Income</span>
+                                <span class="separator">:</span>
+                                <span class="value">₹12-15 Lakhs</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ornament">❦ ❦ ❦</div>
+                    
+                    <div class="section">
+                        <h2 class="section-title">Family Information</h2>
+                        <div class="info-table">
+                            <div class="info-row">
+                                <span class="label">Father's Name</span>
+                                <span class="separator">:</span>
+                                <span class="value">Mr. Kiran Patel</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Father's Occupation</span>
+                                <span class="separator">:</span>
+                                <span class="value">Businessman</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Mother's Name</span>
+                                <span class="separator">:</span>
+                                <span class="value">Mrs. Meera Patel</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Mother's Occupation</span>
+                                <span class="separator">:</span>
+                                <span class="value">Homemaker</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Siblings</span>
+                                <span class="separator">:</span>
+                                <span class="value">1 Sister (Younger)</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Family Status</span>
+                                <span class="separator">:</span>
+                                <span class="value">Upper Middle Class</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="photo-container">
+                    <img src="https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg" alt="Ananya Patel" class="photo">
+                    
+                    <div class="contact-info">
+                        <h3 class="contact-title">Contact Details</h3>
+                        <div class="contact-item"><strong>Mobile:</strong> +91 98765XXXXX</div>
+                        <div class="contact-item"><strong>Email:</strong> ananya.patel@email.com</div>
+                        <div class="contact-item"><strong>Address:</strong> Ahmedabad, Gujarat</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

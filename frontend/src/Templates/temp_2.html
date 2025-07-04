@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Biodata Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .biodata-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
+            border: 3px solid #d4af37;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .biodata-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #d4af37, #f4d03f, #d4af37);
+            border-radius: 17px;
+            z-index: -1;
+        }
+
+        .decorative-corners {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-image: 
+                radial-gradient(circle at 20% 20%, #d4af37 2px, transparent 2px),
+                radial-gradient(circle at 80% 20%, #d4af37 2px, transparent 2px),
+                radial-gradient(circle at 20% 80%, #d4af37 2px, transparent 2px),
+                radial-gradient(circle at 80% 80%, #d4af37 2px, transparent 2px);
+            background-size: 15px 15px;
+        }
+
+        .corner-top-left {
+            top: 10px;
+            left: 10px;
+        }
+
+        .corner-top-right {
+            top: 10px;
+            right: 10px;
+        }
+
+        .corner-bottom-left {
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .corner-bottom-right {
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .header-symbol {
+            text-align: center;
+            font-size: 36px;
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .left-content {
+            flex: 2;
+        }
+
+        .profile-photo {
+            flex: 1;
+            text-align: center;
+        }
+
+        .profile-photo img {
+            width: 200px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 3px solid #d4af37;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            font-size: 22px;
+            color: #8b4513;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 5px;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #654321;
+            min-width: 150px;
+            margin-right: 20px;
+        }
+
+        .detail-value {
+            color: #333;
+            flex: 1;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .contact-section {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #d4af37;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .profile-photo {
+                order: -1;
+            }
+            
+            .profile-photo img {
+                width: 150px;
+                height: 180px;
+            }
+            
+            .biodata-container {
+                padding: 20px;
+            }
+            
+            .detail-row {
+                flex-direction: column;
+            }
+            
+            .detail-label {
+                min-width: auto;
+                margin-right: 0;
+                margin-bottom: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="biodata-container">
+        <div class="decorative-corners corner-top-left"></div>
+        <div class="decorative-corners corner-top-right"></div>
+        <div class="decorative-corners corner-bottom-left"></div>
+        <div class="decorative-corners corner-bottom-right"></div>
+        
+        <div class="header-symbol">🕉️</div>
+        
+        <div class="main-content">
+            <div class="left-content">
+                <div class="section">
+                    <h2 class="section-title">Personal Details</h2>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Name</span>
+                        <span class="detail-value">Mahima Chaudhari</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Birth Time & Place</span>
+                        <span class="detail-value">3rd Aug 1993 - Panipat</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Height</span>
+                        <span class="detail-value">5 Feet 6 Inch</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Weight</span>
+                        <span class="detail-value">51 kg</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Blood Group</span>
+                        <span class="detail-value">A+</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Complexion</span>
+                        <span class="detail-value">Fair</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Rashi</span>
+                        <span class="detail-value">Tula</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Education</span>
+                        <span class="detail-value">Msc.IT - A+ Grade</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Caste</span>
+                        <span class="detail-value">Brahmins</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Occupation</span>
+                        <span class="detail-value">Software Engineer</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Monthly Income</span>
+                        <span class="detail-value">80,000</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Hobbies</span>
+                        <span class="detail-value">Travelling, Reading, Learning, Space Exploring</span>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">Family Detail</h2>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Father Name</span>
+                        <span class="detail-value">Dipakbhai</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Father Occupation</span>
+                        <span class="detail-value">Business - Retail</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Mother Name</span>
+                        <span class="detail-value">Sarladevi</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Mother Occupation</span>
+                        <span class="detail-value">Housewife</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Siblings</span>
+                        <span class="detail-value">2 Sister | 3 Brother</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-photo">
+                <img src="https://images.unsplash.com/photo-1494790108755-2616c962e095?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Profile Photo">
+            </div>
+        </div>
+        
+        <div class="section contact-section">
+            <h2 class="section-title">Contact Detail</h2>
+            
+            <div class="detail-row">
+                <span class="detail-label">Contact Person</span>
+                <span class="detail-value">Dipakbhai</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Address</span>
+                <span class="detail-value">Viale Risorgimento 55, 42100 Reggio Emilia</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Mobile Number</span>
+                <span class="detail-value">+91 9098998989</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Email</span>
+                <span class="detail-value">rakhesh@email.com</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

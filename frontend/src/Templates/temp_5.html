@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biodata Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .biodata-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #f4e4c1 0%, #e8d5b7 100%);
+            border: 15px solid #8b0000;
+            border-image: repeating-linear-gradient(45deg, #8b0000, #8b0000 10px, #ffd700 10px, #ffd700 20px) 15;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #8b0000;
+            margin-bottom: 10px;
+        }
+
+        .biodata-title {
+            font-size: 32px;
+            color: #b8860b;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .left-section {
+            flex: 1;
+        }
+
+        .photo-section {
+            flex: 0 0 200px;
+        }
+
+        .photo-placeholder {
+            width: 200px;
+            height: 250px;
+            border: 3px solid #8b0000;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #8b0000;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #8b0000;
+            padding-bottom: 5px;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: flex-start;
+        }
+
+        .detail-label {
+            width: 180px;
+            font-weight: bold;
+            color: #333;
+            flex-shrink: 0;
+        }
+
+        .detail-colon {
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        .detail-value {
+            color: #333;
+            flex: 1;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+            
+            .photo-section {
+                flex: none;
+                align-self: center;
+            }
+            
+            .detail-label {
+                width: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="biodata-container">
+        <div class="header">
+            <div class="logo">|| Shree Ganpati ||</div>
+            <div class="biodata-title">BIODATA</div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="left-section">
+                <div class="section">
+                    <h2 class="section-title">Personal Details</h2>
+                    <div class="detail-row">
+                        <span class="detail-label">Name</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">Dr. Vismaya</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Date of Birth</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">5 January 1995</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Place of Birth</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">New Delhi</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Rashi</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">Tula (Libra)</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Nakshatra</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">Rohini</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Complexion</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">Very Fair</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Height</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">5 feet 5 inches</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Education</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">
+                            - MBBS (AIIMS)<br>
+                            - MD (General Medicine)<br>
+                            - DM (Neurology)
+                        </span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Occupation</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">Doctor (Neurologist)</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Family Details</h2>
+                    <div class="detail-row">
+                        <span class="detail-label">Father Name</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">Dr. Prakash</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Father's Occupation</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">
+                            General Surgeon,<br>
+                            Working in BTM Hospital
+                        </span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Mother Name</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">Dr. Priyadarshini</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Mother's Occupation</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">
+                            Gynecologist,<br>
+                            Working in Asian Hospital
+                        </span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Brother Name (Younger)</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">Ravishankar</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Brother's Occupation (Younger)</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">
+                            Pursuing B.E<br>
+                            in Artificial Intelligence, Bangalore
+                        </span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Sister Name (Younger)</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">Dr. Vaishnavi</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Sister's Occupation (Younger)</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">
+                            Orthopedic Physiotherapist,<br>
+                            Working in TMKC Hospital
+                        </span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Contact Details</h2>
+                    <div class="detail-row">
+                        <span class="detail-label">Contact Number</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">
+                            Father: +911234567901<br>
+                            Mother: +911234567902
+                        </span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Address</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">
+                            House # 123, Plot # 11, Sri Shiva Nilaya,<br>
+                            Nation park main road, 1st cross opp Surya<br>
+                            International Hotel, layout Sri MananEsha Nagar
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="photo-section">
+                <div class="photo-placeholder">
+                    Photo<br>
+                    (Replace with actual image)
+                </div>
+            </div>
+        </div>
+
+       
+    </div>
+</body>
+</html>
