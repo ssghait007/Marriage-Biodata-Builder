@@ -283,7 +283,7 @@ const MarriageBiodataGallery = ({ selectedTemplate }) => {
               {/* Close Button */}
               <button
                 onClick={closeTemplateView}
-                className="cursor-pointer absolute top-4 right-4 z-10 bg-black/40 hover:bg-white/80 text-black text-5xl font-bold w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                className="cursor-pointer absolute top-4 right-4 z-10 bg-white/50 hover:bg-white/80 text-black text-5xl font-bold w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
               >
                 ×
               </button>

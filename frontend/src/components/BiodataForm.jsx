@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Edit, PlusCircle, Trash2, Camera, RotateCcw, } from 'lucide-react';
 import { FiUpload, FiX, FiDownload, FiPrinter, FiArrowLeft } from 'react-icons/fi';
-import jsPDF from 'jspdf';
+// import jsPDF from 'jspdf';
 
 const BiodataForm = ({ template }) => {
 
   const stripWrapperTags = (html) => {
     // Remove html, head, body tags
     let cleanedHtml = html.replace(/<\/?(html|head|body)[^>]*>/gi, '');
-    
+
     // Remove or modify CSS that affects body, background, and page-level styling
     cleanedHtml = cleanedHtml.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, (match) => {
       // Remove body styles, background styles, and page-level CSS
@@ -24,14 +24,14 @@ const BiodataForm = ({ template }) => {
         // .replace(/height\s*:\s*100vh[^;]*;/gi, '') // Remove viewport height
         .replace(/margin\s*:\s*0[^;]*;/gi, '') // Remove margin resets
         .replace(/padding\s*:\s*0[^;]*;/gi, ''); // Remove padding resets
-      
+
       return cleanedCSS;
     });
-    
+
     // Remove inline styles that might affect background
     cleanedHtml = cleanedHtml.replace(/style\s*=\s*"[^"]*background[^"]*"/gi, '');
     cleanedHtml = cleanedHtml.replace(/style\s*=\s*"[^"]*min-height[^"]*"/gi, '');
-    
+
     return cleanedHtml;
   };
 
@@ -96,279 +96,279 @@ const BiodataForm = ({ template }) => {
     }));
   };
 
-  const formRef = useRef(null);
+  // const formRef = useRef(null);
 
-  const downloadPdf = async () => {
-    try {
-      const downloadBtn = document.querySelector('.download-btn-text');
-      if (downloadBtn) {
-        downloadBtn.textContent = 'Generating PDF...';
-      }
+  // const downloadPdf = async () => {
+  //   try {
+  //     const downloadBtn = document.querySelector('.download-btn-text');
+  //     if (downloadBtn) {
+  //       downloadBtn.textContent = 'Generating PDF...';
+  //     }
 
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4',
-        compress: true
-      });
+  //     const pdf = new jsPDF({
+  //       orientation: 'portrait',
+  //       unit: 'mm',
+  //       format: 'a4',
+  //       compress: true
+  //     });
 
-      const colorMap = {
-        amber: [245, 158, 11],
-        blue: [59, 130, 246],
-        green: [16, 185, 129],
-        purple: [139, 92, 246],
-        rose: [244, 63, 94],
-        teal: [20, 184, 166],
-        orange: [249, 115, 22],
-        indigo: [99, 102, 241],
-        red: [239, 68, 68],
-        emerald: [16, 185, 129]
-      };
+  //     const colorMap = {
+  //       amber: [245, 158, 11],
+  //       blue: [59, 130, 246],
+  //       green: [16, 185, 129],
+  //       purple: [139, 92, 246],
+  //       rose: [244, 63, 94],
+  //       teal: [20, 184, 166],
+  //       orange: [249, 115, 22],
+  //       indigo: [99, 102, 241],
+  //       red: [239, 68, 68],
+  //       emerald: [16, 185, 129]
+  //     };
 
-      const primaryColor = colorMap[template?.colorScheme] || colorMap.blue;
+  //     const primaryColor = colorMap[template?.colorScheme] || colorMap.blue;
 
-      pdf.setFillColor(248, 250, 252);
-      pdf.rect(0, 0, 210, 297, 'F');
+  //     pdf.setFillColor(248, 250, 252);
+  //     pdf.rect(0, 0, 210, 297, 'F');
 
-      pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.setLineWidth(2);
-      pdf.rect(15, 15, 180, 250);
+  //     pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  //     pdf.setLineWidth(2);
+  //     pdf.rect(15, 15, 180, 250);
 
-      pdf.setLineWidth(0.5);
-      pdf.rect(20, 20, 170, 240);
+  //     pdf.setLineWidth(0.5);
+  //     pdf.rect(20, 20, 170, 240);
 
-      pdf.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  //     pdf.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
 
-      pdf.ellipse(105, 25, 15, 3, 'F');
-      pdf.ellipse(105, 25, 12, 2, 'F');
+  //     pdf.ellipse(105, 25, 15, 3, 'F');
+  //     pdf.ellipse(105, 25, 12, 2, 'F');
 
-      pdf.ellipse(105, 255, 15, 3, 'F');
-      pdf.ellipse(105, 255, 12, 2, 'F');
+  //     pdf.ellipse(105, 255, 15, 3, 'F');
+  //     pdf.ellipse(105, 255, 12, 2, 'F');
 
-      const cornerSize = 8;
-      pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.setLineWidth(1);
-      pdf.line(25, 25, 25 + cornerSize, 25);
-      pdf.line(25, 25, 25, 25 + cornerSize);
-      pdf.circle(25 + 2, 25 + 2, 1, 'F');
+  //     const cornerSize = 8;
+  //     pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  //     pdf.setLineWidth(1);
+  //     pdf.line(25, 25, 25 + cornerSize, 25);
+  //     pdf.line(25, 25, 25, 25 + cornerSize);
+  //     pdf.circle(25 + 2, 25 + 2, 1, 'F');
 
-      pdf.line(185, 25, 185 - cornerSize, 25);
-      pdf.line(185, 25, 185, 25 + cornerSize);
-      pdf.circle(185 - 2, 25 + 2, 1, 'F');
+  //     pdf.line(185, 25, 185 - cornerSize, 25);
+  //     pdf.line(185, 25, 185, 25 + cornerSize);
+  //     pdf.circle(185 - 2, 25 + 2, 1, 'F');
 
-      pdf.line(25, 255, 25 + cornerSize, 255);
-      pdf.line(25, 255, 25, 255 - cornerSize);
-      pdf.circle(25 + 2, 255 - 2, 1, 'F');
+  //     pdf.line(25, 255, 25 + cornerSize, 255);
+  //     pdf.line(25, 255, 25, 255 - cornerSize);
+  //     pdf.circle(25 + 2, 255 - 2, 1, 'F');
 
-      pdf.line(185, 255, 185 - cornerSize, 255);
-      pdf.line(185, 255, 185, 255 - cornerSize);
-      pdf.circle(185 - 2, 255 - 2, 1, 'F');
+  //     pdf.line(185, 255, 185 - cornerSize, 255);
+  //     pdf.line(185, 255, 185, 255 - cornerSize);
+  //     pdf.circle(185 - 2, 255 - 2, 1, 'F');
 
-      pdf.setFontSize(16);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      const title = '|| MARRIAGE BIODATA ||';
-      const titleWidth = pdf.getTextWidth(title);
-      pdf.text(title, (210 - titleWidth) / 2, 45);
+  //     pdf.setFontSize(16);
+  //     pdf.setFont('helvetica', 'bold');
+  //     pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  //     const title = '|| MARRIAGE BIODATA ||';
+  //     const titleWidth = pdf.getTextWidth(title);
+  //     pdf.text(title, (210 - titleWidth) / 2, 45);
 
-      pdf.setLineWidth(1);
-      pdf.line(80, 50, 130, 50);
+  //     pdf.setLineWidth(1);
+  //     pdf.line(80, 50, 130, 50);
 
-      let yPos = 65;
+  //     let yPos = 65;
 
-      // Photo section with border (left side)
-      pdf.setDrawColor(200, 200, 200);
-      pdf.setFillColor(245, 245, 245);
-      pdf.setLineWidth(1);
-      pdf.rect(30, yPos, 45, 55, 'FD');
+  //     // Photo section with border (left side)
+  //     pdf.setDrawColor(200, 200, 200);
+  //     pdf.setFillColor(245, 245, 245);
+  //     pdf.setLineWidth(1);
+  //     pdf.rect(30, yPos, 45, 55, 'FD');
 
-      // Add image if available
-      if (preview) {
-        try {
-          // Add the image to PDF
-          pdf.addImage(preview, 'JPEG', 30, yPos, 45, 55);
-        } catch (error) {
-          console.warn('Could not add image to PDF:', error);
-          // Fallback to placeholder text if image fails
-          pdf.setFontSize(10);
-          pdf.setTextColor(150, 150, 150);
-          pdf.text('Photo', 48, yPos + 30);
-        }
-      } else {
-        // Photo placeholder text
-        pdf.setFontSize(10);
-        pdf.setTextColor(150, 150, 150);
-        pdf.text('Photo', 48, yPos + 30);
-      }
+  //     // Add image if available
+  //     if (preview) {
+  //       try {
+  //         // Add the image to PDF
+  //         pdf.addImage(preview, 'JPEG', 30, yPos, 45, 55);
+  //       } catch (error) {
+  //         console.warn('Could not add image to PDF:', error);
+  //         // Fallback to placeholder text if image fails
+  //         pdf.setFontSize(10);
+  //         pdf.setTextColor(150, 150, 150);
+  //         pdf.text('Photo', 48, yPos + 30);
+  //       }
+  //     } else {
+  //       // Photo placeholder text
+  //       pdf.setFontSize(10);
+  //       pdf.setTextColor(150, 150, 150);
+  //       pdf.text('Photo', 48, yPos + 30);
+  //     }
 
-      let detailsYPos = yPos;
-      const detailsXPos = 85;
+  //     let detailsYPos = yPos;
+  //     const detailsXPos = 85;
 
-      pdf.setFontSize(12);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.text('PERSONAL', detailsXPos, detailsYPos);
+  //     pdf.setFontSize(12);
+  //     pdf.setFont('helvetica', 'bold');
+  //     pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  //     pdf.text('PERSONAL', detailsXPos, detailsYPos);
 
-      pdf.setLineWidth(0.5);
-      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+  //     pdf.setLineWidth(0.5);
+  //     pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
 
-      pdf.setFontSize(9);
-      pdf.setFont('helvetica', 'normal');
-      pdf.setTextColor(0, 0, 0);
+  //     pdf.setFontSize(9);
+  //     pdf.setFont('helvetica', 'normal');
+  //     pdf.setTextColor(0, 0, 0);
 
-      const personalItems = [
-        { label: 'Name:', value: formData.personalDetails.name || '' },
-        { label: 'DOB:', value: formData.personalDetails.dateOfBirth || '' },
-        { label: 'Age:', value: formData.personalDetails.age || '' },
-        { label: 'Height:', value: formData.personalDetails.height || '' },
-        { label: 'Complexion:', value: formData.personalDetails.complexion || '' }
-      ];
+  //     const personalItems = [
+  //       { label: 'Name:', value: formData.personalDetails.name || '' },
+  //       { label: 'DOB:', value: formData.personalDetails.dateOfBirth || '' },
+  //       { label: 'Age:', value: formData.personalDetails.age || '' },
+  //       { label: 'Height:', value: formData.personalDetails.height || '' },
+  //       { label: 'Complexion:', value: formData.personalDetails.complexion || '' }
+  //     ];
 
-      personalItems.forEach((item, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-      });
+  //     personalItems.forEach((item, index) => {
+  //       pdf.setFont('helvetica', 'bold');
+  //       pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
+  //       pdf.setFont('helvetica', 'normal');
+  //       pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
+  //     });
 
-      formData.personalDetails.additionalFields.forEach((field, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + personalItems.length) * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + personalItems.length) * 6));
-      });
+  //     formData.personalDetails.additionalFields.forEach((field, index) => {
+  //       pdf.setFont('helvetica', 'bold');
+  //       pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + personalItems.length) * 6));
+  //       pdf.setFont('helvetica', 'normal');
+  //       pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + personalItems.length) * 6));
+  //     });
 
-      detailsYPos += 40;
+  //     detailsYPos += 40;
 
-      pdf.setFontSize(12);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.text('PROFESSIONAL', detailsXPos, detailsYPos);
+  //     pdf.setFontSize(12);
+  //     pdf.setFont('helvetica', 'bold');
+  //     pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  //     pdf.text('PROFESSIONAL', detailsXPos, detailsYPos);
 
-      pdf.setLineWidth(0.5);
-      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+  //     pdf.setLineWidth(0.5);
+  //     pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
 
-      const professionalItems = [
-        { label: 'Education:', value: formData.personalDetails.education || '' },
-        { label: 'Profession:', value: formData.personalDetails.occupation || '' },
-        { label: 'Income:', value: formData.personalDetails.income || '' }
-      ];
+  //     const professionalItems = [
+  //       { label: 'Education:', value: formData.personalDetails.education || '' },
+  //       { label: 'Profession:', value: formData.personalDetails.occupation || '' },
+  //       { label: 'Income:', value: formData.personalDetails.income || '' }
+  //     ];
 
-      pdf.setFontSize(9);
-      professionalItems.forEach((item, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.setTextColor(0, 0, 0);
-        pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-      });
+  //     pdf.setFontSize(9);
+  //     professionalItems.forEach((item, index) => {
+  //       pdf.setFont('helvetica', 'bold');
+  //       pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
+  //       pdf.setFont('helvetica', 'normal');
+  //       pdf.setTextColor(0, 0, 0);
+  //       pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
+  //     });
 
-      formData.personalDetails.additionalFields.forEach((field, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + professionalItems.length) * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + professionalItems.length) * 6));
-      });
+  //     formData.personalDetails.additionalFields.forEach((field, index) => {
+  //       pdf.setFont('helvetica', 'bold');
+  //       pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + professionalItems.length) * 6));
+  //       pdf.setFont('helvetica', 'normal');
+  //       pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + professionalItems.length) * 6));
+  //     });
 
-      detailsYPos += 30;
+  //     detailsYPos += 30;
 
-      pdf.setFontSize(12);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.text('FAMILY', detailsXPos, detailsYPos);
+  //     pdf.setFontSize(12);
+  //     pdf.setFont('helvetica', 'bold');
+  //     pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  //     pdf.text('FAMILY', detailsXPos, detailsYPos);
 
-      pdf.setLineWidth(0.5);
-      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+  //     pdf.setLineWidth(0.5);
+  //     pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
 
-      const familyItems = [
-        { label: 'Father:', value: formData.familyDetails.fatherName || '' },
-        { label: 'Mother:', value: formData.familyDetails.motherName || '' },
-        { label: 'Siblings:', value: formData.familyDetails.siblings || '' }
-      ];
+  //     const familyItems = [
+  //       { label: 'Father:', value: formData.familyDetails.fatherName || '' },
+  //       { label: 'Mother:', value: formData.familyDetails.motherName || '' },
+  //       { label: 'Siblings:', value: formData.familyDetails.siblings || '' }
+  //     ];
 
-      pdf.setFontSize(9);
-      familyItems.forEach((item, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.setTextColor(0, 0, 0);
-        pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-      });
+  //     pdf.setFontSize(9);
+  //     familyItems.forEach((item, index) => {
+  //       pdf.setFont('helvetica', 'bold');
+  //       pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
+  //       pdf.setFont('helvetica', 'normal');
+  //       pdf.setTextColor(0, 0, 0);
+  //       pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
+  //     });
 
-      formData.familyDetails.additionalFields.forEach((field, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + familyItems.length) * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + familyItems.length) * 6));
-      });
+  //     formData.familyDetails.additionalFields.forEach((field, index) => {
+  //       pdf.setFont('helvetica', 'bold');
+  //       pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + familyItems.length) * 6));
+  //       pdf.setFont('helvetica', 'normal');
+  //       pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + familyItems.length) * 6));
+  //     });
 
-      detailsYPos += 30;
+  //     detailsYPos += 30;
 
-      pdf.setFontSize(12);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.text('CONTACT', detailsXPos, detailsYPos);
+  //     pdf.setFontSize(12);
+  //     pdf.setFont('helvetica', 'bold');
+  //     pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  //     pdf.text('CONTACT', detailsXPos, detailsYPos);
 
-      pdf.setLineWidth(0.5);
-      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+  //     pdf.setLineWidth(0.5);
+  //     pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
 
-      const contactItems = [
-        { label: 'Mobile:', value: formData.contactDetails.contactNumber || '' },
-        { label: 'Address:', value: formData.contactDetails.residentialAddress || '' }
-      ];
+  //     const contactItems = [
+  //       { label: 'Mobile:', value: formData.contactDetails.contactNumber || '' },
+  //       { label: 'Address:', value: formData.contactDetails.residentialAddress || '' }
+  //     ];
 
-      pdf.setFontSize(9);
-      contactItems.forEach((item, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.setTextColor(0, 0, 0);
+  //     pdf.setFontSize(9);
+  //     contactItems.forEach((item, index) => {
+  //       pdf.setFont('helvetica', 'bold');
+  //       pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
+  //       pdf.setFont('helvetica', 'normal');
+  //       pdf.setTextColor(0, 0, 0);
 
-        if (item.label === 'Address:' && item.value.length > 35) {
-          const lines = pdf.splitTextToSize(item.value, 90);
-          lines.forEach((line, lineIndex) => {
-            pdf.text(line, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6) + (lineIndex * 4));
-          });
-        } else {
-          pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-        }
-      });
+  //       if (item.label === 'Address:' && item.value.length > 35) {
+  //         const lines = pdf.splitTextToSize(item.value, 90);
+  //         lines.forEach((line, lineIndex) => {
+  //           pdf.text(line, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6) + (lineIndex * 4));
+  //         });
+  //       } else {
+  //         pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
+  //       }
+  //     });
 
-      formData.contactDetails.additionalFields.forEach((field, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + contactItems.length) * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + contactItems.length) * 6));
-      });
+  //     formData.contactDetails.additionalFields.forEach((field, index) => {
+  //       pdf.setFont('helvetica', 'bold');
+  //       pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + contactItems.length) * 6));
+  //       pdf.setFont('helvetica', 'normal');
+  //       pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + contactItems.length) * 6));
+  //     });
 
-      pdf.setProperties({
-        title: 'Marriage Biodata',
-        subject: `Biodata for ${formData.personalDetails.name || 'Individual'}`,
-        author: 'Biodata Builder',
-        creator: 'Marriage Biodata Builder'
-      });
+  //     pdf.setProperties({
+  //       title: 'Marriage Biodata',
+  //       subject: `Biodata for ${formData.personalDetails.name || 'Individual'}`,
+  //       author: 'Biodata Builder',
+  //       creator: 'Marriage Biodata Builder'
+  //     });
 
-      const now = new Date();
-      const timestamp = now.toISOString().slice(0, 10);
-      const userName = formData.personalDetails.name || 'biodata';
-      const filename = `${userName.replace(/\s+/g, '_')}_biodata_${timestamp}.pdf`;
+  //     const now = new Date();
+  //     const timestamp = now.toISOString().slice(0, 10);
+  //     const userName = formData.personalDetails.name || 'biodata';
+  //     const filename = `${userName.replace(/\s+/g, '_')}_biodata_${timestamp}.pdf`;
 
-      pdf.save(filename);
+  //     pdf.save(filename);
 
-      if (downloadBtn) {
-        downloadBtn.textContent = 'Download PDF';
-      }
+  //     if (downloadBtn) {
+  //       downloadBtn.textContent = 'Download PDF';
+  //     }
 
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-      alert('Error generating PDF. Please try again.');
+  //   } catch (error) {
+  //     console.error('Error generating PDF:', error);
+  //     alert('Error generating PDF. Please try again.');
 
-      const downloadBtn = document.querySelector('.download-btn-text');
-      if (downloadBtn) {
-        downloadBtn.textContent = 'Download PDF';
-      }
-    }
-  };
+  //     const downloadBtn = document.querySelector('.download-btn-text');
+  //     if (downloadBtn) {
+  //       downloadBtn.textContent = 'Download PDF';
+  //     }
+  //   }
+  // };
 
   const removeField = (section, index) => {
     setFormData(prev => ({
@@ -457,158 +457,87 @@ const BiodataForm = ({ template }) => {
 
   // Function to inject form data into template HTML for real-time editing
   const injectFormDataIntoTemplate = (html) => {
-    let updatedHtml = html;
-    
-    // Replace placeholders with actual form data
-    updatedHtml = updatedHtml.replace(/\{\{name\}\}/g, formData.personalDetails.name || 'Your Name');
-    updatedHtml = updatedHtml.replace(/\{\{dateOfBirth\}\}/g, formData.personalDetails.dateOfBirth || 'DD/MM/YYYY');
-    updatedHtml = updatedHtml.replace(/\{\{height\}\}/g, formData.personalDetails.height || 'Height');
-    updatedHtml = updatedHtml.replace(/\{\{complexion\}\}/g, formData.personalDetails.complexion || 'Complexion');
-    updatedHtml = updatedHtml.replace(/\{\{education\}\}/g, formData.personalDetails.education || 'Education');
-    updatedHtml = updatedHtml.replace(/\{\{occupation\}\}/g, formData.personalDetails.occupation || 'Occupation');
-    updatedHtml = updatedHtml.replace(/\{\{income\}\}/g, formData.personalDetails.income || 'Income');
-    updatedHtml = updatedHtml.replace(/\{\{fatherName\}\}/g, formData.familyDetails.fatherName || 'Father Name');
-    updatedHtml = updatedHtml.replace(/\{\{motherName\}\}/g, formData.familyDetails.motherName || 'Mother Name');
-    updatedHtml = updatedHtml.replace(/\{\{siblings\}\}/g, formData.familyDetails.siblings || 'Siblings');
-    updatedHtml = updatedHtml.replace(/\{\{contactNumber\}\}/g, formData.contactDetails.contactNumber || 'Contact Number');
-    updatedHtml = updatedHtml.replace(/\{\{address\}\}/g, formData.contactDetails.residentialAddress || 'Address');
-    
-    // Add photo if available
+    // First, strip wrapper tags and body styles using the existing function
+    let updatedHtml = stripWrapperTags(html);
+
+    // Replace name in the template
+    updatedHtml = updatedHtml.replace(/Sanjay Singh/g, formData.personalDetails.name || 'Your Name');
+
+    // Replace date of birth
+    updatedHtml = updatedHtml.replace(/22\/10\/2000/g, formData.personalDetails.dateOfBirth || 'DD/MM/YYYY');
+
+    // Replace place of birth
+    updatedHtml = updatedHtml.replace(/Bangalore/g, formData.personalDetails.placeOfBirth || 'Place of Birth');
+
+    // Replace height
+    updatedHtml = updatedHtml.replace(/4 Feet 8 Inches/g, formData.personalDetails.height || 'Height');
+
+    // Replace complexion
+    updatedHtml = updatedHtml.replace(/Fair/g, formData.personalDetails.complexion || 'Complexion');
+
+    // Replace education
+    updatedHtml = updatedHtml.replace(/MBA in Finance/g, formData.personalDetails.education || 'Education');
+
+    // Replace occupation
+    updatedHtml = updatedHtml.replace(/Project Manager/g, formData.personalDetails.occupation || 'Occupation');
+
+    // Replace gotra/caste
+    updatedHtml = updatedHtml.replace(/Singh/g, formData.personalDetails.gotra || 'Gotra/Caste');
+
+    // Replace father's name
+    updatedHtml = updatedHtml.replace(/Mr\. Pramod Singh/g, formData.familyDetails.fatherName || "Father's Name");
+
+    // Replace father's occupation
+    updatedHtml = updatedHtml.replace(/A\.G\.M\. at State Bank of India/g, formData.familyDetails.fatherOccupation || "Father Occupation");
+
+    // Replace mother's name
+    updatedHtml = updatedHtml.replace(/Mrs\. Meena Singh/g, formData.familyDetails.motherName || "Mother's Name");
+
+    // Replace mother's occupation
+    updatedHtml = updatedHtml.replace(/House Wife/g, formData.familyDetails.motherOccupation || 'Mother Occupation');
+
+    // Replace siblings info
+    updatedHtml = updatedHtml.replace(/<span class="value">2<\/span>/g, `<span class="value">${formData.familyDetails.siblings || 'Siblings Info'}</span>`);
+
+    // Replace contact number
+    updatedHtml = updatedHtml.replace(/75678XXXXX/g, formData.contactDetails.contactNumber || 'Contact Number');
+
+    // Replace address (last occurrence to avoid replacing place of birth)
+    const addressRegex = /<div class="info-row">\s*<span class="label">Address<\/span>\s*<span class="colon">:<\/span>\s*<span class="value">([^<]*)<\/span>\s*<\/div>/;
+    updatedHtml = updatedHtml.replace(addressRegex,
+      `<div class="info-row">
+        <span class="label">Address</span>
+        <span class="colon">:</span>
+        <span class="value">${formData.contactDetails.residentialAddress || 'Address'}</span>
+      </div>`);
+
+    // Add photo if available - replace the commented img tag or add one
     if (preview) {
-      updatedHtml = updatedHtml.replace(/<img[^>]*class="[^"]*photo[^"]*"[^>]*>/gi, 
-        `<img src="${preview}" alt="Profile Photo" class="photo" style="width: 100%; height: 100%; object-fit: cover;">`);
+      const photoContainerRegex = /<div class="photo-container">\s*<!--[^>]*-->\s*<\/div>/;
+      updatedHtml = updatedHtml.replace(photoContainerRegex,
+        `<div class="photo-container">
+          <img src="${preview}" alt="Profile Photo" class="photo">
+        </div>`);
+
+      // Also handle case where there might be an existing img tag
+      updatedHtml = updatedHtml.replace(/<img[^>]*class="[^"]*photo[^"]*"[^>]*>/gi,
+        `<img src="${preview}" alt="Profile Photo" class="photo">`);
+    } else {
+      // If no photo, show placeholder
+      const photoContainerRegex = /<div class="photo-container">\s*<!--[^>]*-->\s*<\/div>/;
+      updatedHtml = updatedHtml.replace(photoContainerRegex,
+        `<div class="photo-container">
+          <div class="photo" style="display: flex; align-items: center; justify-content: center; background-color: #f0f0f0; color: #666;">
+            <span>Photo</span>
+          </div>
+        </div>`);
     }
-    
+
     return updatedHtml;
   };
 
-  const themeColors = {
-    amber: {
-      gradient: 'from-amber-50 to-stone-100',
-      border: 'border-amber-400',
-      ornament: 'text-amber-400',
-      heading: 'text-amber-600',
-      subheading: 'text-amber-700',
-      accent: 'bg-amber-400',
-      lightBg: 'bg-amber-50',
-      lightBorder: 'border-amber-200',
-      contactHeading: 'text-amber-800',
-      button: 'bg-amber-500 hover:bg-amber-600'
-    },
-    blue: {
-      gradient: 'from-blue-50 to-slate-100',
-      border: 'border-blue-400',
-      ornament: 'text-blue-400',
-      heading: 'text-blue-600',
-      subheading: 'text-blue-700',
-      accent: 'bg-blue-400',
-      lightBg: 'bg-blue-50',
-      lightBorder: 'border-blue-200',
-      contactHeading: 'text-blue-800',
-      button: 'bg-blue-500 hover:bg-blue-600'
-    },
-    green: {
-      gradient: 'from-green-50 to-emerald-100',
-      border: 'border-green-400',
-      ornament: 'text-green-400',
-      heading: 'text-green-600',
-      subheading: 'text-green-700',
-      accent: 'bg-green-400',
-      lightBg: 'bg-green-50',
-      lightBorder: 'border-green-200',
-      contactHeading: 'text-green-800',
-      button: 'bg-green-500 hover:bg-green-600'
-    },
-    purple: {
-      gradient: 'from-purple-50 to-violet-100',
-      border: 'border-purple-400',
-      ornament: 'text-purple-400',
-      heading: 'text-purple-600',
-      subheading: 'text-purple-700',
-      accent: 'bg-purple-400',
-      lightBg: 'bg-purple-50',
-      lightBorder: 'border-purple-200',
-      contactHeading: 'text-purple-800',
-      button: 'bg-purple-500 hover:bg-purple-600'
-    },
-    rose: {
-      gradient: 'from-rose-50 to-pink-100',
-      border: 'border-rose-400',
-      ornament: 'text-rose-400',
-      heading: 'text-rose-600',
-      subheading: 'text-rose-700',
-      accent: 'bg-rose-400',
-      lightBg: 'bg-rose-50',
-      lightBorder: 'border-rose-200',
-      contactHeading: 'text-rose-800',
-      button: 'bg-rose-500 hover:bg-rose-600'
-    },
-    teal: {
-      gradient: 'from-teal-50 to-cyan-100',
-      border: 'border-teal-400',
-      ornament: 'text-teal-400',
-      heading: 'text-teal-600',
-      subheading: 'text-teal-700',
-      accent: 'bg-teal-400',
-      lightBg: 'bg-teal-50',
-      lightBorder: 'border-teal-200',
-      contactHeading: 'text-teal-800',
-      button: 'bg-teal-500 hover:bg-teal-600'
-    },
-    orange: {
-      gradient: 'from-orange-50 to-red-100',
-      border: 'border-orange-400',
-      ornament: 'text-orange-400',
-      heading: 'text-orange-600',
-      subheading: 'text-orange-700',
-      accent: 'bg-orange-400',
-      lightBg: 'bg-orange-50',
-      lightBorder: 'border-orange-200',
-      contactHeading: 'text-orange-800',
-      button: 'bg-orange-500 hover:bg-orange-600'
-    },
-    indigo: {
-      gradient: 'from-indigo-50 to-blue-100',
-      border: 'border-indigo-400',
-      ornament: 'text-indigo-400',
-      heading: 'text-indigo-600',
-      subheading: 'text-indigo-700',
-      accent: 'bg-indigo-400',
-      lightBg: 'bg-indigo-50',
-      lightBorder: 'border-indigo-200',
-      contactHeading: 'text-indigo-800',
-      button: 'bg-indigo-500 hover:bg-indigo-600'
-    },
-    red: {
-      gradient: 'from-red-50 to-rose-100',
-      border: 'border-red-400',
-      ornament: 'text-red-400',
-      heading: 'text-red-600',
-      subheading: 'text-red-700',
-      accent: 'bg-red-400',
-      lightBg: 'bg-red-50',
-      lightBorder: 'border-red-200',
-      contactHeading: 'text-red-800',
-      button: 'bg-red-500 hover:bg-red-600'
-    },
-    emerald: {
-      gradient: 'from-emerald-50 to-teal-100',
-      border: 'border-emerald-400',
-      ornament: 'text-emerald-400',
-      heading: 'text-emerald-600',
-      subheading: 'text-emerald-700',
-      accent: 'bg-emerald-400',
-      lightBg: 'bg-emerald-50',
-      lightBorder: 'border-emerald-200',
-      contactHeading: 'text-emerald-800',
-      button: 'bg-emerald-500 hover:bg-emerald-600'
-    }
-  };
 
-  let theme;
-  if (template) {
-    theme = themeColors[template.colorScheme];
-  }
+
 
 
   const [isPhone, setIsPhone] = useState(window.innerWidth < 768);
@@ -635,381 +564,26 @@ const BiodataForm = ({ template }) => {
         <div>
           {isPhone ? (
             <div className="fixed z-50 inset-0 bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-sm">
-              {template && (
-                <div className="min-h-screen flex flex-col">
-                  {/* Enhanced Header with Beautiful Buttons */}
-                  <div className="p-4 flex justify-between items-center bg-white/10 backdrop-blur-md border-b border-white/20">
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => setShowFullscreenPreview(false)}
-                        className={`group flex items-center gap-2 px-4 py-2 border-2 border-red-500 text-red-600 hover:bg-red-50 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 transform bg-white`}
-                      >
-                        <FiArrowLeft className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1" />
-                        <span className="hidden sm:inline">Back</span>
-                      </button>
-                    </div>
 
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={downloadPdf}
-                        className={`group flex items-center gap-2 px-4 py-2 ${theme.button} text-white rounded-xl font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 transform`}
-                      >
-                        <FiDownload className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-1" />
-                        <span className="hidden sm:inline">Download</span>
-                      </button>
-                      {/* <button
-                        onClick={() => window.print()}
-                        className={`group flex items-center gap-2 px-4 py-2 border-2 ${theme.buttonSecondary} rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 transform bg-white`}
-                      >
-                        <FiPrinter className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
-                        <span className="hidden sm:inline">Print</span>
-                      </button> */}
-                    </div>
-                  </div>
-
-                  <div
-                    ref={formRef}
-                    id="biodata-preview"
-                    className="lg:col-span-1 flex justify-center sticky "
-                    style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}
-                  >
-                    <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
-                      <div className={`relative bg-gradient-to-br ${theme.gradient} p-3 sm:p-4 shadow-xl rounded-lg`}>
-                        {/* Main container with ornate border */}
-                        <div className={`relative bg-white border-2 ${theme.border} h-fit rounded overflow-hidden`}>
-                          {/* Corner ornaments - Top Left */}
-                          <div className="absolute top-0 left-0 w-8 h-8">
-                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                              <circle cx="25" cy="25" r="2" />
-                              <circle cx="15" cy="15" r="1.5" />
-                            </svg>
-                          </div>
-
-                          {/* Corner ornaments - Top Right */}
-                          <div className="absolute top-0 right-0 w-8 h-8 transform rotate-90">
-                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                              <circle cx="25" cy="25" r="2" />
-                              <circle cx="15" cy="15" r="1.5" />
-                            </svg>
-                          </div>
-
-                          {/* Corner ornaments - Bottom Right */}
-                          <div className="absolute bottom-0 right-0 w-8 h-8 transform rotate-180">
-                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                              <circle cx="25" cy="25" r="2" />
-                              <circle cx="15" cy="15" r="1.5" />
-                            </svg>
-                          </div>
-
-                          {/* Corner ornaments - Bottom Left */}
-                          <div className="absolute bottom-0 left-0 w-8 h-8 transform -rotate-90">
-                            <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                              <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                              <circle cx="25" cy="25" r="2" />
-                              <circle cx="15" cy="15" r="1.5" />
-                            </svg>
-                          </div>
-
-                          {/* Side ornaments - Top */}
-                          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-6">
-                            <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
-                              <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
-                              <circle cx="64" cy="20" r="2" />
-                            </svg>
-                          </div>
-
-                          {/* Side ornaments - Bottom */}
-                          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 rotate-180 w-16 h-6">
-                            <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
-                              <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
-                              <circle cx="64" cy="20" r="2" />
-                            </svg>
-                          </div>
-
-                          {/* Inner content area */}
-                          <div className="bg-white p-3 m-6">
-                            {/* Header */}
-                            <div className="text-center mb-3">
-                              <h1 className={`text-sm font-bold ${theme.heading} mb-1`}>|| MARRIAGE BIODATA ||</h1>
-                              <div className={`w-12 h-0.5 ${theme.accent} mx-auto`}></div>
-                            </div>
-
-                            {/* Main Content */}
-                            <div className="flex gap-3 h-full">
-                              {/* Left Column - Photo */}
-                              <div className="w-1/2 sm:w-1/2 md:w-1/2">
-                                <div className={`bg-gray-50 border ${theme.lightBorder} h-40 sm:h-40 flex items-center justify-center rounded`}>
-                                  {preview ? (
-                                    <img
-                                      src={preview}
-                                      alt="Profile"
-                                      className="w-full h-full object-cover"
-                                    />
-                                  ) : (
-                                    <div className="text-center">
-                                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-full mx-auto mb-2 flex items-center justify-center">
-                                        <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                                        </svg>
-                                      </div>
-                                      <p className="text-xs text-gray-500">Photo</p>
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-
-                              {/* Right Column - Details */}
-                              <div className="w-2/3 space-y-2 text-xs">
-                                {/* Personal Information */}
-                                <div>
-                                  <h2 className={`text-sm font-bold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>PERSONAL</h2>
-                                  <div className="grid grid-cols-1 gap-y-0.5 break-words">
-                                    <div><strong>Name:</strong> {formData.personalDetails.name}</div>
-                                    <div><strong>DOB:</strong> {formData.personalDetails.dateOfBirth}</div>
-                                    <div><strong>Age:</strong> {formData.personalDetails.age}</div>
-                                    <div><strong>Height:</strong> {formData.personalDetails.height}</div>
-                                    <div><strong>Complexion:</strong> {formData.personalDetails.complexion}</div>
-                                    <div><strong>Gotra:</strong> {formData.personalDetails.gotra}</div>
-                                    {formData.personalDetails.additionalFields.map((field, idx) => (
-                                      field.key && (
-                                        <div key={`pers-add-${idx}`}><strong>{field.key}:</strong> {field.value}</div>
-                                      )
-                                    ))}
-                                  </div>
-                                </div>
-
-                                {/* Educational & Professional */}
-                                <div>
-                                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>PROFESSIONAL</h3>
-                                  <div className="grid grid-cols-1 gap-y-0.5 break-words">
-                                    <div><strong>Education:</strong> {formData.personalDetails.education}</div>
-                                    <div><strong>Profession:</strong> {formData.personalDetails.occupation}</div>
-                                    <div><strong>Income:</strong> {formData.personalDetails.income}</div>
-                                  </div>
-                                </div>
-
-                                {/* Family Information */}
-                                <div>
-                                  <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>FAMILY</h3>
-                                  <div className="grid grid-cols-1 gap-y-0.5 break-words">
-                                    <div><strong>Father:</strong> {formData.familyDetails.fatherName}</div>
-                                    <div><strong>Mother:</strong> {formData.familyDetails.motherName}</div>
-                                    <div><strong>Siblings:</strong> {formData.familyDetails.siblings}</div>
-                                    {formData.familyDetails.additionalFields.map((field, idx) => (
-                                      field.key && (
-                                        <div key={`fam-add-${idx}`}><strong>{field.key}:</strong> {field.value}</div>
-                                      )
-                                    ))}
-                                  </div>
-                                </div>
-
-                                {/* Contact Information */}
-                                <div>
-                                  <h3 className={`font-semibold ${theme.subheading} mb-1`}>CONTACT</h3>
-                                  <div className={`border-b ${theme.lightBorder} pb-0.5 break-words`}></div>
-                                  <div className="grid grid-cols-1 gap-y-0.5 break-words">
-                                    <div><strong>Mobile:</strong> {formData.contactDetails.contactNumber}</div>
-                                    <div><strong>Address:</strong> {formData.contactDetails.residentialAddress}</div>
-                                    {formData.contactDetails.additionalFields.map((field, idx) => (
-                                      field.key && (
-                                        <div key={`con-add-${idx}`}><strong>{field.key}:</strong> {field.value}</div>
-                                      )
-                                    ))}
-                                  </div>
-                                </div>
-
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Decorative dots */}
-                          <div className={`absolute top-2 left-2 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
-                          <div className={`absolute top-2 right-2 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
-                          <div className={`absolute bottom-2 left-2 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
-                          <div className={`absolute bottom-2 right-2 w-1 h-1 ${theme.accent} rounded-full opacity-60`}></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              )}
             </div>
 
           ) : (
 
             <div className="fixed z-50 inset-0 bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-sm">
-              <div className="min-h-screen flex flex-col">
-                {/* Enhanced Header with Beautiful Buttons */}
-                <div className="p-4 flex justify-between items-center bg-white/10 backdrop-blur-md border-b border-white/20">
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => setShowFullscreenPreview(false)}
-                      className={`cursor-pointer group flex items-center gap-2 px-6 py-3 border-2 border-red-500 text-red-600 hover:bg-red-50 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 transform bg-white`}
-                    >
-                      <FiArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
-                      <span>Back to Form</span>
-                    </button>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={downloadPdf}
-                      className={`cursor-pointer group flex items-center gap-2 px-6 py-3 ${theme.button} text-white rounded-xl font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 transform`}
-                    >
-                      <FiDownload className="w-5 h-5" />
-                      <span className="download-btn-text">Download PDF</span>
-                    </button>
-                    {/* <button
-                      onClick={() => window.print()}
-                      className={`group flex items-center gap-2 px-6 py-3 border-2 ${theme.buttonSecondary} rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 transform bg-white`}
-                    >
-                      <FiPrinter className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
-                      <span>Print Biodata</span>
-                    </button> */}
-                  </div>
-                </div>
-
-                <div className="flex-1 flex flex-col items-center overflow-y-auto py-4">
-                  <div className={`bg-white rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 scale-90`}>
-                    {template && (
+              <div className="lg:col-span-1 flex justify-center sticky top-24 h-fit">
+                {htmlFiles[template - 1] && (
+                  <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
+                    <div>
                       <div
-                        ref={formRef}
-                        id="biodata-preview"
-                        className="w-[130mm] min-h-[145mm] bg-white shadow-lg z-10"
-                        style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}
-                      >
-                        <div className={`w-full h-full p-4 bg-gradient-to-br ${theme.gradient}`}>
-                          <div className={`relative w-full min-h-[calc(145mm-2rem)] bg-white border-2 ${theme.border} rounded-lg`}>
-                            {/* Corner decorations */}
-                            {['top-0 left-0', 'top-0 right-0 rotate-90', 'bottom-0 right-0 rotate-180', 'bottom-0 left-0 -rotate-90'].map((position, i) => (
-                              <div key={i} className={`absolute ${position} w-6 h-6 sm:w-8 sm:h-8`}>
-                                <svg viewBox="0 0 80 80" className={`w-full h-full ${theme.ornament} fill-current`}>
-                                  <path d="M5 5 L5 25 Q5 15 15 15 L35 15 Q25 15 25 5 L25 5 Q15 5 5 5 Z" />
-                                  <circle cx="25" cy="25" r="2" />
-                                  <circle cx="15" cy="15" r="1.5" />
-                                </svg>
-                              </div>
-                            ))}
+                        className="scale-[0.45] origin-top-left w-[820px] h-auto pointer-events-none"
+                        dangerouslySetInnerHTML={{
+                          __html: injectFormDataIntoTemplate(htmlFiles[template - 1]),
+                        }}
+                      />
+                    </div>
 
-                            {/* Top and bottom center decorations */}
-                            {['top-0', 'bottom-0 rotate-180'].map((position, i) => (
-                              <div key={i} className={`absolute ${position} left-1/2 transform -translate-x-1/2 w-16 h-6`}>
-                                <svg viewBox="0 0 128 48" className={`w-full h-full ${theme.ornament} fill-current`}>
-                                  <path d="M20 24 Q40 10 64 24 Q88 10 108 24 Q88 38 64 24 Q40 38 20 24 Z" />
-                                  <circle cx="64" cy="20" r="2" />
-                                </svg>
-                              </div>
-                            ))}
-
-                            {/* Content */}
-                            <div className="p-3 sm:p-4">
-                              {/* Header */}
-                              <div className="text-center mb-3">
-                                <h1 className={`text-xs sm:text-sm font-bold ${theme.heading} mb-1`}>
-                                  || MARRIAGE BIODATA ||
-                                </h1>
-                                <div className={`w-12 h-0.5 ${theme.accent} mx-auto`}></div>
-                              </div>
-
-                              {/* Main Content */}
-                              <div className="flex flex-col sm:flex-row gap-3">
-                                {/* Photo Section */}
-                                <div className="w-full sm:w-1/3">
-                                  <div className={`bg-gray-50 border ${theme.lightBorder} h-28 sm:h-32 flex items-center justify-center rounded`}>
-                                    {preview ? (
-                                      <img
-                                        src={preview}
-                                        alt="Profile"
-                                        className="w-full h-full object-cover"
-                                      />
-                                    ) : (
-                                      <div className="text-center">
-                                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-full mx-auto mb-2 flex items-center justify-center">
-                                          <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                                          </svg>
-                                        </div>
-                                        <p className="text-xs text-gray-500">Photo</p>
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-
-                                {/* Details Section */}
-                                <div className="w-full sm:w-2/3 space-y-2 text-xs">
-                                  {[
-                                    {
-                                      title: 'PERSONAL',
-                                      items: [
-                                        { label: 'Name', value: formData.personalDetails.name },
-                                        { label: 'DOB', value: formData.personalDetails.dateOfBirth },
-                                        { label: 'Height', value: formData.personalDetails.height },
-                                        { label: 'Complexion', value: formData.personalDetails.complexion },
-                                        { label: 'Gotra', value: formData.personalDetails.gotra },
-                                        ...formData.personalDetails.additionalFields.filter(f => f.key).map(f => ({ label: f.key, value: f.value })),
-                                      ]
-                                    },
-                                    {
-                                      title: 'PROFESSIONAL',
-                                      items: [
-                                        { label: 'Education', value: formData.personalDetails.education },
-                                        { label: 'Profession', value: formData.personalDetails.occupation },
-                                        { label: 'Income', value: formData.personalDetails.income }
-                                      ]
-                                    },
-                                    {
-                                      title: 'FAMILY',
-                                      items: [
-                                        { label: 'Father', value: formData.familyDetails.fatherName },
-                                        { label: 'Mother', value: formData.familyDetails.motherName },
-                                        { label: 'Siblings', value: formData.familyDetails.siblings },
-                                        ...formData.familyDetails.additionalFields.filter(f => f.key).map(f => ({ label: f.key, value: f.value })),
-                                      ]
-                                    },
-                                    {
-                                      title: 'CONTACT',
-                                      items: [
-                                        { label: 'Mobile', value: formData.contactDetails.contactNumber },
-                                        { label: 'Email', value: '' },
-                                        { label: 'Address', value: formData.contactDetails.residentialAddress },
-                                        ...formData.contactDetails.additionalFields.filter(f => f.key).map(f => ({ label: f.key, value: f.value })),
-                                      ]
-                                    }
-                                  ].map((section, idx) => (
-                                    <div key={idx} className="break-words">
-                                      <h3 className={`font-semibold ${theme.subheading} mb-1 border-b ${theme.lightBorder} pb-0.5`}>
-                                        {section.title}
-                                      </h3>
-                                      <div className="space-y-1">
-                                        {section.items.map((item, i) => (
-                                          <div key={i} className="break-words">
-                                            <strong className="whitespace-nowrap">{item.label}:</strong> {item.value || '...'}
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Decorative dots */}
-                            {['top-2 left-2', 'top-2 right-2', 'bottom-2 left-2', 'bottom-2 right-2'].map((position, i) => (
-                              <div
-                                key={i}
-                                className={`absolute ${position} w-1 h-1 ${theme.accent} rounded-full opacity-60`}
-                              ></div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    )}
                   </div>
-                </div>
+                )}
               </div>
             </div>
           )}
@@ -1719,12 +1293,15 @@ const BiodataForm = ({ template }) => {
                   <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
                     <div>
                       <div
-                        className="scale-[0.45] origin-top-left w-[820px] h-auto pointer-events-none"
+                        className="scale-[0.45] origin-top-left w-[820px] h-[1200px] pointer-events-none"
                         dangerouslySetInnerHTML={{
-                          __html: stripWrapperTags(injectFormDataIntoTemplate(htmlFiles[template - 1])),
+                          __html: injectFormDataIntoTemplate(htmlFiles[template - 1]),
                         }}
                       />
                     </div>
+                    {/* <button onClick={updateName} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+                      Toggle Name
+                    </button> */}
                   </div>
                 )}
               </div>
