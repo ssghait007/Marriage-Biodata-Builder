@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Edit, PlusCircle, Trash2, Camera, RotateCcw, } from 'lucide-react';
 import { FiUpload, FiX, FiDownload, FiPrinter, FiArrowLeft } from 'react-icons/fi';
-// import jsPDF from 'jspdf';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 
 const BiodataForm = ({ template }) => {
 
@@ -96,279 +98,279 @@ const BiodataForm = ({ template }) => {
     }));
   };
 
-  // const formRef = useRef(null);
+  const formRef = useRef(null);
 
-  // const downloadPdf = async () => {
-  //   try {
-  //     const downloadBtn = document.querySelector('.download-btn-text');
-  //     if (downloadBtn) {
-  //       downloadBtn.textContent = 'Generating PDF...';
-  //     }
+  const downloadPdf = async () => {
+    try {
+      const downloadBtn = document.querySelector('.download-btn-text');
+      if (downloadBtn) {
+        downloadBtn.textContent = 'Generating PDF...';
+      }
 
-  //     const pdf = new jsPDF({
-  //       orientation: 'portrait',
-  //       unit: 'mm',
-  //       format: 'a4',
-  //       compress: true
-  //     });
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+        compress: true
+      });
 
-  //     const colorMap = {
-  //       amber: [245, 158, 11],
-  //       blue: [59, 130, 246],
-  //       green: [16, 185, 129],
-  //       purple: [139, 92, 246],
-  //       rose: [244, 63, 94],
-  //       teal: [20, 184, 166],
-  //       orange: [249, 115, 22],
-  //       indigo: [99, 102, 241],
-  //       red: [239, 68, 68],
-  //       emerald: [16, 185, 129]
-  //     };
+      const colorMap = {
+        amber: [245, 158, 11],
+        blue: [59, 130, 246],
+        green: [16, 185, 129],
+        purple: [139, 92, 246],
+        rose: [244, 63, 94],
+        teal: [20, 184, 166],
+        orange: [249, 115, 22],
+        indigo: [99, 102, 241],
+        red: [239, 68, 68],
+        emerald: [16, 185, 129]
+      };
 
-  //     const primaryColor = colorMap[template?.colorScheme] || colorMap.blue;
+      const primaryColor = colorMap[template?.colorScheme] || colorMap.blue;
 
-  //     pdf.setFillColor(248, 250, 252);
-  //     pdf.rect(0, 0, 210, 297, 'F');
+      pdf.setFillColor(248, 250, 252);
+      pdf.rect(0, 0, 210, 297, 'F');
 
-  //     pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-  //     pdf.setLineWidth(2);
-  //     pdf.rect(15, 15, 180, 250);
+      pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+      pdf.setLineWidth(2);
+      pdf.rect(15, 15, 180, 250);
 
-  //     pdf.setLineWidth(0.5);
-  //     pdf.rect(20, 20, 170, 240);
+      pdf.setLineWidth(0.5);
+      pdf.rect(20, 20, 170, 240);
 
-  //     pdf.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+      pdf.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
 
-  //     pdf.ellipse(105, 25, 15, 3, 'F');
-  //     pdf.ellipse(105, 25, 12, 2, 'F');
+      pdf.ellipse(105, 25, 15, 3, 'F');
+      pdf.ellipse(105, 25, 12, 2, 'F');
 
-  //     pdf.ellipse(105, 255, 15, 3, 'F');
-  //     pdf.ellipse(105, 255, 12, 2, 'F');
+      pdf.ellipse(105, 255, 15, 3, 'F');
+      pdf.ellipse(105, 255, 12, 2, 'F');
 
-  //     const cornerSize = 8;
-  //     pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-  //     pdf.setLineWidth(1);
-  //     pdf.line(25, 25, 25 + cornerSize, 25);
-  //     pdf.line(25, 25, 25, 25 + cornerSize);
-  //     pdf.circle(25 + 2, 25 + 2, 1, 'F');
+      const cornerSize = 8;
+      pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+      pdf.setLineWidth(1);
+      pdf.line(25, 25, 25 + cornerSize, 25);
+      pdf.line(25, 25, 25, 25 + cornerSize);
+      pdf.circle(25 + 2, 25 + 2, 1, 'F');
 
-  //     pdf.line(185, 25, 185 - cornerSize, 25);
-  //     pdf.line(185, 25, 185, 25 + cornerSize);
-  //     pdf.circle(185 - 2, 25 + 2, 1, 'F');
+      pdf.line(185, 25, 185 - cornerSize, 25);
+      pdf.line(185, 25, 185, 25 + cornerSize);
+      pdf.circle(185 - 2, 25 + 2, 1, 'F');
 
-  //     pdf.line(25, 255, 25 + cornerSize, 255);
-  //     pdf.line(25, 255, 25, 255 - cornerSize);
-  //     pdf.circle(25 + 2, 255 - 2, 1, 'F');
+      pdf.line(25, 255, 25 + cornerSize, 255);
+      pdf.line(25, 255, 25, 255 - cornerSize);
+      pdf.circle(25 + 2, 255 - 2, 1, 'F');
 
-  //     pdf.line(185, 255, 185 - cornerSize, 255);
-  //     pdf.line(185, 255, 185, 255 - cornerSize);
-  //     pdf.circle(185 - 2, 255 - 2, 1, 'F');
+      pdf.line(185, 255, 185 - cornerSize, 255);
+      pdf.line(185, 255, 185, 255 - cornerSize);
+      pdf.circle(185 - 2, 255 - 2, 1, 'F');
 
-  //     pdf.setFontSize(16);
-  //     pdf.setFont('helvetica', 'bold');
-  //     pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-  //     const title = '|| MARRIAGE BIODATA ||';
-  //     const titleWidth = pdf.getTextWidth(title);
-  //     pdf.text(title, (210 - titleWidth) / 2, 45);
+      pdf.setFontSize(16);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+      const title = '|| MARRIAGE BIODATA ||';
+      const titleWidth = pdf.getTextWidth(title);
+      pdf.text(title, (210 - titleWidth) / 2, 45);
 
-  //     pdf.setLineWidth(1);
-  //     pdf.line(80, 50, 130, 50);
+      pdf.setLineWidth(1);
+      pdf.line(80, 50, 130, 50);
 
-  //     let yPos = 65;
+      let yPos = 65;
 
-  //     // Photo section with border (left side)
-  //     pdf.setDrawColor(200, 200, 200);
-  //     pdf.setFillColor(245, 245, 245);
-  //     pdf.setLineWidth(1);
-  //     pdf.rect(30, yPos, 45, 55, 'FD');
+      // Photo section with border (left side)
+      pdf.setDrawColor(200, 200, 200);
+      pdf.setFillColor(245, 245, 245);
+      pdf.setLineWidth(1);
+      pdf.rect(30, yPos, 45, 55, 'FD');
 
-  //     // Add image if available
-  //     if (preview) {
-  //       try {
-  //         // Add the image to PDF
-  //         pdf.addImage(preview, 'JPEG', 30, yPos, 45, 55);
-  //       } catch (error) {
-  //         console.warn('Could not add image to PDF:', error);
-  //         // Fallback to placeholder text if image fails
-  //         pdf.setFontSize(10);
-  //         pdf.setTextColor(150, 150, 150);
-  //         pdf.text('Photo', 48, yPos + 30);
-  //       }
-  //     } else {
-  //       // Photo placeholder text
-  //       pdf.setFontSize(10);
-  //       pdf.setTextColor(150, 150, 150);
-  //       pdf.text('Photo', 48, yPos + 30);
-  //     }
+      // Add image if available
+      if (preview) {
+        try {
+          // Add the image to PDF
+          pdf.addImage(preview, 'JPEG', 30, yPos, 45, 55);
+        } catch (error) {
+          console.warn('Could not add image to PDF:', error);
+          // Fallback to placeholder text if image fails
+          pdf.setFontSize(10);
+          pdf.setTextColor(150, 150, 150);
+          pdf.text('Photo', 48, yPos + 30);
+        }
+      } else {
+        // Photo placeholder text
+        pdf.setFontSize(10);
+        pdf.setTextColor(150, 150, 150);
+        pdf.text('Photo', 48, yPos + 30);
+      }
 
-  //     let detailsYPos = yPos;
-  //     const detailsXPos = 85;
+      let detailsYPos = yPos;
+      const detailsXPos = 85;
 
-  //     pdf.setFontSize(12);
-  //     pdf.setFont('helvetica', 'bold');
-  //     pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-  //     pdf.text('PERSONAL', detailsXPos, detailsYPos);
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+      pdf.text('PERSONAL', detailsXPos, detailsYPos);
 
-  //     pdf.setLineWidth(0.5);
-  //     pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+      pdf.setLineWidth(0.5);
+      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
 
-  //     pdf.setFontSize(9);
-  //     pdf.setFont('helvetica', 'normal');
-  //     pdf.setTextColor(0, 0, 0);
+      pdf.setFontSize(9);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(0, 0, 0);
 
-  //     const personalItems = [
-  //       { label: 'Name:', value: formData.personalDetails.name || '' },
-  //       { label: 'DOB:', value: formData.personalDetails.dateOfBirth || '' },
-  //       { label: 'Age:', value: formData.personalDetails.age || '' },
-  //       { label: 'Height:', value: formData.personalDetails.height || '' },
-  //       { label: 'Complexion:', value: formData.personalDetails.complexion || '' }
-  //     ];
+      const personalItems = [
+        { label: 'Name:', value: formData.personalDetails.name || '' },
+        { label: 'DOB:', value: formData.personalDetails.dateOfBirth || '' },
+        { label: 'Age:', value: formData.personalDetails.age || '' },
+        { label: 'Height:', value: formData.personalDetails.height || '' },
+        { label: 'Complexion:', value: formData.personalDetails.complexion || '' }
+      ];
 
-  //     personalItems.forEach((item, index) => {
-  //       pdf.setFont('helvetica', 'bold');
-  //       pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-  //       pdf.setFont('helvetica', 'normal');
-  //       pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-  //     });
+      personalItems.forEach((item, index) => {
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
+      });
 
-  //     formData.personalDetails.additionalFields.forEach((field, index) => {
-  //       pdf.setFont('helvetica', 'bold');
-  //       pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + personalItems.length) * 6));
-  //       pdf.setFont('helvetica', 'normal');
-  //       pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + personalItems.length) * 6));
-  //     });
+      formData.personalDetails.additionalFields.forEach((field, index) => {
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + personalItems.length) * 6));
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + personalItems.length) * 6));
+      });
 
-  //     detailsYPos += 40;
+      detailsYPos += 40;
 
-  //     pdf.setFontSize(12);
-  //     pdf.setFont('helvetica', 'bold');
-  //     pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-  //     pdf.text('PROFESSIONAL', detailsXPos, detailsYPos);
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+      pdf.text('PROFESSIONAL', detailsXPos, detailsYPos);
 
-  //     pdf.setLineWidth(0.5);
-  //     pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+      pdf.setLineWidth(0.5);
+      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
 
-  //     const professionalItems = [
-  //       { label: 'Education:', value: formData.personalDetails.education || '' },
-  //       { label: 'Profession:', value: formData.personalDetails.occupation || '' },
-  //       { label: 'Income:', value: formData.personalDetails.income || '' }
-  //     ];
+      const professionalItems = [
+        { label: 'Education:', value: formData.personalDetails.education || '' },
+        { label: 'Profession:', value: formData.personalDetails.occupation || '' },
+        { label: 'Income:', value: formData.personalDetails.income || '' }
+      ];
 
-  //     pdf.setFontSize(9);
-  //     professionalItems.forEach((item, index) => {
-  //       pdf.setFont('helvetica', 'bold');
-  //       pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-  //       pdf.setFont('helvetica', 'normal');
-  //       pdf.setTextColor(0, 0, 0);
-  //       pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-  //     });
+      pdf.setFontSize(9);
+      professionalItems.forEach((item, index) => {
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
+        pdf.setFont('helvetica', 'normal');
+        pdf.setTextColor(0, 0, 0);
+        pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
+      });
 
-  //     formData.personalDetails.additionalFields.forEach((field, index) => {
-  //       pdf.setFont('helvetica', 'bold');
-  //       pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + professionalItems.length) * 6));
-  //       pdf.setFont('helvetica', 'normal');
-  //       pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + professionalItems.length) * 6));
-  //     });
+      formData.personalDetails.additionalFields.forEach((field, index) => {
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + professionalItems.length) * 6));
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + professionalItems.length) * 6));
+      });
 
-  //     detailsYPos += 30;
+      detailsYPos += 30;
 
-  //     pdf.setFontSize(12);
-  //     pdf.setFont('helvetica', 'bold');
-  //     pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-  //     pdf.text('FAMILY', detailsXPos, detailsYPos);
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+      pdf.text('FAMILY', detailsXPos, detailsYPos);
 
-  //     pdf.setLineWidth(0.5);
-  //     pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+      pdf.setLineWidth(0.5);
+      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
 
-  //     const familyItems = [
-  //       { label: 'Father:', value: formData.familyDetails.fatherName || '' },
-  //       { label: 'Mother:', value: formData.familyDetails.motherName || '' },
-  //       { label: 'Siblings:', value: formData.familyDetails.siblings || '' }
-  //     ];
+      const familyItems = [
+        { label: 'Father:', value: formData.familyDetails.fatherName || '' },
+        { label: 'Mother:', value: formData.familyDetails.motherName || '' },
+        { label: 'Siblings:', value: formData.familyDetails.siblings || '' }
+      ];
 
-  //     pdf.setFontSize(9);
-  //     familyItems.forEach((item, index) => {
-  //       pdf.setFont('helvetica', 'bold');
-  //       pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-  //       pdf.setFont('helvetica', 'normal');
-  //       pdf.setTextColor(0, 0, 0);
-  //       pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-  //     });
+      pdf.setFontSize(9);
+      familyItems.forEach((item, index) => {
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
+        pdf.setFont('helvetica', 'normal');
+        pdf.setTextColor(0, 0, 0);
+        pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
+      });
 
-  //     formData.familyDetails.additionalFields.forEach((field, index) => {
-  //       pdf.setFont('helvetica', 'bold');
-  //       pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + familyItems.length) * 6));
-  //       pdf.setFont('helvetica', 'normal');
-  //       pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + familyItems.length) * 6));
-  //     });
+      formData.familyDetails.additionalFields.forEach((field, index) => {
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + familyItems.length) * 6));
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + familyItems.length) * 6));
+      });
 
-  //     detailsYPos += 30;
+      detailsYPos += 30;
 
-  //     pdf.setFontSize(12);
-  //     pdf.setFont('helvetica', 'bold');
-  //     pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-  //     pdf.text('CONTACT', detailsXPos, detailsYPos);
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+      pdf.text('CONTACT', detailsXPos, detailsYPos);
 
-  //     pdf.setLineWidth(0.5);
-  //     pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
+      pdf.setLineWidth(0.5);
+      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
 
-  //     const contactItems = [
-  //       { label: 'Mobile:', value: formData.contactDetails.contactNumber || '' },
-  //       { label: 'Address:', value: formData.contactDetails.residentialAddress || '' }
-  //     ];
+      const contactItems = [
+        { label: 'Mobile:', value: formData.contactDetails.contactNumber || '' },
+        { label: 'Address:', value: formData.contactDetails.residentialAddress || '' }
+      ];
 
-  //     pdf.setFontSize(9);
-  //     contactItems.forEach((item, index) => {
-  //       pdf.setFont('helvetica', 'bold');
-  //       pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-  //       pdf.setFont('helvetica', 'normal');
-  //       pdf.setTextColor(0, 0, 0);
+      pdf.setFontSize(9);
+      contactItems.forEach((item, index) => {
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
+        pdf.setFont('helvetica', 'normal');
+        pdf.setTextColor(0, 0, 0);
 
-  //       if (item.label === 'Address:' && item.value.length > 35) {
-  //         const lines = pdf.splitTextToSize(item.value, 90);
-  //         lines.forEach((line, lineIndex) => {
-  //           pdf.text(line, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6) + (lineIndex * 4));
-  //         });
-  //       } else {
-  //         pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-  //       }
-  //     });
+        if (item.label === 'Address:' && item.value.length > 35) {
+          const lines = pdf.splitTextToSize(item.value, 90);
+          lines.forEach((line, lineIndex) => {
+            pdf.text(line, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6) + (lineIndex * 4));
+          });
+        } else {
+          pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
+        }
+      });
 
-  //     formData.contactDetails.additionalFields.forEach((field, index) => {
-  //       pdf.setFont('helvetica', 'bold');
-  //       pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + contactItems.length) * 6));
-  //       pdf.setFont('helvetica', 'normal');
-  //       pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + contactItems.length) * 6));
-  //     });
+      formData.contactDetails.additionalFields.forEach((field, index) => {
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + contactItems.length) * 6));
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + contactItems.length) * 6));
+      });
 
-  //     pdf.setProperties({
-  //       title: 'Marriage Biodata',
-  //       subject: `Biodata for ${formData.personalDetails.name || 'Individual'}`,
-  //       author: 'Biodata Builder',
-  //       creator: 'Marriage Biodata Builder'
-  //     });
+      pdf.setProperties({
+        title: 'Marriage Biodata',
+        subject: `Biodata for ${formData.personalDetails.name || 'Individual'}`,
+        author: 'Biodata Builder',
+        creator: 'Marriage Biodata Builder'
+      });
 
-  //     const now = new Date();
-  //     const timestamp = now.toISOString().slice(0, 10);
-  //     const userName = formData.personalDetails.name || 'biodata';
-  //     const filename = `${userName.replace(/\s+/g, '_')}_biodata_${timestamp}.pdf`;
+      const now = new Date();
+      const timestamp = now.toISOString().slice(0, 10);
+      const userName = formData.personalDetails.name || 'biodata';
+      const filename = `${userName.replace(/\s+/g, '_')}_biodata_${timestamp}.pdf`;
 
-  //     pdf.save(filename);
+      pdf.save(filename);
 
-  //     if (downloadBtn) {
-  //       downloadBtn.textContent = 'Download PDF';
-  //     }
+      if (downloadBtn) {
+        downloadBtn.textContent = 'Download PDF';
+      }
 
-  //   } catch (error) {
-  //     console.error('Error generating PDF:', error);
-  //     alert('Error generating PDF. Please try again.');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Error generating PDF. Please try again.');
 
-  //     const downloadBtn = document.querySelector('.download-btn-text');
-  //     if (downloadBtn) {
-  //       downloadBtn.textContent = 'Download PDF';
-  //     }
-  //   }
-  // };
+      const downloadBtn = document.querySelector('.download-btn-text');
+      if (downloadBtn) {
+        downloadBtn.textContent = 'Download PDF';
+      }
+    }
+  };
 
   const removeField = (section, index) => {
     setFormData(prev => ({
@@ -813,8 +815,85 @@ const BiodataForm = ({ template }) => {
     return updatedHtml;
   };
 
+  const _exportRef = useRef();
 
+  const _exportAsImage = async (el, imageFileName) => {
+    const style = document.createElement('style');
+    style.id = 'download-animation-override';
+    style.textContent = `
+      @keyframes none {
+        to { opacity: 1; }
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        animation: none !important;
+        transition: none !important;
+      }
+    `;
 
+    try {
+      // Create a temporary container for the template
+      const tempContainer = document.createElement('div');
+      tempContainer.style.position = 'fixed';
+      tempContainer.style.left = '-9999px';
+      tempContainer.style.top = '0';
+      tempContainer.style.zIndex = '-1000';
+      tempContainer.style.background = 'transparent';
+      
+      // Clone the template content
+      const templateContent = el.querySelector('div').cloneNode(true);
+      tempContainer.appendChild(templateContent);
+      document.body.appendChild(tempContainer);
+
+      // Apply styles and remove background
+      document.head.appendChild(style);
+      document.body.style.background = 'transparent';
+
+      // Configure html2canvas to have transparent background and only capture the template
+      const canvas = await html2canvas(templateContent, {
+        useCORS: true,
+        scale: 4,
+        backgroundColor: null, // Make background transparent
+        logging: false,
+      });
+
+      // Create a temporary canvas to ensure transparency
+      const tempCanvas = document.createElement('canvas');
+      const tempCtx = tempCanvas.getContext('2d');
+      tempCanvas.width = canvas.width;
+      tempCanvas.height = canvas.height;
+
+      // Fill with transparent background
+      tempCtx.fillStyle = 'transparent';
+      tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+      // Draw the original canvas
+      tempCtx.drawImage(canvas, 0, 0);
+
+      // Convert to image with transparent background
+      const image = tempCanvas.toDataURL("image/png");
+      downloadImage(image, imageFileName);
+    } finally {
+      // Clean up
+      document.getElementById('download-animation-override')?.remove();
+      document.body.style.background = '';
+      const tempContainer = document.querySelector('div[style*="left: -9999px"]');
+      if (tempContainer) {
+        document.body.removeChild(tempContainer);
+      }
+    }
+  };
+
+  const downloadImage = (blob, fileName) => {
+    const fakeLink = window.document.createElement("a");
+    fakeLink.style = "display:none;";
+    fakeLink.download = fileName;
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+  };
 
 
   const [isPhone, setIsPhone] = useState(window.innerWidth < 768);
@@ -838,36 +917,182 @@ const BiodataForm = ({ template }) => {
     <div id="create" className='py-10 md:py-15 bg-gradient-to-b from-gray-50 to-gray-100'>
 
       {showFullscreenPreview && (
-        <div>
-          {isPhone ? (
-            <div className="fixed z-50 inset-0 bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-sm">
-
-            </div>
-
-          ) : (
-
-            <div className="fixed z-50 inset-0 bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-sm">
-              <div className="lg:col-span-1 flex justify-center sticky top-24 h-fit">
-                {htmlFiles[template - 1] && (
-                  <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
-                    <div>
-                      <div
-                        className="scale-[0.45] origin-top-left w-[820px] h-auto pointer-events-none"
-                        dangerouslySetInnerHTML={{
-                          __html: injectFormDataIntoTemplate(htmlFiles[template - 1]),
-                        }}
-                      />
-                    </div>
-
-                  </div>
-                )}
+        <div className="fixed z-50 inset-0 bg-black/90 backdrop-blur-sm">
+          {/* Header with controls */}
+          <div className="absolute top-0 left-0 right-0 bg-white/10 backdrop-blur-md border-b border-white/20 p-2 md:p-4 z-10">
+            <div className="flex items-center justify-between max-w-6xl mx-auto">
+              <div className="flex items-center gap-2 md:gap-4">
+                <button
+                  onClick={() => setShowFullscreenPreview(false)}
+                  className="flex items-center gap-1 md:gap-2 px-2 md:px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors text-sm md:text-base"
+                >
+                  <FiArrowLeft className="w-3 h-3 md:w-4 md:h-4" />
+                  <span className="hidden sm:inline">Back to Form</span>
+                  <span className="sm:hidden">Back</span>
+                </button>
+                <h2 className="text-white text-sm md:text-lg font-semibold truncate max-w-[150px] md:max-w-none">
+                  {isPhone ? 'Preview' : `Biodata Preview - ${formData.personalDetails.name || 'Your Name'}`}
+                </h2>
+              </div>
+              
+              <div className="flex items-center gap-1 md:gap-3">
+                {/* Download PDF Button */}
+                <button
+                  onClick={downloadPdf}
+                  className="flex items-center gap-1 md:gap-2 px-2 md:px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-xs md:text-sm"
+                >
+                  <FiDownload className="w-3 h-3 md:w-4 md:h-4" />
+                  <span className="download-btn-text hidden sm:inline">Download PDF</span>
+                  <span className="sm:hidden">PDF</span>
+                </button>
+                
+                {/* Print Button */}
+                <button
+                  onClick={() => window.print()}
+                  className="flex items-center gap-1 md:gap-2 px-2 md:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-xs md:text-sm"
+                >
+                  <FiPrinter className="w-3 h-3 md:w-4 md:h-4" />
+                  <span className="hidden sm:inline">Print</span>
+                </button>
+                
+                {/* Close Button */}
+                <button
+                  onClick={() => setShowFullscreenPreview(false)}
+                  className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                >
+                  <FiX className="w-4 h-4 md:w-5 md:h-5" />
+                </button>
               </div>
             </div>
-          )}
-        </div>
+          </div>
 
-      )
-      }
+          {/* Template Preview Content */}
+          <div className="pt-16 md:pt-20 pb-4 md:pb-8 px-2 md:px-4 h-full overflow-auto">
+            <div className="flex justify-center items-start min-h-full">
+              {htmlFiles[template - 1] && (
+                <div className="bg-white rounded-lg shadow-2xl p-2 md:p-8 max-w-4xl w-full">
+                  {/* Template Content */}
+                  <div
+                  ref={formRef}
+                    className={`w-full ${isPhone ? 'mobile-template-view' : ''}`}
+                    dangerouslySetInnerHTML={{
+                      __html: injectFormDataIntoTemplate(htmlFiles[template - 1]),
+                    }}
+                  />
+                  
+                  {/* Footer with template info */}
+                  <div className="mt-4 md:mt-8 pt-3 md:pt-6 border-t border-gray-200 text-center text-xs md:text-sm text-gray-500">
+                    <p>Generated with Marriage Biodata Builder</p>
+                    <p className="mt-1">Template {template} • Created on {new Date().toLocaleDateString()}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Mobile optimized styles */}
+          <style jsx>{`
+            @media (max-width: 768px) {
+              .mobile-template-view .biodata-container {
+                transform: scale(0.85);
+                transform-origin: top center;
+                margin: 0 auto;
+              }
+              
+              .mobile-template-view .content {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+              }
+              
+              .mobile-template-view .main-content {
+                flex-direction: column !important;
+                gap: 20px !important;
+              }
+              
+              .mobile-template-view .profile-photo {
+                order: -1 !important;
+                text-align: center !important;
+              }
+              
+              .mobile-template-view .profile-photo img,
+              .mobile-template-view .photo {
+                width: 150px !important;
+                height: 180px !important;
+                margin: 0 auto !important;
+              }
+              
+              .mobile-template-view .details {
+                width: 100% !important;
+              }
+              
+              .mobile-template-view .section-title {
+                font-size: 18px !important;
+              }
+              
+              .mobile-template-view .name {
+                font-size: 24px !important;
+              }
+              
+              .mobile-template-view .info-row,
+              .mobile-template-view .detail-row {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                margin-bottom: 8px !important;
+              }
+              
+              .mobile-template-view .label,
+              .mobile-template-view .detail-label {
+                min-width: auto !important;
+                margin-right: 0 !important;
+                margin-bottom: 2px !important;
+                font-weight: bold !important;
+              }
+              
+              .mobile-template-view .value,
+              .mobile-template-view .detail-value {
+                margin-left: 0 !important;
+                padding-left: 0 !important;
+              }
+              
+              .mobile-template-view .colon {
+                display: none !important;
+              }
+              
+              .mobile-template-view .decorative-corner,
+              .mobile-template-view .decorative-corners,
+              .mobile-template-view .background-pattern {
+                display: none !important;
+              }
+              
+              .mobile-template-view .contact-section {
+                margin-top: 20px !important;
+                padding: 15px !important;
+              }
+            }
+            
+            @media (max-width: 480px) {
+              .mobile-template-view .biodata-container {
+                transform: scale(0.75);
+                padding: 20px !important;
+              }
+              
+              .mobile-template-view .profile-photo img,
+              .mobile-template-view .photo {
+                width: 120px !important;
+                height: 150px !important;
+              }
+              
+              .mobile-template-view .name {
+                font-size: 20px !important;
+              }
+              
+              .mobile-template-view .section-title {
+                font-size: 16px !important;
+              }
+            }
+          `}</style>
+        </div>
+      )}
 
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto px-4 py-12 items-center justify-center flex flex-co">
