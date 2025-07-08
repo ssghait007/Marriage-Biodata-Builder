@@ -1643,17 +1643,17 @@ const BiodataForm = ({ template }) => {
                       </div>
                     )}
                     
-                    <div className="">
+                    <div className="relative overflow-hidden rounded-lg shadow-lg bg-white p-4">
                       <div
                         className={`${
                           isPhone 
-                            ? 'scale-[0.25] origin-top-left w-[820px] h-[1200px]' 
+                            ? 'scale-[0.6] origin-top-left w-[820px] h-[1200px]' 
                             : 'scale-[0.45] origin-top-left w-[820px] h-[1200px]'
                         } pointer-events-none`}
                         style={{
                           transformOrigin: 'top left',
                           width: isPhone ? '820px' : '820px',
-                          height: isPhone ? '600px' : '640px'
+                          height: isPhone ? '720px' : '540px'
                         }}
                         dangerouslySetInnerHTML={{
                           __html: injectFormDataIntoTemplate(htmlFiles[template - 1]),
