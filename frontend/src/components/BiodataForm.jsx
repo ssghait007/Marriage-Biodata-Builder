@@ -1631,30 +1631,61 @@ const BiodataForm = ({ template }) => {
             </div>
 
             {/* Preview Section */}
-
-            {isPhone ? (
-              <div>
-
-              </div>
-            ) : (
-              <div className="lg:col-span-1 flex justify-center sticky top-24 h-fit">
-                {htmlFiles[template - 1] && (
-                  <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
-                    <div>
+            <div className="lg:col-span-1 flex justify-center sticky top-24 h-fit">
+              {htmlFiles[template - 1] && (
+                <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-lg">
+                  <div className="relative">
+                    {/* Mobile Preview Header */}
+                    {isPhone && (
+                      <div className="mb-4 text-center">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-2">Template Preview</h3>
+                        <p className="text-sm text-gray-600">Template {template}</p>
+                      </div>
+                    )}
+                    
+                    <div className="relative overflow-hidden rounded-lg shadow-lg bg-white">
                       <div
-                        className="scale-[0.45] origin-top-left w-[820px] h-[1200px] pointer-events-none"
+                        className={`${
+                          isPhone 
+                            ? 'scale-[0.25] origin-top-left w-[820px] h-[1200px]' 
+                            : 'scale-[0.45] origin-top-left w-[820px] h-[1200px]'
+                        } pointer-events-none`}
+                        style={{
+                          transformOrigin: 'top left',
+                          width: isPhone ? '820px' : '820px',
+                          height: isPhone ? '300px' : '540px'
+                        }}
                         dangerouslySetInnerHTML={{
                           __html: injectFormDataIntoTemplate(htmlFiles[template - 1]),
                         }}
                       />
                     </div>
-                    {/* <button onClick={updateName} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
-                      Toggle Name
-                    </button> */}
+                    
+                    {/* Mobile Preview Actions */}
+                    {isPhone && (
+                      <div className="mt-4 flex gap-2 justify-center">
+                        <button
+                          onClick={() => setShowFullscreenPreview(true)}
+                          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                          View Full
+                        </button>
+                        <button
+                          onClick={downloadPdf}
+                          className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm"
+                        >
+                          <FiDownload className="w-4 h-4" />
+                          <span className="download-btn-text">PDF</span>
+                        </button>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            )}
+                </div>
+              )}
+            </div>
 
             {!template && (
               <div className="lg:col-span-1 flex justify-center">

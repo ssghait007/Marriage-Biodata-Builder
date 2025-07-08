@@ -163,7 +163,7 @@ const MarriageBiodataGallery = ({ selectedTemplate }) => {
                 {templateImages.map((imageSrc, idx) => (
                   <div 
                     key={idx}
-                    className="flex-shrink-0 w-64 h-96 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:scale-105 relative group"
+                    className="flex-shrink-0 w-64 h-96 bg-white rounded-xl shadow-lg overflow-hidden relative"
                   >
                     <img
                       src={imageSrc}
@@ -171,16 +171,16 @@ const MarriageBiodataGallery = ({ selectedTemplate }) => {
                       className="w-full h-full "
                     />
                     {/* Template Action Buttons - Mobile */}
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3">
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 flex flex-col gap-2">
                       <button 
                         onClick={() => handleViewTemplate(idx)}
-                        className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-4 py-2 rounded-full font-semibold shadow-lg transform hover:scale-105 transition-all duration-300 text-sm"
+                        className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-full font-semibold shadow-lg text-sm w-full"
                       >
                         View Template
                       </button>
                       <button 
                         onClick={() => handleTemplateSelect(idx + 1)}
-                        className="bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white px-4 py-2 rounded-full font-semibold shadow-lg transform hover:scale-105 transition-all duration-300 text-sm"
+                        className="bg-gradient-to-r from-pink-500 to-red-500 text-white px-4 py-2 rounded-full font-semibold shadow-lg text-sm w-full"
                       >
                         Select Template
                       </button>
