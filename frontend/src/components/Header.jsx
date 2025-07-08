@@ -80,7 +80,7 @@ const Header = () => {
               >
                 <span className="cursor-pointer relative z-10 flex items-center space-x-2">
                   <DollarSign className="w-4 h-4" />
-                  <span>Donate</span>
+                  <span>Add Template</span>
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
@@ -189,7 +189,7 @@ const Header = () => {
                   <div className="p-2 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full">
                     <DollarSign className="w-5 h-5 text-white" />
                   </div>
-                  <span>Donate Template</span>
+                  <span>Add Template</span>
                 </h2>
                 <button
                   onClick={() => setIsDonateModalOpen(false)}
@@ -241,7 +241,7 @@ const Header = () => {
                 >
                   <span className="flex items-center space-x-2">
                     <Heart className="w-4 h-4" />
-                    <span>Donate Template</span>
+                    <span>Add Template</span>
                   </span>
                 </button>
               </div>
