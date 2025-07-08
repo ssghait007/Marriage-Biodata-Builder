@@ -1643,7 +1643,7 @@ const BiodataForm = ({ template }) => {
                       </div>
                     )}
                     
-                    <div className="relative overflow-hidden rounded-lg shadow-lg bg-white">
+                    <div className="">
                       <div
                         className={`${
                           isPhone 
@@ -1653,7 +1653,7 @@ const BiodataForm = ({ template }) => {
                         style={{
                           transformOrigin: 'top left',
                           width: isPhone ? '820px' : '820px',
-                          height: isPhone ? '300px' : '540px'
+                          height: isPhone ? '600px' : '640px'
                         }}
                         dangerouslySetInnerHTML={{
                           __html: injectFormDataIntoTemplate(htmlFiles[template - 1]),
@@ -1661,27 +1661,7 @@ const BiodataForm = ({ template }) => {
                       />
                     </div>
                     
-                    {/* Mobile Preview Actions */}
-                    {isPhone && (
-                      <div className="mt-4 flex gap-2 justify-center">
-                        <button
-                          onClick={() => setShowFullscreenPreview(true)}
-                          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                          </svg>
-                          View Full
-                        </button>
-                        <button
-                          onClick={downloadPdf}
-                          className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm"
-                        >
-                          <FiDownload className="w-4 h-4" />
-                          <span className="download-btn-text">PDF</span>
-                        </button>
-                      </div>
-                    )}
+                    
                   </div>
                 </div>
               )}
