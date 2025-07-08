@@ -648,6 +648,15 @@ const BiodataForm = ({ template }) => {
       // Replace any img tags in profile-photo containers
       updatedHtml = updatedHtml.replace(/<img[^>]*src="[^"]*"[^>]*alt="Profile Photo"[^>]*>/gi,
         `<img src="${preview}" alt="Profile Photo">`);
+
+      // Additional fallback for any photo placeholders or empty photo divs
+      updatedHtml = updatedHtml.replace(/<div[^>]*class="[^"]*photo[^"]*"[^>]*>\s*<span[^>]*>Photo<\/span>\s*<\/div>/gi,
+        `<img src="${preview}" alt="Profile Photo" class="photo">`);
+
+      // Handle any generic photo placeholder patterns
+      updatedHtml = updatedHtml.replace(/<div[^>]*class="[^"]*photo[^"]*"[^>]*style="[^"]*"[^>]*>\s*<span>Photo<\/span>\s*<\/div>/gi,
+        `<img src="${preview}" alt="Profile Photo" class="photo">`);
+
     } else {
       // If no photo, show placeholder for photo-container
       const photoContainerRegex = /<div class="photo-container">\s*<!--[^>]*-->\s*<\/div>/;
