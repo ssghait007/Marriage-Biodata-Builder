@@ -64,7 +64,7 @@ const Footer = () => {
             </p>
             
             {/* Stats */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
+            {/* <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="text-center p-3 bg-white/5 rounded-lg backdrop-blur-sm">
                 <div className="text-2xl font-bold text-pink-400">50K+</div>
                 <div className="text-xs text-gray-400">Happy Users</div>
@@ -73,10 +73,10 @@ const Footer = () => {
                 <div className="text-2xl font-bold text-yellow-400">100K+</div>
                 <div className="text-xs text-gray-400">Biodatas Created</div>
               </div>
-            </div>
+            </div> */}
 
             {/* Social Links */}
-            <div className="flex space-x-4">
+            {/* <div className="flex space-x-4">
               {[
                 { icon: Facebook, color: 'hover:text-blue-400', bg: 'hover:bg-blue-400/20' },
                 { icon: Instagram, color: 'hover:text-pink-400', bg: 'hover:bg-pink-400/20' },
@@ -92,7 +92,7 @@ const Footer = () => {
                   <social.icon className="w-5 h-5" />
                 </a>
               ))}
-            </div>
+            </div> */}
           </div>
 
           {/* Quick Links */}
@@ -105,10 +105,7 @@ const Footer = () => {
               {[
                 'Create Biodata',
                 'Browse Templates',
-                'WhatsApp Groups',
-                'Success Stories',
-                'Premium Plans',
-                'Mobile App'
+               
               ].map((link, index) => (
                 <li key={index}>
                   <a 
@@ -224,7 +221,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-4 mb-4 md:mb-0">
               <p className="text-gray-400 text-sm">
-                © 2024 MarriageBiodata.App. All rights reserved.
+                © 2025 MarriageBiodata.App. All rights reserved.
               </p>
               <div className="flex space-x-4 text-sm">
                 <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy</a>

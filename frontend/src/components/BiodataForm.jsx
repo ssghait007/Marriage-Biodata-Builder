@@ -1662,7 +1662,7 @@ const BiodataForm = ({ template }) => {
                         style={{
                           transformOrigin: 'top left',
                           width: isPhone ? '820px' : '820px',
-                          height: isPhone ? '720px' : '540px'
+                          height: isPhone ? '720px' : '640px'
                         }}
                         dangerouslySetInnerHTML={{
                           __html: injectFormDataIntoTemplate(htmlFiles[template - 1]),
@@ -1679,8 +1679,7 @@ const BiodataForm = ({ template }) => {
             {!template && (
               <div className="lg:col-span-1 flex justify-center">
                 <div className="flex-shrink-0 w-full sm:w-80 md:w-72 lg:w-80 mx-2 group">
-                  <a href="#templates" onClick={() => window.scrollTo({ top: document.getElementById('templates').offsetTop, behavior: 'smooth' })}
-                    className={`flex items-center justify-center p-2 rounded border font-semibold border-gray-400 hover:bg-gray-100 transition-colors`}>Select Template</a>
+                  
                 </div>
               </div>
             )}
