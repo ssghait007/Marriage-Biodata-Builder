@@ -70,7 +70,7 @@ const BiodataForm = ({ template }) => {
   });
   const [selectedLanguage, setSelectedLanguage] = useState('English');
   const fileInputRef = useRef(null);
-  const [imageFile, setImageFile] = useState(null);
+  const [_imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [showFullscreenPreview, setShowFullscreenPreview] = useState(false);
 
@@ -455,75 +455,209 @@ const BiodataForm = ({ template }) => {
     }
   };
 
-  // Function to inject form data into template HTML for real-time editing
+  // Dynamic function to inject form data into any template HTML
   const injectFormDataIntoTemplate = (html) => {
     // First, strip wrapper tags and body styles using the existing function
     let updatedHtml = stripWrapperTags(html);
 
-    // Replace name in the template
-    updatedHtml = updatedHtml.replace(/Sanjay Singh/g, formData.personalDetails.name || 'Your Name');
+    // Create a comprehensive mapping of form data to potential template values
+    const dataMapping = {
+      // Personal Details
+      name: formData.personalDetails.name || 'Your Name',
+      dateOfBirth: formData.personalDetails.dateOfBirth || 'DD/MM/YYYY',
+      timeOfBirth: formData.personalDetails.timeOfBirth || 'Time',
+      placeOfBirth: formData.personalDetails.placeOfBirth || 'Place of Birth',
+      complexion: formData.personalDetails.complexion || 'Complexion',
+      height: formData.personalDetails.height || 'Height',
+      gotra: formData.personalDetails.gotra || 'Gotra/Caste',
+      occupation: formData.personalDetails.occupation || 'Occupation',
+      income: formData.personalDetails.income || 'Income',
+      education: formData.personalDetails.education || 'Education',
+      gender: formData.personalDetails.gender || 'Gender',
+      
+      // Family Details
+      fatherName: formData.familyDetails.fatherName || "Father's Name",
+      fatherOccupation: formData.familyDetails.fatherOccupation || "Father's Occupation",
+      motherName: formData.familyDetails.motherName || "Mother's Name",
+      motherOccupation: formData.familyDetails.motherOccupation || "Mother's Occupation",
+      siblings: formData.familyDetails.siblings || 'Siblings Info',
+      
+      // Contact Details
+      contactPerson: formData.contactDetails.contactPerson || 'Contact Person',
+      contactNumber: formData.contactDetails.contactNumber || 'Contact Number',
+      residentialAddress: formData.contactDetails.residentialAddress || 'Address'
+    };
 
-    // Replace date of birth
-    updatedHtml = updatedHtml.replace(/22\/10\/2000/g, formData.personalDetails.dateOfBirth || 'DD/MM/YYYY');
+    // Define common patterns found in templates with their replacements
+    const replacementPatterns = [
+      // Names - various formats
+      { pattern: /Sanjay Singh/gi, replacement: dataMapping.name },
+      { pattern: /Mahima Chaudhari/gi, replacement: dataMapping.name },
+      { pattern: /<h1[^>]*class="name"[^>]*>([^<]*)<\/h1>/gi, replacement: `<h1 class="name">${dataMapping.name}</h1>` },
+      { pattern: /<span[^>]*class="detail-value"[^>]*>Mahima Chaudhari<\/span>/gi, replacement: `<span class="detail-value">${dataMapping.name}</span>` },
+      
+      // Date of Birth - various formats
+      { pattern: /22\/10\/2000/gi, replacement: dataMapping.dateOfBirth },
+      { pattern: /3rd Aug 1993/gi, replacement: dataMapping.dateOfBirth },
+      { pattern: /(\d{1,2}\/\d{1,2}\/\d{4})/g, replacement: dataMapping.dateOfBirth },
+      
+      // Place of Birth
+      { pattern: /Bangalore/gi, replacement: dataMapping.placeOfBirth },
+      { pattern: /Panipat/gi, replacement: dataMapping.placeOfBirth },
+      
+      // Height - various formats
+      { pattern: /4 Feet 8 Inches/gi, replacement: dataMapping.height },
+      { pattern: /5 Feet 6 Inch/gi, replacement: dataMapping.height },
+      { pattern: /\d+\s*Feet?\s*\d*\s*Inch(es)?/gi, replacement: dataMapping.height },
+      
+      // Complexion
+      { pattern: /Fair/gi, replacement: dataMapping.complexion },
+      
+      // Education - various formats
+      { pattern: /MBA in Finance/gi, replacement: dataMapping.education },
+      { pattern: /Msc\.IT - A\+ Grade/gi, replacement: dataMapping.education },
+      
+      // Occupation - various formats
+      { pattern: /Project Manager/gi, replacement: dataMapping.occupation },
+      { pattern: /Software Engineer/gi, replacement: dataMapping.occupation },
+      
+      // Income
+      { pattern: /80,000/gi, replacement: dataMapping.income },
+      
+      // Gotra/Caste - be careful with Singh as it appears in names too
+      { pattern: /Brahmins/gi, replacement: dataMapping.gotra },
+      
+      // Father's Name - various formats
+      { pattern: /Mr\. Pramod Singh/gi, replacement: dataMapping.fatherName },
+      { pattern: /Dipakbhai/gi, replacement: dataMapping.fatherName },
+      
+      // Father's Occupation
+      { pattern: /A\.G\.M\. at State Bank of India/gi, replacement: dataMapping.fatherOccupation },
+      { pattern: /Business - Retail/gi, replacement: dataMapping.fatherOccupation },
+      
+      // Mother's Name
+      { pattern: /Mrs\. Meena Singh/gi, replacement: dataMapping.motherName },
+      { pattern: /Sarladevi/gi, replacement: dataMapping.motherName },
+      
+      // Mother's Occupation
+      { pattern: /House Wife/gi, replacement: dataMapping.motherOccupation },
+      { pattern: /Housewife/gi, replacement: dataMapping.motherOccupation },
+      
+      // Siblings
+      { pattern: /2 Sister \| 3 Brother/gi, replacement: dataMapping.siblings },
+      
+      // Contact Number - various formats
+      { pattern: /75678XXXXX/gi, replacement: dataMapping.contactNumber },
+      { pattern: /\+91 9098998989/gi, replacement: dataMapping.contactNumber },
+      { pattern: /\+?\d{2}\s?\d{10}/g, replacement: dataMapping.contactNumber },
+      
+      // Address
+      { pattern: /Viale Risorgimento 55, 42100 Reggio Emilia/gi, replacement: dataMapping.residentialAddress }
+    ];
 
-    // Replace place of birth
-    updatedHtml = updatedHtml.replace(/Bangalore/g, formData.personalDetails.placeOfBirth || 'Place of Birth');
+    // Apply all replacement patterns
+    replacementPatterns.forEach(({ pattern, replacement }) => {
+      if (replacement && replacement !== pattern.source) {
+        updatedHtml = updatedHtml.replace(pattern, replacement);
+      }
+    });
 
-    // Replace height
-    updatedHtml = updatedHtml.replace(/4 Feet 8 Inches/g, formData.personalDetails.height || 'Height');
+    // Handle structured data replacements for specific HTML patterns
+    // Replace values in info-row structures
+    updatedHtml = updatedHtml.replace(
+      /<div class="info-row">\s*<span class="label">Date of Birth<\/span>\s*<span class="colon">:<\/span>\s*<span class="value">([^<]*)<\/span>\s*<\/div>/gi,
+      `<div class="info-row"><span class="label">Date of Birth</span><span class="colon">:</span><span class="value">${dataMapping.dateOfBirth}</span></div>`
+    );
 
-    // Replace complexion
-    updatedHtml = updatedHtml.replace(/Fair/g, formData.personalDetails.complexion || 'Complexion');
+    updatedHtml = updatedHtml.replace(
+      /<div class="info-row">\s*<span class="label">Height<\/span>\s*<span class="colon">:<\/span>\s*<span class="value">([^<]*)<\/span>\s*<\/div>/gi,
+      `<div class="info-row"><span class="label">Height</span><span class="colon">:</span><span class="value">${dataMapping.height}</span></div>`
+    );
 
-    // Replace education
-    updatedHtml = updatedHtml.replace(/MBA in Finance/g, formData.personalDetails.education || 'Education');
+    updatedHtml = updatedHtml.replace(
+      /<div class="info-row">\s*<span class="label">Address<\/span>\s*<span class="colon">:<\/span>\s*<span class="value">([^<]*)<\/span>\s*<\/div>/gi,
+      `<div class="info-row"><span class="label">Address</span><span class="colon">:</span><span class="value">${dataMapping.residentialAddress}</span></div>`
+    );
 
-    // Replace occupation
-    updatedHtml = updatedHtml.replace(/Project Manager/g, formData.personalDetails.occupation || 'Occupation');
+    // Handle detail-row structures (for template 2 format)
+    updatedHtml = updatedHtml.replace(
+      /<div class="detail-row">\s*<span class="detail-label">Name<\/span>\s*<span class="detail-value">([^<]*)<\/span>\s*<\/div>/gi,
+      `<div class="detail-row"><span class="detail-label">Name</span><span class="detail-value">${dataMapping.name}</span></div>`
+    );
 
-    // Replace gotra/caste
-    updatedHtml = updatedHtml.replace(/Singh/g, formData.personalDetails.gotra || 'Gotra/Caste');
+    updatedHtml = updatedHtml.replace(
+      /<div class="detail-row">\s*<span class="detail-label">Height<\/span>\s*<span class="detail-value">([^<]*)<\/span>\s*<\/div>/gi,
+      `<div class="detail-row"><span class="detail-label">Height</span><span class="detail-value">${dataMapping.height}</span></div>`
+    );
 
-    // Replace father's name
-    updatedHtml = updatedHtml.replace(/Mr\. Pramod Singh/g, formData.familyDetails.fatherName || "Father's Name");
+    updatedHtml = updatedHtml.replace(
+      /<div class="detail-row">\s*<span class="detail-label">Education<\/span>\s*<span class="detail-value">([^<]*)<\/span>\s*<\/div>/gi,
+      `<div class="detail-row"><span class="detail-label">Education</span><span class="detail-value">${dataMapping.education}</span></div>`
+    );
 
-    // Replace father's occupation
-    updatedHtml = updatedHtml.replace(/A\.G\.M\. at State Bank of India/g, formData.familyDetails.fatherOccupation || "Father Occupation");
+    updatedHtml = updatedHtml.replace(
+      /<div class="detail-row">\s*<span class="detail-label">Occupation<\/span>\s*<span class="detail-value">([^<]*)<\/span>\s*<\/div>/gi,
+      `<div class="detail-row"><span class="detail-label">Occupation</span><span class="detail-value">${dataMapping.occupation}</span></div>`
+    );
 
-    // Replace mother's name
-    updatedHtml = updatedHtml.replace(/Mrs\. Meena Singh/g, formData.familyDetails.motherName || "Mother's Name");
+    updatedHtml = updatedHtml.replace(
+      /<div class="detail-row">\s*<span class="detail-label">Father Name<\/span>\s*<span class="detail-value">([^<]*)<\/span>\s*<\/div>/gi,
+      `<div class="detail-row"><span class="detail-label">Father Name</span><span class="detail-value">${dataMapping.fatherName}</span></div>`
+    );
 
-    // Replace mother's occupation
-    updatedHtml = updatedHtml.replace(/House Wife/g, formData.familyDetails.motherOccupation || 'Mother Occupation');
+    updatedHtml = updatedHtml.replace(
+      /<div class="detail-row">\s*<span class="detail-label">Mother Name<\/span>\s*<span class="detail-value">([^<]*)<\/span>\s*<\/div>/gi,
+      `<div class="detail-row"><span class="detail-label">Mother Name</span><span class="detail-value">${dataMapping.motherName}</span></div>`
+    );
 
-    // Replace siblings info
-    updatedHtml = updatedHtml.replace(/<span class="value">2<\/span>/g, `<span class="value">${formData.familyDetails.siblings || 'Siblings Info'}</span>`);
+    // Handle additional fields dynamically
+    formData.personalDetails.additionalFields.forEach(field => {
+      if (field.key && field.value) {
+        // Try to find and replace any matching labels in the template
+        const labelPattern = new RegExp(`<span class="(label|detail-label)">${field.key}</span>\\s*<span class="colon">:</span>\\s*<span class="(value|detail-value)">([^<]*)</span>`, 'gi');
+        updatedHtml = updatedHtml.replace(labelPattern, `<span class="$1">${field.key}</span><span class="colon">:</span><span class="$2">${field.value}</span>`);
+      }
+    });
 
-    // Replace contact number
-    updatedHtml = updatedHtml.replace(/75678XXXXX/g, formData.contactDetails.contactNumber || 'Contact Number');
+    formData.familyDetails.additionalFields.forEach(field => {
+      if (field.key && field.value) {
+        const labelPattern = new RegExp(`<span class="(label|detail-label)">${field.key}</span>\\s*<span class="colon">:</span>\\s*<span class="(value|detail-value)">([^<]*)</span>`, 'gi');
+        updatedHtml = updatedHtml.replace(labelPattern, `<span class="$1">${field.key}</span><span class="colon">:</span><span class="$2">${field.value}</span>`);
+      }
+    });
 
-    // Replace address (last occurrence to avoid replacing place of birth)
-    const addressRegex = /<div class="info-row">\s*<span class="label">Address<\/span>\s*<span class="colon">:<\/span>\s*<span class="value">([^<]*)<\/span>\s*<\/div>/;
-    updatedHtml = updatedHtml.replace(addressRegex,
-      `<div class="info-row">
-        <span class="label">Address</span>
-        <span class="colon">:</span>
-        <span class="value">${formData.contactDetails.residentialAddress || 'Address'}</span>
-      </div>`);
+    formData.contactDetails.additionalFields.forEach(field => {
+      if (field.key && field.value) {
+        const labelPattern = new RegExp(`<span class="(label|detail-label)">${field.key}</span>\\s*<span class="colon">:</span>\\s*<span class="(value|detail-value)">([^<]*)</span>`, 'gi');
+        updatedHtml = updatedHtml.replace(labelPattern, `<span class="$1">${field.key}</span><span class="colon">:</span><span class="$2">${field.value}</span>`);
+      }
+    });
 
-    // Add photo if available - replace the commented img tag or add one
+    // Handle photo injection for different template structures
     if (preview) {
+      // For photo-container structure (template 1)
       const photoContainerRegex = /<div class="photo-container">\s*<!--[^>]*-->\s*<\/div>/;
       updatedHtml = updatedHtml.replace(photoContainerRegex,
         `<div class="photo-container">
           <img src="${preview}" alt="Profile Photo" class="photo">
         </div>`);
 
-      // Also handle case where there might be an existing img tag
+      // For profile-photo structure (template 2)
+      const profilePhotoRegex = /<div class="profile-photo">\s*<img[^>]*>\s*<\/div>/;
+      updatedHtml = updatedHtml.replace(profilePhotoRegex,
+        `<div class="profile-photo">
+          <img src="${preview}" alt="Profile Photo" class="photo">
+        </div>`);
+
+      // Replace any existing img tags with photo class
       updatedHtml = updatedHtml.replace(/<img[^>]*class="[^"]*photo[^"]*"[^>]*>/gi,
         `<img src="${preview}" alt="Profile Photo" class="photo">`);
+
+      // Replace any img tags in profile-photo containers
+      updatedHtml = updatedHtml.replace(/<img[^>]*src="[^"]*"[^>]*alt="Profile Photo"[^>]*>/gi,
+        `<img src="${preview}" alt="Profile Photo">`);
     } else {
-      // If no photo, show placeholder
+      // If no photo, show placeholder for photo-container
       const photoContainerRegex = /<div class="photo-container">\s*<!--[^>]*-->\s*<\/div>/;
       updatedHtml = updatedHtml.replace(photoContainerRegex,
         `<div class="photo-container">
