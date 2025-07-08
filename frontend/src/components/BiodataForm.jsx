@@ -107,6 +107,57 @@ const BiodataForm = ({ template }) => {
         downloadBtn.textContent = 'Generating PDF...';
       }
 
+      // Check if template is selected
+      if (!template || !htmlFiles[template - 1]) {
+        alert('Please select a template first');
+        if (downloadBtn) {
+          downloadBtn.textContent = 'Download PDF';
+        }
+        return;
+      }
+
+      // Create a temporary container for the template
+      const tempContainer = document.createElement('div');
+      tempContainer.style.position = 'fixed';
+      tempContainer.style.left = '-9999px';
+      tempContainer.style.top = '0';
+      tempContainer.style.zIndex = '-1000';
+      tempContainer.style.background = 'white';
+      tempContainer.style.width = '800px';
+      tempContainer.style.padding = '20px';
+      
+      // Inject the template HTML with form data
+      tempContainer.innerHTML = injectFormDataIntoTemplate(htmlFiles[template - 1]);
+      document.body.appendChild(tempContainer);
+
+      // Add styles to ensure proper rendering
+      const style = document.createElement('style');
+      style.textContent = `
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          animation: none !important;
+          transition: none !important;
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Wait a moment for styles to apply
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Generate canvas from the template
+      const canvas = await html2canvas(tempContainer, {
+        useCORS: true,
+        scale: 2,
+        backgroundColor: '#ffffff',
+        logging: false,
+        width: 800,
+        height: tempContainer.scrollHeight,
+        windowWidth: 800,
+        windowHeight: tempContainer.scrollHeight
+      });
+
+      // Create PDF
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -114,235 +165,25 @@ const BiodataForm = ({ template }) => {
         compress: true
       });
 
-      const colorMap = {
-        amber: [245, 158, 11],
-        blue: [59, 130, 246],
-        green: [16, 185, 129],
-        purple: [139, 92, 246],
-        rose: [244, 63, 94],
-        teal: [20, 184, 166],
-        orange: [249, 115, 22],
-        indigo: [99, 102, 241],
-        red: [239, 68, 68],
-        emerald: [16, 185, 129]
-      };
-
-      const primaryColor = colorMap[template?.colorScheme] || colorMap.blue;
-
-      pdf.setFillColor(248, 250, 252);
-      pdf.rect(0, 0, 210, 297, 'F');
-
-      pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.setLineWidth(2);
-      pdf.rect(15, 15, 180, 250);
-
-      pdf.setLineWidth(0.5);
-      pdf.rect(20, 20, 170, 240);
-
-      pdf.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-
-      pdf.ellipse(105, 25, 15, 3, 'F');
-      pdf.ellipse(105, 25, 12, 2, 'F');
-
-      pdf.ellipse(105, 255, 15, 3, 'F');
-      pdf.ellipse(105, 255, 12, 2, 'F');
-
-      const cornerSize = 8;
-      pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.setLineWidth(1);
-      pdf.line(25, 25, 25 + cornerSize, 25);
-      pdf.line(25, 25, 25, 25 + cornerSize);
-      pdf.circle(25 + 2, 25 + 2, 1, 'F');
-
-      pdf.line(185, 25, 185 - cornerSize, 25);
-      pdf.line(185, 25, 185, 25 + cornerSize);
-      pdf.circle(185 - 2, 25 + 2, 1, 'F');
-
-      pdf.line(25, 255, 25 + cornerSize, 255);
-      pdf.line(25, 255, 25, 255 - cornerSize);
-      pdf.circle(25 + 2, 255 - 2, 1, 'F');
-
-      pdf.line(185, 255, 185 - cornerSize, 255);
-      pdf.line(185, 255, 185, 255 - cornerSize);
-      pdf.circle(185 - 2, 255 - 2, 1, 'F');
-
-      pdf.setFontSize(16);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      const title = '|| MARRIAGE BIODATA ||';
-      const titleWidth = pdf.getTextWidth(title);
-      pdf.text(title, (210 - titleWidth) / 2, 45);
-
-      pdf.setLineWidth(1);
-      pdf.line(80, 50, 130, 50);
-
-      let yPos = 65;
-
-      // Photo section with border (left side)
-      pdf.setDrawColor(200, 200, 200);
-      pdf.setFillColor(245, 245, 245);
-      pdf.setLineWidth(1);
-      pdf.rect(30, yPos, 45, 55, 'FD');
-
-      // Add image if available
-      if (preview) {
-        try {
-          // Add the image to PDF
-          pdf.addImage(preview, 'JPEG', 30, yPos, 45, 55);
-        } catch (error) {
-          console.warn('Could not add image to PDF:', error);
-          // Fallback to placeholder text if image fails
-          pdf.setFontSize(10);
-          pdf.setTextColor(150, 150, 150);
-          pdf.text('Photo', 48, yPos + 30);
-        }
-      } else {
-        // Photo placeholder text
-        pdf.setFontSize(10);
-        pdf.setTextColor(150, 150, 150);
-        pdf.text('Photo', 48, yPos + 30);
+      // Calculate dimensions to fit A4
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      // If the content is too tall for one page, we might need to scale it down
+      const maxHeight = 297; // A4 height in mm
+      let finalWidth = imgWidth;
+      let finalHeight = imgHeight;
+      
+      if (imgHeight > maxHeight) {
+        finalHeight = maxHeight;
+        finalWidth = (canvas.width * finalHeight) / canvas.height;
       }
 
-      let detailsYPos = yPos;
-      const detailsXPos = 85;
+      // Add the image to PDF
+      const imgData = canvas.toDataURL('image/png');
+      pdf.addImage(imgData, 'PNG', (210 - finalWidth) / 2, 0, finalWidth, finalHeight);
 
-      pdf.setFontSize(12);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.text('PERSONAL', detailsXPos, detailsYPos);
-
-      pdf.setLineWidth(0.5);
-      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
-
-      pdf.setFontSize(9);
-      pdf.setFont('helvetica', 'normal');
-      pdf.setTextColor(0, 0, 0);
-
-      const personalItems = [
-        { label: 'Name:', value: formData.personalDetails.name || '' },
-        { label: 'DOB:', value: formData.personalDetails.dateOfBirth || '' },
-        { label: 'Age:', value: formData.personalDetails.age || '' },
-        { label: 'Height:', value: formData.personalDetails.height || '' },
-        { label: 'Complexion:', value: formData.personalDetails.complexion || '' }
-      ];
-
-      personalItems.forEach((item, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-      });
-
-      formData.personalDetails.additionalFields.forEach((field, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + personalItems.length) * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + personalItems.length) * 6));
-      });
-
-      detailsYPos += 40;
-
-      pdf.setFontSize(12);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.text('PROFESSIONAL', detailsXPos, detailsYPos);
-
-      pdf.setLineWidth(0.5);
-      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
-
-      const professionalItems = [
-        { label: 'Education:', value: formData.personalDetails.education || '' },
-        { label: 'Profession:', value: formData.personalDetails.occupation || '' },
-        { label: 'Income:', value: formData.personalDetails.income || '' }
-      ];
-
-      pdf.setFontSize(9);
-      professionalItems.forEach((item, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.setTextColor(0, 0, 0);
-        pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-      });
-
-      formData.personalDetails.additionalFields.forEach((field, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + professionalItems.length) * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + professionalItems.length) * 6));
-      });
-
-      detailsYPos += 30;
-
-      pdf.setFontSize(12);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.text('FAMILY', detailsXPos, detailsYPos);
-
-      pdf.setLineWidth(0.5);
-      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
-
-      const familyItems = [
-        { label: 'Father:', value: formData.familyDetails.fatherName || '' },
-        { label: 'Mother:', value: formData.familyDetails.motherName || '' },
-        { label: 'Siblings:', value: formData.familyDetails.siblings || '' }
-      ];
-
-      pdf.setFontSize(9);
-      familyItems.forEach((item, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.setTextColor(0, 0, 0);
-        pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-      });
-
-      formData.familyDetails.additionalFields.forEach((field, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + familyItems.length) * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + familyItems.length) * 6));
-      });
-
-      detailsYPos += 30;
-
-      pdf.setFontSize(12);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-      pdf.text('CONTACT', detailsXPos, detailsYPos);
-
-      pdf.setLineWidth(0.5);
-      pdf.line(detailsXPos, detailsYPos + 2, 180, detailsYPos + 2);
-
-      const contactItems = [
-        { label: 'Mobile:', value: formData.contactDetails.contactNumber || '' },
-        { label: 'Address:', value: formData.contactDetails.residentialAddress || '' }
-      ];
-
-      pdf.setFontSize(9);
-      contactItems.forEach((item, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(item.label, detailsXPos, detailsYPos + 8 + (index * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.setTextColor(0, 0, 0);
-
-        if (item.label === 'Address:' && item.value.length > 35) {
-          const lines = pdf.splitTextToSize(item.value, 90);
-          lines.forEach((line, lineIndex) => {
-            pdf.text(line, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6) + (lineIndex * 4));
-          });
-        } else {
-          pdf.text(item.value, detailsXPos + pdf.getTextWidth(item.label) + 2, detailsYPos + 8 + (index * 6));
-        }
-      });
-
-      formData.contactDetails.additionalFields.forEach((field, index) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`${field.key}:`, detailsXPos, detailsYPos + 8 + ((index + contactItems.length) * 6));
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(field.value, detailsXPos + pdf.getTextWidth(`${field.key}:`) + 2, detailsYPos + 8 + ((index + contactItems.length) * 6));
-      });
-
+      // Set PDF properties
       pdf.setProperties({
         title: 'Marriage Biodata',
         subject: `Biodata for ${formData.personalDetails.name || 'Individual'}`,
@@ -350,12 +191,18 @@ const BiodataForm = ({ template }) => {
         creator: 'Marriage Biodata Builder'
       });
 
+      // Generate filename
       const now = new Date();
       const timestamp = now.toISOString().slice(0, 10);
       const userName = formData.personalDetails.name || 'biodata';
-      const filename = `${userName.replace(/\s+/g, '_')}_biodata_${timestamp}.pdf`;
+      const filename = `${userName.replace(/\s+/g, '_')}_template_${template}_${timestamp}.pdf`;
 
+      // Save the PDF
       pdf.save(filename);
+
+      // Clean up
+      document.body.removeChild(tempContainer);
+      document.head.removeChild(style);
 
       if (downloadBtn) {
         downloadBtn.textContent = 'Download PDF';
