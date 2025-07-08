@@ -610,7 +610,150 @@ const BiodataForm = ({ template }) => {
       `<div class="detail-row"><span class="detail-label">Mother Name</span><span class="detail-value">${dataMapping.motherName}</span></div>`
     );
 
-    // Handle additional fields dynamically
+    // Handle additional fields dynamically - inject new fields into template
+    
+    // Function to create new field HTML based on template structure
+    const createFieldHtml = (field, templateType = 'info-row') => {
+      if (!field.key || !field.value) return '';
+      
+      if (templateType === 'detail-row') {
+        return `
+                        <div class="detail-row">
+                            <span class="detail-label">${field.key}</span>
+                            <span class="detail-value">${field.value}</span>
+                        </div>`;
+      } else {
+        return `
+                        <div class="info-row">
+                            <span class="label">${field.key}</span>
+                            <span class="colon">:</span>
+                            <span class="value">${field.value}</span>
+                        </div>`;
+      }
+    };
+
+    // Detect template type based on structure
+    const isDetailRowTemplate = updatedHtml.includes('detail-row') && updatedHtml.includes('detail-label');
+    const templateType = isDetailRowTemplate ? 'detail-row' : 'info-row';
+
+    // Add personal details additional fields
+    if (formData.personalDetails.additionalFields.length > 0) {
+      const personalFieldsHtml = formData.personalDetails.additionalFields
+        .filter(field => field.key && field.value)
+        .map(field => createFieldHtml(field, templateType))
+        .join('');
+
+      if (personalFieldsHtml) {
+        // Try to find the end of personal details section and insert before it
+        if (templateType === 'detail-row') {
+          // For template 2 style - find the end of personal details section
+          const personalSectionEndPattern = /(<div class="detail-row">\s*<span class="detail-label">Hobbies<\/span>[\s\S]*?<\/div>)/i;
+          if (personalSectionEndPattern.test(updatedHtml)) {
+            updatedHtml = updatedHtml.replace(personalSectionEndPattern, `$1${personalFieldsHtml}`);
+          } else {
+            // Fallback: add after the last personal detail field
+            const lastPersonalFieldPattern = /(<div class="detail-row">\s*<span class="detail-label">Monthly Income<\/span>[\s\S]*?<\/div>)/i;
+            if (lastPersonalFieldPattern.test(updatedHtml)) {
+              updatedHtml = updatedHtml.replace(lastPersonalFieldPattern, `$1${personalFieldsHtml}`);
+            } else {
+              // Another fallback: add after occupation
+              const occupationPattern = /(<div class="detail-row">\s*<span class="detail-label">Occupation<\/span>[\s\S]*?<\/div>)/i;
+              if (occupationPattern.test(updatedHtml)) {
+                updatedHtml = updatedHtml.replace(occupationPattern, `$1${personalFieldsHtml}`);
+              }
+            }
+          }
+        } else {
+          // For template 1 style - find the end of first section (before Family Details)
+          const familySectionPattern = /(<h2 class="section-title">Family Details<\/h2>)/i;
+          if (familySectionPattern.test(updatedHtml)) {
+            updatedHtml = updatedHtml.replace(familySectionPattern, `${personalFieldsHtml}
+                    </div>
+                    
+                    <div class="section">
+                        $1`);
+          } else {
+            // Fallback: add after the last info-row in the first section
+            const lastInfoRowPattern = /(<div class="info-row">\s*<span class="label">Occupation<\/span>[\s\S]*?<\/div>)/i;
+            if (lastInfoRowPattern.test(updatedHtml)) {
+              updatedHtml = updatedHtml.replace(lastInfoRowPattern, `$1${personalFieldsHtml}`);
+            }
+          }
+        }
+      }
+    }
+
+    // Add family details additional fields
+    if (formData.familyDetails.additionalFields.length > 0) {
+      const familyFieldsHtml = formData.familyDetails.additionalFields
+        .filter(field => field.key && field.value)
+        .map(field => createFieldHtml(field, templateType))
+        .join('');
+
+      if (familyFieldsHtml) {
+        if (templateType === 'detail-row') {
+          // For template 2 style - add after siblings field
+          const siblingsPattern = /(<div class="detail-row">\s*<span class="detail-label">Siblings<\/span>[\s\S]*?<\/div>)/i;
+          if (siblingsPattern.test(updatedHtml)) {
+            updatedHtml = updatedHtml.replace(siblingsPattern, `$1${familyFieldsHtml}`);
+          }
+        } else {
+          // For template 1 style - find the end of family section
+          const contactSectionPattern = /(<h2 class="section-title">Contact Details<\/h2>)/i;
+          if (contactSectionPattern.test(updatedHtml)) {
+            updatedHtml = updatedHtml.replace(contactSectionPattern, `${familyFieldsHtml}
+                    </div>
+                    
+                    <div class="section">
+                        $1`);
+          } else {
+            // Fallback: add after the last family field
+            const lastFamilyFieldPattern = /(<div class="info-row">\s*<span class="label">No\. Of Sister<\/span>[\s\S]*?<\/div>)/i;
+            if (lastFamilyFieldPattern.test(updatedHtml)) {
+              updatedHtml = updatedHtml.replace(lastFamilyFieldPattern, `$1${familyFieldsHtml}`);
+            }
+          }
+        }
+      }
+    }
+
+    // Add contact details additional fields
+    if (formData.contactDetails.additionalFields.length > 0) {
+      const contactFieldsHtml = formData.contactDetails.additionalFields
+        .filter(field => field.key && field.value)
+        .map(field => createFieldHtml(field, templateType))
+        .join('');
+
+      if (contactFieldsHtml) {
+        if (templateType === 'detail-row') {
+          // For template 2 style - add after email field or last contact field
+          const emailPattern = /(<div class="detail-row">\s*<span class="detail-label">Email<\/span>[\s\S]*?<\/div>)/i;
+          if (emailPattern.test(updatedHtml)) {
+            updatedHtml = updatedHtml.replace(emailPattern, `$1${contactFieldsHtml}`);
+          } else {
+            // Fallback: add after mobile number
+            const mobilePattern = /(<div class="detail-row">\s*<span class="detail-label">Mobile Number<\/span>[\s\S]*?<\/div>)/i;
+            if (mobilePattern.test(updatedHtml)) {
+              updatedHtml = updatedHtml.replace(mobilePattern, `$1${contactFieldsHtml}`);
+            }
+          }
+        } else {
+          // For template 1 style - add after the last contact field
+          const lastContactFieldPattern = /(<div class="info-row">\s*<span class="label">Address<\/span>[\s\S]*?<\/div>)/i;
+          if (lastContactFieldPattern.test(updatedHtml)) {
+            updatedHtml = updatedHtml.replace(lastContactFieldPattern, `$1${contactFieldsHtml}`);
+          } else {
+            // Fallback: add after phone number
+            const phonePattern = /(<div class="info-row">\s*<span class="label">Phone no\.<\/span>[\s\S]*?<\/div>)/i;
+            if (phonePattern.test(updatedHtml)) {
+              updatedHtml = updatedHtml.replace(phonePattern, `$1${contactFieldsHtml}`);
+            }
+          }
+        }
+      }
+    }
+
+    // Also handle existing field replacement for backward compatibility
     formData.personalDetails.additionalFields.forEach(field => {
       if (field.key && field.value) {
         // Try to find and replace any matching labels in the template
