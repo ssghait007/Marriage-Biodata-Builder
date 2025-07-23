@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{personalDetails.name}} - Biodata</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #f5f5f0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .biodata-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fefdf8;
+            border: 4px solid #8b4513;
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Decorative Border */
+        .biodata-container::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px solid #cd853f;
+            border-radius: 10px;
+            pointer-events: none;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #cd853f;
+        }
+
+        .ganesh-symbol {
+            font-size: 48px;
+            color: #8b4513;
+            margin-bottom: 10px;
+        }
+
+        .sanskrit-text {
+            font-size: 18px;
+            color: #8b4513;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #8b4513;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-align: left;
+        }
+
+        .content-row {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .details-column {
+            flex: 1;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: flex-start;
+        }
+
+        .label {
+            width: 160px;
+            color: #444;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .colon {
+            width: 20px;
+            color: #444;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .value {
+            color: #333;
+            flex: 1;
+        }
+
+        /* Photo Section */
+        .photo-container {
+            width: 150px;
+            flex-shrink: 0;
+        }
+
+        .photo-placeholder {
+            width: 150px;
+            height: 180px;
+            border: 2px solid #cd853f;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Corner Decorations */
+        .corner-decoration {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M5 5 Q5 5 35 5 Q35 5 35 35 Q35 35 5 35 Q5 35 5 5' fill='none' stroke='%23cd853f' stroke-width='2'/%3E%3Cpath d='M10 10 Q15 5 20 10 Q25 15 30 10 Q35 15 30 20 Q25 25 30 30 Q25 35 20 30 Q15 25 10 30 Q5 25 10 20 Q15 15 10 10' fill='%23cd853f' opacity='0.3'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .top-left {
+            top: 10px;
+            left: 10px;
+        }
+
+        .top-right {
+            top: 10px;
+            right: 10px;
+            transform: rotate(90deg);
+        }
+
+        .bottom-left {
+            bottom: 10px;
+            left: 10px;
+            transform: rotate(-90deg);
+        }
+
+        .bottom-right {
+            bottom: 10px;
+            right: 10px;
+            transform: rotate(180deg);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .biodata-container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .content-row {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .photo-container {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+
+            .label {
+                width: 140px;
+            }
+
+            .ganesh-symbol {
+                font-size: 36px;
+            }
+
+            .sanskrit-text {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .detail-row {
+                flex-direction: column;
+                margin-bottom: 12px;
+            }
+
+            .label {
+                width: 100%;
+                margin-bottom: 2px;
+            }
+
+            .colon {
+                display: none;
+            }
+
+            .value {
+                padding-left: 10px;
+                border-left: 2px solid #cd853f;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+
+            .biodata-container {
+                border: 2px solid #000;
+                box-shadow: none;
+                max-width: none;
+                margin: 0;
+            }
+
+            .corner-decoration {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="biodata-container">
+        <!-- Header with Ganesh Symbol -->
+        <div class="header">
+            <div class="ganesh-symbol">🕉️</div>
+            <div class="sanskrit-text">ॐ श्री गणेशाय नमः</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Personal Details Section -->
+            <div class="section">
+                <h2 class="section-title">PERSONAL DETAILS</h2>
+                <div class="content-row">
+                    <div class="details-column">
+                        <div class="detail-row">
+                            <span class="label">Name</span>
+                            <span class="colon">:</span>
+                            <span class="value">{{personalDetails.name}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Date of Birth</span>
+                            <span class="colon">:</span>
+                            <span class="value">{{personalDetails.dateOfBirth}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Time of Birth</span>
+                            <span class="colon">:</span>
+                            <span class="value">{{personalDetails.timeOfBirth}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Place of Birth</span>
+                            <span class="colon">:</span>
+                            <span class="value">{{personalDetails.placeOfBirth}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Gender</span>
+                            <span class="colon">:</span>
+                            <span class="value">{{personalDetails.gender}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Gotra/Caste</span>
+                            <span class="colon">:</span>
+                            <span class="value">{{personalDetails.gotra}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Complexion</span>
+                            <span class="colon">:</span>
+                            <span class="value">{{personalDetails.complexion}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Height</span>
+                            <span class="colon">:</span>
+                            <span class="value">{{personalDetails.height}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Education</span>
+                            <span class="colon">:</span>
+                            <span class="value">{{personalDetails.education}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Occupation</span>
+                            <span class="colon">:</span>
+                            <span class="value">{{personalDetails.occupation}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Income</span>
+                            <span class="colon">:</span>
+                            <span class="value">{{personalDetails.income}}</span>
+                        </div>
+                        {{#each personalDetails.additionalFields}}
+                        <div class="detail-row">
+                            <span class="label">{{key}}</span>
+                            <span class="colon">:</span>
+                            <span class="value">{{value}}</span>
+                        </div>
+                        {{/each}}
+                    </div>
+                    <div class="photo-container">
+                        <div class="photo-placeholder">
+                            {{#if photo}}
+                            <img src="{{photo}}" alt="{{personalDetails.name}}" class="profile-photo">
+                            {{else}}
+                            <span>Photo</span>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Family Details Section -->
+            <div class="section">
+                <h2 class="section-title">FAMILY DETAILS</h2>
+                <div class="details-column">
+                    <div class="detail-row">
+                        <span class="label">Father's Name</span>
+                        <span class="colon">:</span>
+                        <span class="value">{{familyDetails.fatherName}}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Father's Occupation</span>
+                        <span class="colon">:</span>
+                        <span class="value">{{familyDetails.fatherOccupation}}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Mother's Name</span>
+                        <span class="colon">:</span>
+                        <span class="value">{{familyDetails.motherName}}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Mother's Occupation</span>
+                        <span class="colon">:</span>
+                        <span class="value">{{familyDetails.motherOccupation}}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Siblings</span>
+                        <span class="colon">:</span>
+                        <span class="value">{{familyDetails.siblings}}</span>
+                    </div>
+                    {{#each familyDetails.additionalFields}}
+                    <div class="detail-row">
+                        <span class="label">{{key}}</span>
+                        <span class="colon">:</span>
+                        <span class="value">{{value}}</span>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+
+            <!-- Contact Details Section -->
+            <div class="section">
+                <h2 class="section-title">CONTACT DETAILS</h2>
+                <div class="details-column">
+                    <div class="detail-row">
+                        <span class="label">Contact Person</span>
+                        <span class="colon">:</span>
+                        <span class="value">{{contactDetails.contactPerson}}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Contact Number</span>
+                        <span class="colon">:</span>
+                        <span class="value">{{contactDetails.contactNumber}}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Residential Address</span>
+                        <span class="colon">:</span>
+                        <span class="value">{{contactDetails.residentialAddress}}</span>
+                    </div>
+                    {{#each contactDetails.additionalFields}}
+                    <div class="detail-row">
+                        <span class="label">{{key}}</span>
+                        <span class="colon">:</span>
+                        <span class="value">{{value}}</span>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Decorative Corner Elements -->
+        <div class="corner-decoration top-left"></div>
+        <div class="corner-decoration top-right"></div>
+        <div class="corner-decoration bottom-left"></div>
+        <div class="corner-decoration bottom-right"></div>
+    </div>
+</body>
+</html>
