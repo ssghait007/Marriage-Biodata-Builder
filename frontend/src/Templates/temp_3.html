@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Singh - Biodata</title>
+    <title>{{personalDetails.name}} - Biodata</title>
     <style>
         * {
             margin: 0;
@@ -282,7 +282,7 @@
         <div class="header">
             <div class="ganesh-symbol">🕉️</div>
             <div class="sanskrit-text">ॐ गणेशाय नमः</div>
-            <div class="name">Sanjay Singh</div>
+            <div class="name">{{personalDetails.name}}</div>
         </div>
 
         <!-- Main Content -->
@@ -293,58 +293,60 @@
                     <div class="detail-row">
                         <span class="detail-label">Date of Birth</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">22/10/2000</span>
+                        <span class="detail-value">{{personalDetails.dateOfBirth}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Place of Birth</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">Bangalore</span>
+                        <span class="detail-value">{{personalDetails.placeOfBirth}}</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Rashi</span>
+                        <span class="detail-label">Time of Birth</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">Mithuna (Gemini)</span>
+                        <span class="detail-value">{{personalDetails.timeOfBirth}}</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Religion</span>
+                        <span class="detail-label">Gender</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">Hindu</span>
+                        <span class="detail-value">{{personalDetails.gender}}</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Caste</span>
+                        <span class="detail-label">Gotra/Caste</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">Singh</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Sub Caste</span>
-                        <span class="colon">:</span>
-                        <span class="detail-value">Singh</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Gotra</span>
-                        <span class="colon">:</span>
-                        <span class="detail-value">Singh</span>
+                        <span class="detail-value">{{personalDetails.gotra}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Complexion</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">Fair</span>
+                        <span class="detail-value">{{personalDetails.complexion}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Height</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">4 Feet 8 Inches</span>
+                        <span class="detail-value">{{personalDetails.height}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Education</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">MBA in Finance</span>
+                        <span class="detail-value">{{personalDetails.education}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Occupation</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">Project Manager</span>
+                        <span class="detail-value">{{personalDetails.occupation}}</span>
                     </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Income</span>
+                        <span class="colon">:</span>
+                        <span class="detail-value">{{personalDetails.income}}</span>
+                    </div>
+                    {{#each personalDetails.additionalFields}}
+                    <div class="detail-row">
+                        <span class="detail-label">{{key}}</span>
+                        <span class="colon">:</span>
+                        <span class="detail-value">{{value}}</span>
+                    </div>
+                    {{/each}}
                 </div>
 
                 <!-- Family Details -->
@@ -353,53 +355,73 @@
                     <div class="detail-row">
                         <span class="detail-label">Father's Name</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">Mr. Pramod Singh</span>
+                        <span class="detail-value">{{familyDetails.fatherName}}</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Occupation</span>
+                        <span class="detail-label">Father's Occupation</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">A.G.M. at State Bank of India</span>
+                        <span class="detail-value">{{familyDetails.fatherOccupation}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Mother's Name</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">Mrs. Meena Singh</span>
+                        <span class="detail-value">{{familyDetails.motherName}}</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Occupation</span>
+                        <span class="detail-label">Mother's Occupation</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">House Wife</span>
+                        <span class="detail-value">{{familyDetails.motherOccupation}}</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">No. Of Brother</span>
+                        <span class="detail-label">Siblings</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">2</span>
+                        <span class="detail-value">{{familyDetails.siblings}}</span>
                     </div>
+                    {{#each familyDetails.additionalFields}}
                     <div class="detail-row">
-                        <span class="detail-label">No. Of Sister</span>
+                        <span class="detail-label">{{key}}</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">2</span>
+                        <span class="detail-value">{{value}}</span>
                     </div>
+                    {{/each}}
                 </div>
 
                 <!-- Contact Details -->
                 <div class="section contact-section">
                     <h3 class="section-title">Contact Details</h3>
                     <div class="detail-row">
+                        <span class="detail-label">Contact Person</span>
+                        <span class="colon">:</span>
+                        <span class="detail-value">{{contactDetails.contactPerson}}</span>
+                    </div>
+                    <div class="detail-row">
                         <span class="detail-label">Phone no.</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">75673XXXXX</span>
+                        <span class="detail-value">{{contactDetails.contactNumber}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Address</span>
                         <span class="colon">:</span>
-                        <span class="detail-value">Bangalore</span>
+                        <span class="detail-value">{{contactDetails.residentialAddress}}</span>
                     </div>
+                    {{#each contactDetails.additionalFields}}
+                    <div class="detail-row">
+                        <span class="detail-label">{{key}}</span>
+                        <span class="colon">:</span>
+                        <span class="detail-value">{{value}}</span>
+                    </div>
+                    {{/each}}
                 </div>
             </div>
 
             <div class="right-section">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Sanjay Singh Profile Photo" class="profile-photo">
+                {{#if photo}}
+                <img src="{{photo}}" alt="{{personalDetails.name}}" class="profile-photo">
+                {{else}}
+                <div style="width: 180px; height: 220px; border: 3px solid #d4af37; border-radius: 10px; display: flex; align-items: center; justify-content: center; background-color: #f0f0f0; color: #666; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);">
+                    <span>Photo</span>
+                </div>
+                {{/if}}
             </div>
         </div>
     </div>

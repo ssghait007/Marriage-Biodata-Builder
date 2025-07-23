@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
     "@react-pdf/renderer": "^4.3.0",
     "@tailwindcss/vite": "^4.1.8",
+    "handlebars": "^4.7.8",
     "html-react-parser": "^5.2.5",
     "html2canvas-pro": "^1.5.0",
     "html2pdf.js": "^0.10.3",
@@ -25,7 +27,8 @@
     "react-slick": "^0.30.3",
     "react-to-pdf": "^2.0.1",
     "react-to-print": "^3.1.0",
-    "tailwindcss": "^4.1.8"
+    "tailwindcss": "^4.1.8",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

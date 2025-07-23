@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Biodata Profile</title>
+    <title>{{personalDetails.name}} - Biodata</title>
     <style>
         * {
             margin: 0;
@@ -45,7 +45,7 @@
             position: absolute;
             width: 60px;
             height: 60px;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 20% 20%, #d4af37 2px, transparent 2px),
                 radial-gradient(circle at 80% 20%, #d4af37 2px, transparent 2px),
                 radial-gradient(circle at 20% 80%, #d4af37 2px, transparent 2px),
@@ -146,24 +146,24 @@
             .main-content {
                 flex-direction: column;
             }
-            
+
             .profile-photo {
                 order: -1;
             }
-            
+
             .profile-photo img {
                 width: 150px;
                 height: 180px;
             }
-            
+
             .biodata-container {
                 padding: 20px;
             }
-            
+
             .detail-row {
                 flex-direction: column;
             }
-            
+
             .detail-label {
                 min-width: auto;
                 margin-right: 0;
@@ -178,132 +178,144 @@
         <div class="decorative-corners corner-top-right"></div>
         <div class="decorative-corners corner-bottom-left"></div>
         <div class="decorative-corners corner-bottom-right"></div>
-        
+
         <div class="header-symbol">🕉️</div>
-        
+
         <div class="main-content">
             <div class="left-content">
                 <div class="section">
                     <h2 class="section-title">Personal Details</h2>
-                    
+
                     <div class="detail-row">
                         <span class="detail-label">Name</span>
-                        <span class="detail-value">Mahima Chaudhari</span>
+                        <span class="detail-value">{{personalDetails.name}}</span>
                     </div>
-                    
+
                     <div class="detail-row">
-                        <span class="detail-label">Birth Time & Place</span>
-                        <span class="detail-value">3rd Aug 1993 - Panipat</span>
+                        <span class="detail-label">Birth Date & Place</span>
+                        <span class="detail-value">{{personalDetails.dateOfBirth}} - {{personalDetails.placeOfBirth}}</span>
                     </div>
-                    
+
+                    <div class="detail-row">
+                        <span class="detail-label">Birth Time</span>
+                        <span class="detail-value">{{personalDetails.timeOfBirth}}</span>
+                    </div>
+
                     <div class="detail-row">
                         <span class="detail-label">Height</span>
-                        <span class="detail-value">5 Feet 6 Inch</span>
+                        <span class="detail-value">{{personalDetails.height}}</span>
                     </div>
-                    
+
                     <div class="detail-row">
-                        <span class="detail-label">Weight</span>
-                        <span class="detail-value">51 kg</span>
+                        <span class="detail-label">Gender</span>
+                        <span class="detail-value">{{personalDetails.gender}}</span>
                     </div>
-                    
-                    <div class="detail-row">
-                        <span class="detail-label">Blood Group</span>
-                        <span class="detail-value">A+</span>
-                    </div>
-                    
+
                     <div class="detail-row">
                         <span class="detail-label">Complexion</span>
-                        <span class="detail-value">Fair</span>
+                        <span class="detail-value">{{personalDetails.complexion}}</span>
                     </div>
-                    
+
                     <div class="detail-row">
-                        <span class="detail-label">Rashi</span>
-                        <span class="detail-value">Tula</span>
+                        <span class="detail-label">Gotra/Caste</span>
+                        <span class="detail-value">{{personalDetails.gotra}}</span>
                     </div>
-                    
+
                     <div class="detail-row">
                         <span class="detail-label">Education</span>
-                        <span class="detail-value">Msc.IT - A+ Grade</span>
+                        <span class="detail-value">{{personalDetails.education}}</span>
                     </div>
-                    
-                    <div class="detail-row">
-                        <span class="detail-label">Caste</span>
-                        <span class="detail-value">Brahmins</span>
-                    </div>
-                    
+
                     <div class="detail-row">
                         <span class="detail-label">Occupation</span>
-                        <span class="detail-value">Software Engineer</span>
+                        <span class="detail-value">{{personalDetails.occupation}}</span>
                     </div>
-                    
+
                     <div class="detail-row">
-                        <span class="detail-label">Monthly Income</span>
-                        <span class="detail-value">80,000</span>
+                        <span class="detail-label">Income</span>
+                        <span class="detail-value">{{personalDetails.income}}</span>
                     </div>
-                    
+
+                    {{#each personalDetails.additionalFields}}
                     <div class="detail-row">
-                        <span class="detail-label">Hobbies</span>
-                        <span class="detail-value">Travelling, Reading, Learning, Space Exploring</span>
+                        <span class="detail-label">{{key}}</span>
+                        <span class="detail-value">{{value}}</span>
                     </div>
+                    {{/each}}
                 </div>
-                
+
                 <div class="section">
                     <h2 class="section-title">Family Detail</h2>
-                    
+
                     <div class="detail-row">
                         <span class="detail-label">Father Name</span>
-                        <span class="detail-value">Dipakbhai</span>
+                        <span class="detail-value">{{familyDetails.fatherName}}</span>
                     </div>
-                    
+
                     <div class="detail-row">
                         <span class="detail-label">Father Occupation</span>
-                        <span class="detail-value">Business - Retail</span>
+                        <span class="detail-value">{{familyDetails.fatherOccupation}}</span>
                     </div>
-                    
+
                     <div class="detail-row">
                         <span class="detail-label">Mother Name</span>
-                        <span class="detail-value">Sarladevi</span>
+                        <span class="detail-value">{{familyDetails.motherName}}</span>
                     </div>
-                    
+
                     <div class="detail-row">
                         <span class="detail-label">Mother Occupation</span>
-                        <span class="detail-value">Housewife</span>
+                        <span class="detail-value">{{familyDetails.motherOccupation}}</span>
                     </div>
-                    
+
                     <div class="detail-row">
                         <span class="detail-label">Siblings</span>
-                        <span class="detail-value">2 Sister | 3 Brother</span>
+                        <span class="detail-value">{{familyDetails.siblings}}</span>
                     </div>
+
+                    {{#each familyDetails.additionalFields}}
+                    <div class="detail-row">
+                        <span class="detail-label">{{key}}</span>
+                        <span class="detail-value">{{value}}</span>
+                    </div>
+                    {{/each}}
                 </div>
             </div>
-            
+
             <div class="profile-photo">
-                <img src="https://images.unsplash.com/photo-1494790108755-2616c962e095?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Profile Photo">
+                {{#if photo}}
+                <img src="{{photo}}" alt="{{personalDetails.name}}" class="photo">
+                {{else}}
+                <div style="width: 200px; height: 250px; border: 3px solid #d4af37; border-radius: 10px; display: flex; align-items: center; justify-content: center; background-color: #f0f0f0; color: #666; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+                    <span>Photo</span>
+                </div>
+                {{/if}}
             </div>
         </div>
-        
+
         <div class="section contact-section">
             <h2 class="section-title">Contact Detail</h2>
-            
+
             <div class="detail-row">
                 <span class="detail-label">Contact Person</span>
-                <span class="detail-value">Dipakbhai</span>
+                <span class="detail-value">{{contactDetails.contactPerson}}</span>
             </div>
-            
+
             <div class="detail-row">
                 <span class="detail-label">Address</span>
-                <span class="detail-value">Viale Risorgimento 55, 42100 Reggio Emilia</span>
+                <span class="detail-value">{{contactDetails.residentialAddress}}</span>
             </div>
-            
+
             <div class="detail-row">
                 <span class="detail-label">Mobile Number</span>
-                <span class="detail-value">+91 9098998989</span>
+                <span class="detail-value">{{contactDetails.contactNumber}}</span>
             </div>
-            
+
+            {{#each contactDetails.additionalFields}}
             <div class="detail-row">
-                <span class="detail-label">Email</span>
-                <span class="detail-value">rakhesh@email.com</span>
+                <span class="detail-label">{{key}}</span>
+                <span class="detail-value">{{value}}</span>
             </div>
+            {{/each}}
         </div>
     </div>
 </body>

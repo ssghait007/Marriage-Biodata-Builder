@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biodata Template</title>
+    <title>{{personalDetails.name}} - Biodata</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,6 +69,14 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
+        .photo {
+            width: 200px;
+            height: 250px;
+            object-fit: cover;
+            border: 3px solid #8b0000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
         .section {
             margin-bottom: 30px;
         }
@@ -117,12 +125,12 @@
             .content-wrapper {
                 flex-direction: column;
             }
-            
+
             .photo-section {
                 flex: none;
                 align-self: center;
             }
-            
+
             .detail-label {
                 width: 140px;
             }
@@ -143,52 +151,65 @@
                     <div class="detail-row">
                         <span class="detail-label">Name</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">Dr. Vismaya</span>
+                        <span class="detail-value">{{personalDetails.name}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Date of Birth</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">5 January 1995</span>
+                        <span class="detail-value">{{personalDetails.dateOfBirth}}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Time of Birth</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">{{personalDetails.timeOfBirth}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Place of Birth</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">New Delhi</span>
+                        <span class="detail-value">{{personalDetails.placeOfBirth}}</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Rashi</span>
+                        <span class="detail-label">Gender</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">Tula (Libra)</span>
+                        <span class="detail-value">{{personalDetails.gender}}</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Nakshatra</span>
+                        <span class="detail-label">Gotra/Caste</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">Rohini</span>
+                        <span class="detail-value">{{personalDetails.gotra}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Complexion</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">Very Fair</span>
+                        <span class="detail-value">{{personalDetails.complexion}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Height</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">5 feet 5 inches</span>
+                        <span class="detail-value">{{personalDetails.height}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Education</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">
-                            - MBBS (AIIMS)<br>
-                            - MD (General Medicine)<br>
-                            - DM (Neurology)
-                        </span>
+                        <span class="detail-value">{{personalDetails.education}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Occupation</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">Doctor (Neurologist)</span>
+                        <span class="detail-value">{{personalDetails.occupation}}</span>
                     </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Income</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">{{personalDetails.income}}</span>
+                    </div>
+                    {{#each personalDetails.additionalFields}}
+                    <div class="detail-row">
+                        <span class="detail-label">{{key}}</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">{{value}}</span>
+                    </div>
+                    {{/each}}
                 </div>
 
                 <div class="section">
@@ -196,87 +217,74 @@
                     <div class="detail-row">
                         <span class="detail-label">Father Name</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">Dr. Prakash</span>
+                        <span class="detail-value">{{familyDetails.fatherName}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Father's Occupation</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">
-                            General Surgeon,<br>
-                            Working in BTM Hospital
-                        </span>
+                        <span class="detail-value">{{familyDetails.fatherOccupation}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Mother Name</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">Dr. Priyadarshini</span>
+                        <span class="detail-value">{{familyDetails.motherName}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Mother's Occupation</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">
-                            Gynecologist,<br>
-                            Working in Asian Hospital
-                        </span>
+                        <span class="detail-value">{{familyDetails.motherOccupation}}</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Brother Name (Younger)</span>
+                        <span class="detail-label">Siblings</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">Ravishankar</span>
+                        <span class="detail-value">{{familyDetails.siblings}}</span>
                     </div>
+                    {{#each familyDetails.additionalFields}}
                     <div class="detail-row">
-                        <span class="detail-label">Brother's Occupation (Younger)</span>
+                        <span class="detail-label">{{key}}</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">
-                            Pursuing B.E<br>
-                            in Artificial Intelligence, Bangalore
-                        </span>
+                        <span class="detail-value">{{value}}</span>
                     </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Sister Name (Younger)</span>
-                        <span class="detail-colon">:</span>
-                        <span class="detail-value">Dr. Vaishnavi</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Sister's Occupation (Younger)</span>
-                        <span class="detail-colon">:</span>
-                        <span class="detail-value">
-                            Orthopedic Physiotherapist,<br>
-                            Working in TMKC Hospital
-                        </span>
-                    </div>
+                    {{/each}}
                 </div>
 
                 <div class="section">
                     <h2 class="section-title">Contact Details</h2>
                     <div class="detail-row">
+                        <span class="detail-label">Contact Person</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">{{contactDetails.contactPerson}}</span>
+                    </div>
+                    <div class="detail-row">
                         <span class="detail-label">Contact Number</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">
-                            Father: +911234567901<br>
-                            Mother: +911234567902
-                        </span>
+                        <span class="detail-value">{{contactDetails.contactNumber}}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Address</span>
                         <span class="detail-colon">:</span>
-                        <span class="detail-value">
-                            House # 123, Plot # 11, Sri Shiva Nilaya,<br>
-                            Nation park main road, 1st cross opp Surya<br>
-                            International Hotel, layout Sri MananEsha Nagar
-                        </span>
+                        <span class="detail-value">{{contactDetails.residentialAddress}}</span>
                     </div>
+                    {{#each contactDetails.additionalFields}}
+                    <div class="detail-row">
+                        <span class="detail-label">{{key}}</span>
+                        <span class="detail-colon">:</span>
+                        <span class="detail-value">{{value}}</span>
+                    </div>
+                    {{/each}}
                 </div>
             </div>
 
             <div class="photo-section">
+                {{#if photo}}
+                <img src="{{photo}}" alt="{{personalDetails.name}}" class="photo">
+                {{else}}
                 <div class="photo-placeholder">
-                    <img src="" alt="Photo" class="photo">
+                    <span>Photo</span>
                 </div>
+                {{/if}}
             </div>
         </div>
-
-       
     </div>
 </body>
 </html>
