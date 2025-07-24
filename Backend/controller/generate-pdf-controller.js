@@ -92,7 +92,6 @@ const generatePdfController = async (req, res) => {
     // Use res.end() for binary data to avoid any encoding issues
     res.end(pdfBuffer, 'binary');
 
-    console.log(`PDF generated and saved: ${filepath}`);
     console.log(`PDF size: ${pdfBuffer.length} bytes`);
     console.log(`PDF signature: ${pdfSignature}`);
 

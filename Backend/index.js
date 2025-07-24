@@ -26,10 +26,7 @@ dotenv.config();
 
 app.use(cors({
   origin: [
-    'http://localhost:4100',  // Local development
     'http://localhost:5173',
-    'http://localhost:5174',
-    'http://localhost:5175',  // Current frontend port
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
