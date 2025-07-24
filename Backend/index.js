@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const port = 4100;
 const cors = require('cors');
 const saveTemplateRouter = require('./routes/save-template-route');
+const generatePdfRouter = require('./routes/generate-pdf-route');
 
 
 // load environment variables from.env file
@@ -42,47 +43,49 @@ app.options('*', cors());
 
 
 // // Middleware
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Routes
 app.use('/api', saveTemplateRouter);
+app.use('/api', generatePdfRouter);
 
 // API endpoint to save template files
 // app.post('/api/save-template', async (req, res) => {
 //   const fs = require('fs').promises;
 //   const path = require('path');
-  
+
 //   try {
 //     const { fileName, content } = req.body;
-    
+
 //     if (!fileName || !content) {
 //       return res.status(400).json({
 //         success: false,
 //         message: 'fileName and content are required'
 //       });
 //     }
-    
+
 //     // Define the path to save the template
 //     const templatesDir = path.join(__dirname, '../frontend/src/Templates');
 //     const filePath = path.join(templatesDir, fileName);
-    
+
 //     // Ensure the Templates directory exists
 //     try {
 //       await fs.access(templatesDir);
 //     } catch (error) {
 //       await fs.mkdir(templatesDir, { recursive: true });
 //     }
-    
+
 //     // Write the file
 //     await fs.writeFile(filePath, content, 'utf8');
-    
+
 //     res.json({
 //       success: true,
 //       message: `Template ${fileName} saved successfully`,
 //       fileName: fileName,
 //       path: filePath
 //     });
-    
+
 //   } catch (error) {
 //     console.error('Error saving template:', error);
 //     res.status(500).json({

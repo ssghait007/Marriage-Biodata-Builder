@@ -58,6 +58,113 @@ const BiodataForm = ({ template }) => {
     await downloadPdf(template, htmlFiles, (html) => injectFormDataIntoTemplate(html, formData, preview), formData);
   };
 
+  const handleDownloadHighQualityPdf = async () => {
+    const htmlContent = injectFormDataIntoTemplate(htmlFiles[template - 1], formData, preview);
+    try {
+      const response = await fetch('http://localhost:4100/api/generate-high-quality-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ htmlContent }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // Ensure we're getting the response as a blob
+      const blob = await response.blob();
+
+      // Verify the blob is actually a PDF
+      if (blob.type !== 'application/pdf') {
+        console.warn('Response is not a PDF, got:', blob.type);
+      }
+
+      console.log('PDF blob size:', blob.size, 'bytes');
+
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `biodata-${Date.now()}.pdf`;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+
+      // Cleanup
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error('Error downloading high-quality PDF:', error);
+      alert('Failed to download high-quality PDF. Please try again.');
+    }
+  };
+
+  const handlePrint = () => {
+    // Create a new window for printing
+    const printWindow = window.open('', '_blank');
+
+    // Get the full-size template HTML
+    const templateHtml = injectFormDataIntoTemplate(htmlFiles[template - 1], formData, preview);
+
+    // Create the print document
+    const printDocument = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Biodata - ${formData.personalDetails.name || 'Print'}</title>
+          <style>
+            @media print {
+              body {
+                margin: 0;
+                padding: 20px;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+              }
+
+              .biodata-container {
+                max-width: none !important;
+                width: 100% !important;
+                page-break-inside: avoid;
+                transform: none !important;
+                scale: none !important;
+              }
+
+              @page {
+                size: A4;
+                margin: 0.5in;
+              }
+            }
+
+            body {
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 0;
+              background: white;
+            }
+          </style>
+        </head>
+        <body>
+          ${templateHtml}
+        </body>
+      </html>
+    `;
+
+    // Write the document and print
+    printWindow.document.write(printDocument);
+    printWindow.document.close();
+
+    // Wait for content to load then print
+    printWindow.onload = () => {
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 500);
+    };
+  };
+
   const removeField = (section, index) => {
     const currentFields = formData[section].additionalFields || [];
     const updatedFields = currentFields.filter((_, i) => i !== index);
@@ -152,9 +259,19 @@ const BiodataForm = ({ template }) => {
                   <span className="sm:hidden">PDF</span>
                 </button>
 
+                {/* Download High-Quality PDF Button */}
+                <button
+                  onClick={handleDownloadHighQualityPdf}
+                  className="flex items-center gap-1 md:gap-2 px-2 md:px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-xs md:text-sm"
+                >
+                  <FiDownload className="w-3 h-3 md:w-4 md:h-4" />
+                  <span className="download-btn-text hidden sm:inline">Download HQ PDF</span>
+                  <span className="sm:hidden">HQ PDF</span>
+                </button>
+
                 {/* Print Button */}
                 <button
-                  onClick={() => window.print()}
+                  onClick={handlePrint}
                   className="flex items-center gap-1 md:gap-2 px-2 md:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-xs md:text-sm"
                 >
                   <FiPrinter className="w-3 h-3 md:w-4 md:h-4" />
@@ -176,7 +293,7 @@ const BiodataForm = ({ template }) => {
           <div className="pt-16 md:pt-20 pb-4 md:pb-8 px-2 md:px-4 h-full overflow-auto">
             <div className="flex justify-center items-start min-h-full">
               {htmlFiles[template - 1] && (
-                <div className="bg-white rounded-lg shadow-2xl p-2 md:p-8 max-w-4xl w-full">
+                <div className="bg-white rounded-lg shadow-2xl p-6 md:p-8 max-w-4xl w-full mx-auto">
                   {/* Template Content */}
                   <div
                   ref={formRef}
